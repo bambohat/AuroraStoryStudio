@@ -290,14 +290,24 @@ function totalStoryWords(){let n=0;for(const a of story().acts||[])for(const c o
 
 function bindActions(){
   document.querySelectorAll('[data-view]').forEach(el=>el.addEventListener('click',e=>{e.stopPropagation();setView(el.dataset.view);}));
-  document.querySelectorAll('[data-action]').forEach(el=>{if(el.dataset.bound)return;el.dataset.bound='1';el.addEventListener('click',e=>{e.stopPropagation();handleAction(el.dataset.action,el);});});
+  // Actions use one delegated listener installed once below. This is deliberately
+  // used instead of attaching listeners to every dynamically-rendered button; it
+  // prevents mobile overlays from losing their click handlers after a re-render.
+  if(!document.body.dataset.auroraActionDelegation){
+    document.body.dataset.auroraActionDelegation='1';
+    document.body.addEventListener('click',e=>{
+      const el=e.target.closest?.('[data-action]');
+      if(!el) return;
+      if(el.closest('#modal-root') || el.dataset.action==='tip') e.stopPropagation();
+      handleAction(el.dataset.action,el);
+    });
+  }
   const q=document.getElementById('codexSearch');if(q)q.addEventListener('input',()=>{const term=q.value.toLowerCase();document.querySelectorAll('#codexList .codex-item').forEach(i=>i.hidden=!i.textContent.toLowerCase().includes(term));});
   document.querySelectorAll('[data-choice-group]').forEach(el=>el.addEventListener('click',()=>{document.querySelectorAll(`[data-choice-group="${el.dataset.choiceGroup}"]`).forEach(x=>x.classList.remove('selected'));el.classList.add('selected');}));
   document.querySelectorAll('[data-setting-accent]').forEach(el=>el.addEventListener('click',()=>{if(ui.settingsDraft){ui.settingsDraft.accent=el.dataset.settingAccent;applyDraftPreview();renderOverlays();}}));
   document.querySelectorAll('[data-setting-theme]').forEach(el=>el.addEventListener('click',()=>{if(ui.settingsDraft){ui.settingsDraft.theme=el.dataset.settingTheme;applyDraftPreview();renderOverlays();}}));
   document.querySelectorAll('[data-setting-font]').forEach(el=>el.addEventListener('click',()=>{if(ui.settingsDraft){ui.settingsDraft.fontScale=Math.max(.85,Math.min(1.35,(ui.settingsDraft.fontScale||1)+Number(el.dataset.settingFont)));applyDraftPreview();renderOverlays();}}));
   const tips=document.querySelector('[data-setting-tips]');if(tips)tips.addEventListener('click',()=>{ui.settingsDraft.tips=!ui.settingsDraft.tips;renderOverlays();});
-  document.querySelectorAll('[data-stop-overlay]').forEach(el=>el.addEventListener('click',e=>e.stopPropagation()));
 }
 function applyDraftPreview(){const root=document.documentElement,p=palette[ui.settingsDraft.accent]||palette.Aurora;root.style.setProperty('--accent',p[0]);root.style.setProperty('--accent-2',p[1]);root.dataset.theme=ui.settingsDraft.theme;root.style.setProperty('--font-scale',ui.settingsDraft.fontScale||1);}
 
