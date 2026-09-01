@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0a12" />
+  <meta name="description" content="Aurora Story Studio — a private, mobile-first AI novel and comic studio." />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Aurora Story Studio</title>
+</head>
+<body>
+  <div id="app" class="app-shell">
+    <header class="topbar">
+      <button class="icon-btn" data-action="back" aria-label="Back">‹</button>
+      <div class="brand-mark"><span class="brand-dot"></span><span>Aurora</span></div>
+      <button class="icon-btn" data-action="more" aria-label="More">⋯</button>
+    </header>
+
+    <main id="view" class="view"></main>
+
+    <nav class="bottom-nav" aria-label="Primary">
+      <button data-view="library" class="nav-item active"><span>⌂</span><small>Home</small></button>
+      <button data-view="story" class="nav-item"><span>◫</span><small>Story</small></button>
+      <button data-view="write" class="nav-item nav-write"><span>＋</span><small>Write</small></button>
+      <button data-view="codex" class="nav-item"><span>◈</span><small>Codex</small></button>
+      <button data-view="more" class="nav-item"><span>☰</span><small>More</small></button>
+    </nav>
+  </div>
+
+  <div id="modal-root"></div>
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
