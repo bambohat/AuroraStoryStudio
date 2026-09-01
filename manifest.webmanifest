@@ -4,7 +4,7 @@
   "start_url": "./",
   "display": "standalone",
   "background_color": "#090810",
-  "theme_color": "#0b0a12",
-  "description": "Private mobile-first AI novel and comic studio",
+  "theme_color": "#090810",
+  "description": "Private, mobile-first AI novel and comic studio.",
   "icons": []
 }
