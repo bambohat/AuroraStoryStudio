@@ -5,6 +5,9 @@ Aurora is a private-first, mobile-first AI novel/comic studio.
 ## Current canonical base
 **v0.9.25 — AI Writing + Brain Automation**
 
+### Current candidate
+**v0.9.35 candidate — Legacy Writing Assist restored + Instructions bottom navigation + full instruction reader** (pending manual Android verification)
+
 Executable runtime:
 `index.html`
 
@@ -19,6 +22,15 @@ Repository/reference artifacts:
 - Story Brain context is compiled into AI writing requests.
 - Brain-dependent generation has been manually tested.
 - Brain Assistant and conservative automation are implemented.
+
+## v0.9.27 candidate change
+The v0.9.26 AI idea enhancement is generalized across long-form writing fields. Each supported field gets two compact controls: `✨ Enhance` and collapsible `⚙ Instructions`.
+
+The instruction panel shows the exact instruction sent to NanoGPT. Users can choose built-in defaults, edit an instruction, save a new personal instruction, update or delete personal instructions, and switch the active instruction per field context. Enhancement remains review-first: the original stays untouched until the user accepts the enhanced text.
+
+
+## v0.9.31 candidate change
+Writing Assist now separates the protected Aurora `System core` from the user-controlled `Writing instruction`. Users can select the Core per field, inspect it before requests, create personal Cores, copy built-ins, edit/update/delete personal Cores, and use the recommended Core-structure tips provided in the Core editor. The ASK preview identifies SYSTEM vs USER and retains the exact request body.
 
 ## Important unresolved AI work
 - Stronger hidden/future knowledge gating.
@@ -46,3 +58,16 @@ The package also contains the earlier tutorials and provider-fix records.
 The user should express intent. Aurora should manage the machinery.
 
 Do not make the user maintain prompts, context, lorebook activation, or Brain bookkeeping unless necessary.
+
+
+## v0.9.34 candidate
+
+Restores the legacy Writing Assist SYSTEM instruction as the protected default compatibility Core and adds a dedicated in-app Writing Instructions page. Custom Cores remain available for experimentation.
+
+
+## v0.9.35 candidate
+The dedicated Instructions page now exposes `Read` on every Writing instruction and Core instruction. Read opens the complete stored instruction in a mobile-safe reader without entering edit mode.
+
+
+## v0.9.36 candidate
+The legacy default Core is fully readable from the dedicated Instructions Library. Its internal compatibility placeholder is no longer exposed in Library Read or Copy flows.

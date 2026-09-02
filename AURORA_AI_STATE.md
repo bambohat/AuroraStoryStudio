@@ -835,3 +835,14 @@ The AI cannot perfectly infer author intent. Automation is therefore designed as
 ## First real acceptance test
 
 Create a small story with a current character state, a future hidden state, a current arc/phase, one rule, and one open thread. Generate a test chapter. Verify the prose obeys the current state and does not reveal hidden/future information. Accept the chapter. Run Brain Assistant and verify it proposes only facts supported by the accepted prose, does not create a second copy of an existing character, and keeps future/hidden facts protected.
+
+
+## Writing assistance direction
+
+
+## v0.9.31 candidate — Writing Assist Core separation
+The Writing Assist layer now models two distinct prompt layers: a protected/selectable Aurora `System core` and a user-controlled `Writing instruction`. The Core is the complete system message for the enhancement operation; the Writing instruction plus field/source text are sent in the user message. Users can inspect both through the UI and the ASK exact-request preview.
+
+Core defaults include a general standard core, strict field editor, Brain continuity guardian, and creative-development core. Built-in Cores remain protected but can be copied into personal Cores. Personal Cores are stored locally, selectable per field, editable, updatable, usable, and deletable.
+
+Aurora now has a reusable, review-first writing assistance layer for long-form fields. The user can inspect the exact instruction sent to NanoGPT, switch among built-in instructions, and maintain personal instructions locally. Enhancement must preserve user intent and must not silently invent important canon. This is a UX layer over the existing provider path, not a new AI transport.

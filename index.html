@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Aurora v0.9.35 candidate -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#8b5cf6">
-<title>Aurora — Phase 5 · v0.9.17</title>
+<title>Aurora — Phase 5 · v0.9.27</title>
 <style>
 :root{
   --bg:#0b0a10; --surface:#12101a; --surface2:#191622; --surface3:#211d2c;
@@ -51,8 +52,8 @@ p{color:var(--muted);line-height:1.55;margin:0}
 .settings-actions{position:sticky;bottom:0;margin:18px -2px 0;padding:12px 0 max(8px,env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent,var(--bg) 24%)}
 .tip{margin-top:14px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft);border-radius:16px;padding:13px 14px;color:#d9d1ea;font-size:13px;line-height:1.45}
 .tip b{color:var(--text)}
-.bottom{position:fixed;left:0;right:0;bottom:0;height:76px;z-index:30;background:rgba(12,10,17,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:7px 8px max(7px,env(safe-area-inset-bottom))}
-.navitem{border:0;background:transparent;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:10px;font-weight:700}
+.bottom{position:fixed;left:0;right:0;bottom:0;height:76px;z-index:30;background:rgba(12,10,17,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding:7px 6px max(7px,env(safe-area-inset-bottom))}
+.navitem{border:0;background:transparent;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:10px;font-weight:700;min-width:0}
 .navitem .ni{font-size:20px;line-height:1}
 .navitem.active{color:var(--text);background:var(--accent-soft)}
 .backrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
@@ -180,6 +181,22 @@ p{color:var(--muted);line-height:1.55;margin:0}
 .mini-action{border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:800}
 .mini-action.danger-mini{color:#ff7186}
 .modal-backdrop{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:20px;backdrop-filter:blur(5px)}
+.concept-idea-actions{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.concept-idea-actions span{font-size:11px;color:var(--muted);line-height:1.4;flex:1;min-width:180px}
+.ai-enhance-button{white-space:nowrap}
+.ai-assist-wrap{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:7px}.ai-assist-wrap .secondary{padding:9px 11px;font-size:11px}.ai-assist-note{font-size:10px;color:var(--muted);line-height:1.4}.ai-instruction-details{margin-top:7px;border:1px solid var(--line);background:var(--surface2);border-radius:13px;overflow:hidden}.ai-instruction-details>summary{cursor:pointer;list-style:none;padding:10px 11px;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:space-between;gap:8px}.ai-instruction-details>summary::-webkit-details-marker{display:none}.ai-instruction-details[open]>summary{border-bottom:1px solid var(--line)}.ai-instruction-body{padding:10px 11px}.ai-layer-block{margin-top:10px}.ai-layer-block label{display:block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:var(--muted);margin:0 0 6px}.ai-instruction-select{width:100%;min-height:42px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px;padding:8px 10px;font:inherit}.ai-instruction-text{margin-top:8px;white-space:pre-wrap;font-size:11px;line-height:1.5;color:var(--text);background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:10px}.ai-instruction-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.ai-instruction-actions .mini-action{padding:7px 9px}.writing-library-actions .mini-action{flex:0 0 auto}.ai-instruction-edit-wrap{margin-top:8px}.ai-instruction-name{width:100%;height:42px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px;padding:8px 10px;font:inherit;margin-bottom:7px}.ai-instruction-edit{margin-top:0;width:100%;min-height:120px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:11px;padding:10px;font:inherit;resize:vertical}.ai-assist-modal{width:min(900px,100%);max-height:min(90dvh,800px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);box-sizing:border-box}.ai-assist-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.ai-assist-head h2{margin:4px 0 0;font-size:23px}.ai-assist-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.ai-assist-panel{min-height:220px;border:1px solid var(--line);border-radius:16px;background:var(--surface2);padding:13px}.ai-assist-panel span{display:block;font-size:10px;letter-spacing:.1em;font-weight:900;color:var(--accent2);margin-bottom:8px}.ai-assist-panel div{white-space:pre-wrap;font-size:12px;line-height:1.58;color:var(--text)}.ai-assist-panel.loading div{opacity:.75}.ai-assist-error{border:1px solid rgba(255,90,90,.35);background:rgba(255,90,90,.08);border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.45;margin-top:12px}.ai-assist-instruction{margin-top:12px;padding:11px 12px;border:1px solid var(--line);border-radius:13px;background:var(--surface2)}.ai-assist-instruction b{display:block;font-size:11px;margin-bottom:5px}.ai-assist-instruction pre{white-space:pre-wrap;font:inherit;font-size:11px;line-height:1.5;color:var(--muted);margin:0}.ai-assist-foot{margin-top:10px}.ai-assist-foot small{color:var(--muted);font-size:10px;line-height:1.4}.ai-assist-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}@media(max-width:700px){.ai-assist-grid{grid-template-columns:1fr}.ai-assist-modal{padding:15px}.ai-assist-panel{min-height:150px}}
+.concept-enhance-modal{width:min(860px,100%);max-height:min(88dvh,760px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow);box-sizing:border-box}
+.concept-enhance-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.concept-enhance-head h2{margin:4px 0 0;font-size:24px}
+.concept-enhance-intro{margin:10px 0 14px;color:var(--muted);font-size:12px;line-height:1.5}
+.concept-enhance-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.concept-enhance-panel{min-height:240px;border:1px solid var(--line);border-radius:16px;background:var(--surface2);padding:13px;box-sizing:border-box}
+.concept-enhance-panel span{display:block;font-size:10px;letter-spacing:.1em;font-weight:900;color:var(--accent2);margin-bottom:8px}
+.concept-enhance-panel div{white-space:pre-wrap;font-size:12px;line-height:1.58;color:var(--text)}
+.concept-enhance-panel.loading div{opacity:.75}
+.concept-enhance-error{border:1px solid rgba(255,90,90,.35);background:rgba(255,90,90,.08);border-radius:12px;padding:10px 12px;font-size:12px;line-height:1.45;margin-bottom:12px}
+.concept-enhance-foot{margin:10px 0 0}
+@media(max-width:700px){.concept-enhance-grid{grid-template-columns:1fr}.concept-enhance-panel{min-height:150px}.concept-enhance-modal{padding:15px}.concept-enhance-head h2{font-size:21px}}
 .confirm-modal{width:min(420px,100%);box-sizing:border-box;background:var(--surface2);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.5)}
 .confirm-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,75,100,.13);border:1px solid rgba(255,75,100,.5);color:#ff7186;font-size:22px;font-weight:900}
 .confirm-modal h2{margin:13px 0 7px;font-size:21px}.confirm-modal p{color:var(--muted);font-size:13px;line-height:1.5;margin:7px 0}.confirm-modal p strong{color:var(--text)}
@@ -296,6 +313,8 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
 
 .nano-card{position:relative}.nano-status{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--muted);font-size:12px;margin-top:8px}.nano-status.ok{color:var(--success)}.nano-status.error{color:var(--danger)}.nano-model-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.nano-model-actions{display:flex;gap:8px;flex-wrap:wrap}.nano-model-actions button{flex:1;min-width:130px}.nano-key-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.nano-key-toggle{min-width:92px}.nano-meter{font-size:12px;color:var(--muted);margin-top:8px}.nano-danger{border-color:rgba(239,107,115,.45)!important}button[disabled]{opacity:.55;pointer-events:none}
 .nano-note{font-size:12px;color:var(--muted);line-height:1.45}.nano-confirm-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000}.nano-confirm{width:min(520px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.nano-preview-explain{padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--surface);font-size:11px;line-height:1.45;color:var(--muted)}.nano-preview-explain b{color:var(--text)}.nano-preview-explain p{margin:6px 0 0}.nano-preview-details{margin-top:12px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);overflow:hidden}.nano-preview-details>summary{cursor:pointer;list-style:none;padding:11px 12px;font-size:12px;font-weight:800;line-height:1.35}.nano-preview-details>summary::-webkit-details-marker{display:none}.nano-preview-body{padding:0 10px 10px}.nano-preview-section{margin-top:10px}.nano-preview-section b{display:block;margin:0 2px 6px;font-size:10px;letter-spacing:.09em}.nano-preview-section pre{width:100%;max-width:100%;box-sizing:border-box;margin:0;padding:10px;border:1px solid var(--line);border-radius:11px;background:var(--surface);color:var(--text);font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;overflow:auto;max-height:48dvh}.writing-library-modal{width:min(860px,calc(100vw - 24px));max-height:calc(100dvh - 24px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:var(--shadow);box-sizing:border-box}.writing-library-modes{display:flex;gap:6px;margin:12px 0;padding:4px;border:1px solid var(--line);background:var(--surface2);border-radius:12px}.writing-library-modes button{flex:1;border:0;background:transparent;color:var(--muted);padding:9px 10px;border-radius:9px;font:inherit;font-weight:800}.writing-library-modes button.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.15)}.writing-core-tips{margin-top:10px;padding:12px;border:1px solid rgba(140,100,255,.25);background:rgba(140,100,255,.06);border-radius:13px;font-size:11px;line-height:1.48;color:var(--muted)}.writing-core-tips b{color:var(--text)}.writing-core-tips p{margin:7px 0 0}.writing-library-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.writing-library-list{display:grid;gap:8px}.writing-library-item{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:11px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}.writing-library-item>div:first-child{min-width:0}.writing-library-item b{display:block}.writing-library-item small{display:block;color:var(--muted);margin-top:3px}.writing-library-item p{margin:6px 0 0;color:var(--muted);font-size:11px;line-height:1.4}.writing-library-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}.writing-library-editor{margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface2)}.writing-instruction-read{white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;max-height:68dvh;overflow:auto;border:1px solid var(--line);background:var(--surface2);border-radius:14px;padding:14px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:var(--text)}.library-back{margin:0 0 4px 0;padding:7px 10px}.writing-library-editor-screen{margin-top:14px}.writing-library-editor-screen .ai-instruction-edit{min-height:280px}.writing-library-backdrop{z-index:10000}.danger-mini{border-color:rgba(239,107,115,.45)!important;color:var(--danger,var(--accent))!important}
+@media(max-width:760px){.nano-confirm-backdrop{padding:10px}.nano-confirm{width:calc(100vw - 20px);max-height:calc(100dvh - 20px);overflow:auto;padding:15px;border-radius:18px}.nano-preview-section pre{max-height:42dvh;font-size:10px}.writing-library-modal{width:calc(100vw - 20px);max-height:calc(100dvh - 20px);padding:13px}.writing-library-item{display:block}.writing-library-actions{justify-content:flex-start;margin-top:9px}.writing-library-actions .mini-action{flex:1 1 auto;min-width:70px}}
 @media(max-width:760px){.nano-model-row,.nano-key-row{grid-template-columns:1fr}.nano-model-actions{display:grid;grid-template-columns:1fr 1fr}.nano-model-actions button{min-width:0}}
 </style>
 </style>
@@ -340,7 +359,8 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     home:{title:'Home'},
     library:{title:'Library'},
     create:{title:'Create'},
-    more:{title:'Settings'}
+    more:{title:'Settings'},
+    'writing-instructions':{title:'Writing Instructions'}
   });
   const LIBRARY_KEY = 'aurora_library_v1';
 
@@ -451,6 +471,238 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     if(!clean)return 'No premise added yet.';
     const first=clean.split(/(?<=[.!?])\s+/)[0]||clean;
     return first.length>145?first.slice(0,142).trimEnd()+'…':first;
+  }
+  function conceptIdeaLimit(text){
+    const value=String(text||'').trim();
+    if(value.length<=2000)return value;
+    const head=value.slice(0,2000);
+    const sentenceCut=Math.max(head.lastIndexOf('. '),head.lastIndexOf('\n'));
+    if(sentenceCut>1200)return head.slice(0,sentenceCut+1).trim();
+    const spaceCut=head.lastIndexOf(' ');
+    return (spaceCut>0?head.slice(0,spaceCut):head.slice(0,1997)).trimEnd()+'…';
+  }
+
+  const WRITING_ASSIST_KEY='aurora_writing_assist_v2';
+  const WRITING_CORE_KEY='aurora_writing_core_v1';
+  const WRITING_CORE_DEFAULTS=[
+    {id:'standard-core',name:'Aurora standard core — Default',builtin:true,legacy:true,description:'Exact legacy Aurora Writing Assist system instruction used by the original high-quality enhancer.',instruction:'LEGACY_OLD_SYSTEM_INSTRUCTION'},
+    {id:'strict-field-core',name:'Strict field editor',builtin:true,description:'Tighter protected core for minimal invention and strict field boundaries.',instruction:'You are Aurora’s strict field editor. Improve exactly one user-provided field and return only the improved field text. The source text remains authoritative. Preserve every explicit fact and constraint. Improve clarity, organization, specificity and writing quality only where the source supports it. Never invent major facts, canon, abilities, relationships, secrets, chronology, motivations, outcomes or character knowledge. Never leak future or hidden information into present text. Follow the selected Writing instruction for style and transformation. Keep the result appropriate to the field. Write precisely, naturally and with high information density. No commentary, no explanation and no filler.'},
+    {id:'brain-continuity-core',name:'Brain continuity guardian',builtin:true,description:'Protected core for Brain and state fields with stronger continuity and knowledge boundaries.',instruction:'You are Aurora’s Brain continuity guardian. Improve exactly one Brain field and return only the improved field text. Preserve established facts exactly and make the result precise enough for reliable retrieval by another writing AI. Preserve distinctions between current, past, future, hidden, uncertain, planned and rejected information whenever the source establishes them. Never promote a possibility into canon. Never invent character knowledge. Never make future or hidden facts sound current or revealed. Preserve names, chronology, relationships, power progression and causal meaning. Follow the selected Writing instruction for prose quality while keeping structured information concrete and continuity-focused. Do not turn the field into a chapter or decorative lore passage.'},
+    {id:'creative-development-core',name:'Creative development core',builtin:true,description:'Protected core for developing rough material while keeping the user’s established direction intact.',instruction:'You are Aurora’s creative-development core. Improve exactly one user-provided field and return only the improved field text. Preserve all explicit facts and intended direction. Develop ideas that are clearly implied and strengthen specificity, cause and effect, motivation, dramatic potential or usefulness where the source supports those improvements. Do not invent major facts, canon events, characters, abilities, secrets, outcomes or relationships that the user did not establish or strongly imply. Follow the selected Writing instruction as the writing-quality and transformation guide. Write with confident, natural prose, varied sentence rhythm, concrete detail and purposeful information. Avoid generic AI filler, empty adjectives, repetitive phrasing and unsupported invention.'}
+  ];
+  const WRITING_ASSIST_DEFAULTS=[
+    {id:'professional-enhancer',name:'Professional enhancer — Default',builtin:true,description:'The original high-quality Aurora enhancement style: expand rough notes into a polished, specific, professional version without changing intent.',instruction:'Transform the supplied text into a polished, complete, professional version that is substantially more useful to Aurora and to another writing AI. Preserve every explicit fact, name, relationship, chronology, preference, limitation, and intended direction. Do not merely paraphrase or lightly rewrite it: develop the clearly implied meaning, organize related information, remove ambiguity, and add useful connective detail where the user’s intent supports it. Do not invent important plot facts, canon facts, characters, abilities, relationships, secrets, outcomes, or motivations that the user did not establish or strongly imply. When the source is a story idea, make the protagonist, premise, setting, hook, tone, conflict, progression, and distinctive appeal clear. When the source is a Brain field, make it precise and continuity-friendly. Write in clear, concrete, professional prose with natural sentence variety and strong information density. Avoid generic AI filler, empty adjectives, repetitive phrasing, purple prose, fake sophistication, and vague statements. Return only the improved text.'},
+    {id:'deep-professional',name:'Deep professional expansion',builtin:true,description:'Expand rough material into richer, more specific writing while keeping the user’s facts and direction intact.',instruction:'Rewrite the supplied text as a fuller, more specific and professionally written version. Preserve all explicit facts and intent, then expand the ideas that are clearly implied so the result is more useful rather than merely longer. Clarify cause and effect, priorities, distinctions, constraints, and practical implications where the source supports them. Do not invent major facts or make uncertain ideas sound established. Write with confident, natural prose, varied sentence rhythm, precise nouns and verbs, and high information density. Avoid generic AI filler, repetitive summaries, excessive headings, purple prose, unnecessary metaphors, empty atmosphere, and overexplaining obvious points. The finished text should feel deliberately written by a skilled human rather than mechanically paraphrased. Return only the improved text.'},
+    {id:'canon-safe',name:'Canon-safe Brain',builtin:true,description:'Build continuity-ready Brain text with strong protection against invented canon and knowledge leaks.',instruction:'Rewrite and organize the supplied Brain information into clear, concrete, continuity-ready prose. Preserve established facts exactly. Distinguish, when the source provides the distinction, between what is true now, what happened in the past, what is planned for the future, what is hidden, what is uncertain, and what is only an idea. Never promote a possibility into established canon. Never invent a character’s knowledge. Never make future or hidden information appear current. Keep the result useful to Aurora’s retrieval and context compiler. Use concise but complete sentences, explicit relationships between facts, and unambiguous wording. Avoid generic AI language, decorative prose, unsupported assumptions, and filler. Return only the improved Brain text.'},
+    {id:'style-voice',name:'Style & voice writer',builtin:true,description:'Turn taste notes and writing samples into concrete, repeatable prose instructions.',instruction:'Turn the supplied material into a strong, practical writing-style instruction that another AI can follow consistently. Preserve the user’s actual taste instead of replacing it with generic writing advice. Specify sentence rhythm, dialogue, description, pacing, figurative language, emotional handling, scene transitions, action clarity, and what to avoid whenever the source supports those conclusions. Explain the desired writing behavior concretely enough that two generations should feel like the same style. Write in clear professional prose with examples only when they add precision. Avoid vague advice such as “make it engaging,” empty genre labels, excessive literary terminology, and generic AI-writing recommendations. Return only the style instruction.'},
+    {id:'clean-structure',name:'Clean structure',builtin:true,description:'Make notes easier for Aurora to understand while staying restrained and faithful to the source.',instruction:'Organize the supplied notes into clean, precise prose that is easy for Aurora to interpret. Keep every important fact and constraint. Resolve obvious wording problems, group related information, and make chronology or relationships clear when the source already establishes them. Do not add substantial new story information. Use short, direct paragraphs, concrete language, natural sentence rhythm, and high information density. Avoid filler, repetition, decorative language, generic AI phrases, and needless explanations. Return only the improved text.'}
+  ];
+  function loadWritingAssistSafe(){try{const raw=localStorage.getItem(WRITING_ASSIST_KEY)||localStorage.getItem('aurora_writing_assist_v1')||'{}';const p=JSON.parse(raw);return p&&typeof p==='object'?p:{}}catch(e){return{}}}
+  function saveWritingAssistSafe(p){try{localStorage.setItem(WRITING_ASSIST_KEY,JSON.stringify(p));return true}catch(e){return false}}
+  function writingAssistStore(){if(!state.writingAssistPrefs)state.writingAssistPrefs=loadWritingAssistSafe();return state.writingAssistPrefs}
+  function writingAssistProfiles(){return [...WRITING_ASSIST_DEFAULTS,...(Array.isArray(state.savedWritingInstructions)?state.savedWritingInstructions:[])]}
+  function writingAssistFor(key){const prefs=writingAssistStore(),id=prefs[key]||'preserve-intent';return writingAssistProfiles().find(x=>x.id===id)||WRITING_ASSIST_DEFAULTS[0]}
+  function writingAssistSetFor(key,id){const p=writingAssistStore();p[key]=id;saveWritingAssistSafe(p)}
+  function loadWritingCoreSafe(){try{const raw=localStorage.getItem(WRITING_CORE_KEY)||'{}';const p=JSON.parse(raw);return p&&typeof p==='object'?p:{}}catch(e){return{}}}
+  function saveWritingCoreSafe(p){try{localStorage.setItem(WRITING_CORE_KEY,JSON.stringify(p));return true}catch(e){return false}}
+  function writingCoreStore(){if(!state.writingCorePrefs)state.writingCorePrefs=loadWritingCoreSafe();return state.writingCorePrefs}
+  function writingCoreProfiles(){return [...WRITING_CORE_DEFAULTS,...(Array.isArray(state.savedWritingCores)?state.savedWritingCores:[])]}
+  // STANDARD CORE IS THE LEGACY DEFAULT: never expose its placeholder as a prompt.
+  // It must always render the original Writing Assist system composition.
+  // STANDARD CORE IS THE LEGACY DEFAULT: its placeholder is never sent to NanoGPT.
+  function legacyWritingSystem(profile,key){return [
+        'You are Aurora’s writing-assistance layer.',
+        'Improve exactly one user-provided field. Return only the improved field text, not commentary.',
+        profile.instruction,
+        'Do not rewrite the user into a different story. Preserve explicit facts and intent.',
+        'Do not invent important names, canon events, powers, relationships, secrets, outcomes, or chronology unless the source clearly contains them.',
+        'Keep the result appropriate to the field being edited. Do not turn a Brain field into a chapter of prose.',
+        key==='style-sample'?'Treat the sample as the user’s writing. Preserve its voice and only improve clarity when necessary.':'',
+        'For Brain information, prefer concise, concrete statements that another AI can reliably retrieve and use.',
+        'Return ONLY the revised field text.'
+      ].filter(Boolean).join('\\n');}
+  function writingCoreRenderedInstruction(core,profile,key){return core?.legacy?legacyWritingSystem(profile||WRITING_ASSIST_DEFAULTS[0],key||''):String(core?.instruction||'')}
+  function writingCoreLibraryDisplayInstruction(core){return core?.legacy?writingCoreRenderedInstruction(core,WRITING_ASSIST_DEFAULTS[0],''):String(core?.instruction||'')}
+  function writingCoreRecommendedId(key){return (String(key||'').startsWith('brain-field:')||String(key||'').startsWith('state-')||String(key||'').startsWith('state-field:')||String(key||'').startsWith('entity-state-')||String(key||'').startsWith('custom-field:'))?'brain-continuity-core':'standard-core'}
+  function writingCoreFor(key){const prefs=writingCoreStore(),id=prefs[key]||writingCoreRecommendedId(key);return writingCoreProfiles().find(x=>x.id===id)||WRITING_CORE_DEFAULTS[0]}
+  function writingCoreSetFor(key,id){const p=writingCoreStore();p[key]=id;saveWritingCoreSafe(p)}
+  function saveWritingCore(profile){const name=String(profile?.name||'').trim(),instruction=String(profile?.instruction||'').trim();if(!name||!instruction){toast('Give the core a name and instruction');return false}if(!Array.isArray(state.savedWritingCores))state.savedWritingCores=[];const id=profile.id||('core_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7));const item={id,name,instruction,description:String(profile.description||'Custom Aurora core').trim(),builtin:false,createdAt:profile.createdAt||Date.now(),updatedAt:Date.now()};const ix=state.savedWritingCores.findIndex(x=>x.id===id);if(ix>=0)state.savedWritingCores[ix]=item;else state.savedWritingCores.push(item);saveSavedWritingCoresSafe(state.savedWritingCores);return item}
+  function deleteWritingCore(id){if(WRITING_CORE_DEFAULTS.some(x=>x.id===id)){toast('Built-in cores cannot be deleted');return false}state.savedWritingCores=(state.savedWritingCores||[]).filter(x=>x.id!==id);saveSavedWritingCoresSafe(state.savedWritingCores);const prefs=writingCoreStore();Object.keys(prefs).forEach(k=>{if(prefs[k]===id)prefs[k]=writingCoreRecommendedId(k)});saveWritingCoreSafe(prefs);return true}
+  function duplicateWritingCore(source){const p=source||WRITING_CORE_DEFAULTS[0];const instruction=p?.legacy?writingCoreLibraryDisplayInstruction(p):String(p?.instruction||'');return saveWritingCore({name:(p.name||'Core')+' — Custom',instruction,description:p.description||'Custom Aurora core'});}
+  function saveWritingInstruction(profile){
+    const name=String(profile?.name||'').trim(),instruction=String(profile?.instruction||'').trim();
+    if(!name||!instruction){toast('Give the instruction a name and text');return false}
+    if(!Array.isArray(state.savedWritingInstructions))state.savedWritingInstructions=[];
+    const id=profile.id||('wai_'+Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,7));
+    const item={id,name,instruction,description:String(profile.description||'Custom instruction').trim(),builtin:false,createdAt:profile.createdAt||Date.now(),updatedAt:Date.now()};
+    const ix=state.savedWritingInstructions.findIndex(x=>x.id===id);
+    if(ix>=0)state.savedWritingInstructions[ix]=item;else state.savedWritingInstructions.push(item);
+    saveSavedWritingInstructionsSafe(state.savedWritingInstructions);
+    return item;
+  }
+  function deleteWritingInstruction(id){
+    if(WRITING_ASSIST_DEFAULTS.some(x=>x.id===id)){toast('Built-in instructions cannot be deleted');return false}
+    state.savedWritingInstructions=(state.savedWritingInstructions||[]).filter(x=>x.id!==id);
+    saveSavedWritingInstructionsSafe(state.savedWritingInstructions);
+    return true;
+  }
+  function duplicateWritingInstruction(source){
+    const p=source||WRITING_ASSIST_DEFAULTS[0];
+    const item=saveWritingInstruction({name:(p.name||'Instruction')+' — Custom',instruction:p.instruction,description:p.description||'Custom instruction'});
+    return item;
+  }
+  function writingInstructionLibraryModal(){
+    if(!state.writingInstructionLibrary?.open)return '';
+    const mode=state.writingInstructionLibrary.mode||'writing',editing=state.writingInstructionLibrary.editing||null,profiles=mode==='core'?writingCoreProfiles():writingAssistProfiles();
+    const modeButtons=`<div class="writing-library-modes"><button class="${mode==='writing'?'active':''}" data-writing-library-mode="writing">Writing instructions</button><button class="${mode==='core'?'active':''}" data-writing-library-mode="core">Core instructions</button></div>`;
+    const header=editing
+      ? `<div class="ai-assist-head"><div><button class="secondary library-back" data-writing-library-back aria-label="Back to instruction library">‹ Back</button><div class="builder-kicker" style="margin-top:10px">${mode==='core'?'CORE INSTRUCTIONS':'INSTRUCTION LIBRARY'}</div><h2>${editing.isNew?'New '+(mode==='core'?'core':'instruction'):'Edit '+(mode==='core'?'core':'instruction')}</h2></div><button class="close" data-writing-library-close aria-label="Close">×</button></div>`
+      : `<div class="ai-assist-head"><div><div class="builder-kicker">INSTRUCTION LIBRARY</div><h2>${mode==='core'?'Core instructions':'Writing instructions'}</h2><p class="concept-enhance-intro">Built-in entries are protected. Personal ${mode==='core'?'cores':'instructions'} can be created, edited, updated and deleted.</p></div><button class="close" data-writing-library-close aria-label="Close">×</button></div>`;
+    if(editing){
+      const tips=mode==='core'?`<div class="writing-core-tips"><b>Recommended core structure</b><p>A good Core tells the model <b>what it is</b>, <b>what operation it must perform</b>, <b>how to write the result</b>, <b>what must be preserved</b>, <b>what it must never invent</b>, and <b>what boundaries it must respect</b>. Keep detailed story taste in the Writing instruction so the two layers do different jobs.</p><p><b>Recommended order:</b> role → task → output → preservation → invention limits → field boundaries → time/knowledge rules → writing quality → failure behavior.</p><p><b>Tip:</b> concrete rules such as “return only the improved field” are stronger than vague rules such as “make it better.” You may freely experiment with custom Cores; the protected Aurora default remains available as a safe fallback.</p></div>`:'';
+      return `<div class="modal-backdrop writing-library-backdrop" data-writing-library-backdrop><section class="writing-library-modal" role="dialog" aria-modal="true" aria-labelledby="writing-library-title"><div id="writing-library-title">${header}</div>${modeButtons}<div class="writing-library-editor writing-library-editor-screen"><input class="ai-instruction-name" data-writing-library-name maxlength="80" value="${safeText(editing.name||'')}" placeholder="Name your ${mode==='core'?'core':'instruction'}"><textarea class="ai-instruction-edit" data-writing-library-text placeholder="Write the complete ${mode==='core'?'system Core':'Writing instruction'} Aurora should use.">${safeText(editing.instruction||'')}</textarea>${tips}<div class="ai-instruction-actions"><button class="primary" data-writing-library-save>${editing.isNew?'Save '+(mode==='core'?'core':'instruction'):'Update '+(mode==='core'?'core':'instruction')}</button><button class="secondary" data-writing-library-cancel>Cancel</button></div></div></section></div>`;
+    }
+    return `<div class="modal-backdrop writing-library-backdrop" data-writing-library-backdrop><section class="writing-library-modal" role="dialog" aria-modal="true" aria-labelledby="writing-library-title"><div id="writing-library-title">${header}</div>${modeButtons}<div class="writing-library-toolbar"><button class="primary" data-writing-library-new>＋ New ${mode==='core'?'core':'instruction'}</button></div><div class="writing-library-list">${profiles.map(x=>`<article class="writing-library-item"><div><b>${safeText(x.name)}</b><small>${x.builtin?'Built-in':'Personal'}</small><p>${safeText(x.description||'')}</p></div><div class="writing-library-actions">${x.builtin?'':'<button class="mini-action" data-writing-library-edit="'+safeText(x.id)+'">Edit</button>'}<button class="mini-action" data-writing-library-use="${safeText(x.id)}">Use</button>${x.builtin?'<button class="mini-action" data-writing-library-copy="'+safeText(x.id)+'">Copy</button>':'<button class="mini-action danger-mini" data-writing-library-delete="'+safeText(x.id)+'">Delete</button>'}</div></article>`).join('')}</div></section></div>`;
+  }
+
+  function saveSavedWritingInstructionsSafe(items){try{localStorage.setItem('aurora_saved_writing_instructions_v1',JSON.stringify(Array.isArray(items)?items:[]));return true}catch(e){return false}}
+  function loadSavedWritingInstructionsSafe(){try{const raw=localStorage.getItem('aurora_saved_writing_instructions_v1');const p=raw?JSON.parse(raw):[];return Array.isArray(p)?p:[]}catch(e){return[]}}
+  function saveSavedWritingCoresSafe(items){try{localStorage.setItem('aurora_saved_writing_cores_v1',JSON.stringify(Array.isArray(items)?items:[]));return true}catch(e){return false}}
+  function loadSavedWritingCoresSafe(){try{const raw=localStorage.getItem('aurora_saved_writing_cores_v1');const p=raw?JSON.parse(raw):[];return Array.isArray(p)?p:[]}catch(e){return[]}}
+  function writingAssistContextKey(el){
+    if(el.id==='concept-idea')return 'idea';
+    if(el.id==='custom-style')return 'style-description';
+    if(el.id==='custom-style-sample')return 'style-sample';
+    if(el.id==='custom-direction')return 'style-direction';
+    if(el.id==='new-field-help')return 'field-tip';
+    if(el.matches('[data-state-v2="notes"]'))return 'state-notes';
+    if(el.matches('[data-state-field]'))return 'state-field:'+el.dataset.stateField;
+    if(el.matches('[data-entity-state-field="details"]'))return 'entity-state-details';
+    if(el.matches('[data-custom-field]'))return 'custom-field:'+el.dataset.customField;
+    if(el.matches('[data-brain-field]'))return 'brain-field:'+el.dataset.brainField;
+    return 'writing-text';
+  }
+  function writingAssistLabel(el){
+    const explicit=el.dataset.writingAssistLabel; if(explicit)return explicit;
+    if(el.id==='concept-idea')return 'Your idea';
+    if(el.id==='custom-style')return 'Describe the style';
+    if(el.id==='custom-style-sample')return 'Optional writing sample';
+    if(el.id==='custom-direction')return 'Extra direction';
+    if(el.id==='new-field-help')return 'Tip';
+    const label=el.closest('.modal-label');
+    if(label){const clone=label.cloneNode(true);clone.querySelectorAll('textarea,input,select,button,details').forEach(x=>x.remove());const t=clone.textContent.replace(/\s+/g,' ').trim();if(t)return t}
+    return 'Writing field';
+  }
+  function writingAssistRecommendedId(key){
+    if(key==='idea')return 'professional-enhancer';
+    if(key==='style-description'||key==='style-direction'||key==='style-sample')return 'style-voice';
+    if(key.startsWith('brain-field:')||key.startsWith('state-')||key.startsWith('state-field:')||key.startsWith('entity-state-')||key.startsWith('custom-field:'))return 'canon-safe';
+    return 'preserve-intent';
+  }
+  function ensureWritingAssistChoice(el){
+    const key=writingAssistContextKey(el),prefs=writingAssistStore();
+    if(!prefs[key]){prefs[key]=writingAssistRecommendedId(key);saveWritingAssistSafe(prefs)}
+    return writingAssistFor(key);
+  }
+  function writingAssistToolbar(el){
+    const key=writingAssistContextKey(el),profile=ensureWritingAssistChoice(el),core=writingCoreFor(key);el.dataset.writingAssistFieldKey=key;
+    return `<div class="ai-assist-wrap" data-writing-assist-wrap data-writing-assist-key="${safeText(key)}"><button type="button" class="secondary ai-enhance-button" data-writing-assist-enhance>✨ Enhance</button><details class="ai-instruction-details"><summary>⚙ Instructions <span style="color:var(--muted);font-size:10px">${safeText(profile.name)}</span></summary><div class="ai-instruction-body"><div class="ai-layer-block"><label>System core</label><select class="ai-instruction-select" data-writing-core-select>${writingCoreProfiles().map(x=>`<option value="${safeText(x.id)}" ${x.id===core.id?'selected':''}>${safeText(x.name)}${x.builtin?' · built-in':''}</option>`).join('')}</select><div class="ai-instruction-text" data-writing-core-text>${safeText(writingCoreRenderedInstruction(core,profile,key))}</div></div><div class="ai-layer-block"><label>Writing instruction</label><select class="ai-instruction-select" data-writing-instruction-select>${writingAssistProfiles().map(x=>`<option value="${safeText(x.id)}" ${x.id===profile.id?'selected':''}>${safeText(x.name)}${x.builtin?' · built-in':''}</option>`).join('')}</select><div class="ai-instruction-text" data-writing-instruction-text>${safeText(profile.instruction)}</div></div><div class="ai-instruction-actions"><button type="button" class="mini-action" data-writing-instruction-edit-btn>Edit writing</button><button type="button" class="mini-action" data-writing-core-edit-btn>Edit core</button><button type="button" class="mini-action" data-writing-instruction-new>＋ New instruction</button><button type="button" class="mini-action" data-writing-core-new>＋ New core</button><button type="button" class="mini-action" data-writing-instruction-library>📚 Library</button></div><div class="ai-assist-note">The System core controls the operation. The Writing instruction controls how the result should be written. Both are shown in the exact NanoGPT request before you approve it.</div></div></details></div>`;
+  }
+  function installWritingAssistControls(){
+    document.querySelectorAll('textarea').forEach(el=>{
+      if(el.closest('[data-writing-assist-wrap]')||el.matches('[data-ai-no-enhance]'))return;
+      const key=writingAssistContextKey(el);
+      const excluded=['instructions','promptTemplate','placeholders'].some(x=>key==='brain-field:'+x);
+      if(excluded)return;
+      el.insertAdjacentHTML('afterend',writingAssistToolbar(el));
+    });
+  }
+  function findWritingAssistTarget(w){
+    const list=[...document.querySelectorAll('[data-writing-assist-field-key]')].filter(el=>writingAssistContextKey(el)===(w?.key||''));
+    return list[Number(w?.targetOrdinal)||0]||null;
+  }
+  function openWritingAssist(el){
+    if(!el)return;
+    const source=String(el.value||'').trim();if(!source){toast('Write something first');return}
+    const key=writingAssistContextKey(el),profile=ensureWritingAssistChoice(el);
+    const ordinal=[...document.querySelectorAll('[data-writing-assist-field-key]')].filter(x=>writingAssistContextKey(x)===key).indexOf(el);
+    state.writingAssist={open:true,busy:false,source,result:'',error:'',key,label:writingAssistLabel(el),instructionId:profile.id,coreId:writingCoreFor(key).id,targetOrdinal:Math.max(0,ordinal)};
+    startWritingAssist();
+  }
+  async function startWritingAssist(){
+    const w=state.writingAssist;if(!w)return;
+    const profile=writingAssistProfiles().find(x=>x.id===w.instructionId)||WRITING_ASSIST_DEFAULTS[0];
+    const core=writingCoreProfiles().find(x=>x.id===w.coreId)||writingCoreFor(w.key);
+    const n=normalizeNanoGPT(loadNanoGPTSettings()),gate=nanoCanRequest(n);
+    if(!gate.ok){toast(gate.reason);return} if(!n.textModel){toast('Choose a NanoGPT text model first');return}
+    w.busy=true;w.result='';w.error='';render();
+    try{
+      const system=writingCoreRenderedInstruction(core,profile,w.key);
+      const user='FIELD: '+w.label+'\nWRITING INSTRUCTION:\n'+profile.instruction+'\n\nSOURCE TEXT:\n'+w.source;
+      const preview={model:n.textModel,messages:[{role:'system',content:system},{role:'user',content:user}],stream:false,temperature:0.3,max_tokens:2200};
+      const data=await nanoChatCompletion(preview.messages,{temperature:0.3,max_tokens:2200,__requestPreview:preview});
+      const text=String(data?.choices?.[0]?.message?.content||'').trim();if(!text)throw new Error('NanoGPT returned an empty enhanced field.');
+      w.busy=false;w.result=text.slice(0,12000);render();toast('Enhanced field ready for review');
+    }catch(err){w.busy=false;w.error=nanoErrorText(err)||'Enhancement failed.';render();toast('Enhancement failed')}
+  }
+  function writingAssistModal(){
+    const w=state.writingAssist;if(!w?.open)return '';
+    const profile=writingAssistProfiles().find(x=>x.id===w.instructionId)||WRITING_ASSIST_DEFAULTS[0],core=writingCoreProfiles().find(x=>x.id===w.coreId)||writingCoreFor(w.key),has=!!String(w.result||'').trim();
+    return `<div class="modal-backdrop" data-writing-assist-backdrop><section class="ai-assist-modal" role="dialog" aria-modal="true"><div class="ai-assist-head"><div><div class="builder-kicker">AI WRITING ASSIST</div><h2>Enhance ${safeText(w.label||'field')}</h2></div><button class="close" data-writing-assist-close aria-label="Close">×</button></div><p class="concept-enhance-intro">Aurora will improve only this field using the selected instruction. Your original text stays untouched until you choose <b>Use enhanced text</b>.</p>${w.error?`<div class="ai-assist-error">${safeText(w.error)}</div>`:''}<div class="ai-assist-grid"><div class="ai-assist-panel"><span>YOUR TEXT</span><div>${safeText(w.source)}</div></div><div class="ai-assist-panel ${w.busy?'loading':''}"><span>ENHANCED TEXT</span><div>${w.busy?'Aurora is working…':safeText(w.result||'The enhanced text will appear here.')}</div></div></div><div class="ai-assist-instruction"><b>SYSTEM CORE SENT — EXACT TEXT</b><pre>${safeText(writingCoreRenderedInstruction(core,profile,w.key))}</pre></div><div class="ai-assist-instruction"><b>WRITING INSTRUCTION SENT</b><pre>${safeText(profile.instruction)}</pre></div><div class="ai-assist-foot"><small>${w.busy?'One NanoGPT text request. ASK permission still applies.':has?'Review it first. Nothing has been written back yet.':'The result is limited to this field; it will not alter other Brain records automatically.'}</small></div><div class="ai-assist-actions"><button class="secondary" data-writing-assist-close ${w.busy?'disabled':''}>Keep original</button>${has&&!w.busy?'<button class="secondary" data-writing-assist-again>↻ Enhance again</button>':''}${has&&!w.busy?'<button class="primary" data-writing-assist-apply>Use enhanced text</button>':''}</div></section></div>`;
+  }
+
+  function conceptEnhanceModal(){
+    const c=state.conceptEnhance||{};
+    if(!c.open)return '';
+    const source=String(c.source||state.conceptDraft.idea||'').trim();
+    const hasResult=!!String(c.result||'').trim();
+    return `<div class="modal-backdrop concept-enhance-backdrop" data-concept-enhance-backdrop>
+      <section class="concept-enhance-modal" role="dialog" aria-modal="true" aria-labelledby="concept-enhance-title">
+        <div class="concept-enhance-head"><div><div class="builder-kicker">AI IDEA ASSIST</div><h2 id="concept-enhance-title">Enhance your idea</h2></div><button class="close" data-concept-enhance-close aria-label="Close">×</button></div>
+        <p class="concept-enhance-intro">Aurora will keep your intent, organize the important details, and expand only where the idea clearly supports it. Nothing is saved until you choose <b>Use enhanced idea</b>.</p>
+        ${c.error?`<div class="concept-enhance-error">${safeText(c.error)}</div>`:''}
+        <div class="concept-enhance-grid">
+          <div class="concept-enhance-panel"><span>YOUR IDEA</span><div>${safeText(source||'No idea entered.')}</div></div>
+          <div class="concept-enhance-panel ${c.busy?'loading':''}"><span>ENHANCED IDEA</span><div>${c.busy?'Aurora is organizing your idea…':safeText(c.result||'Your enhanced idea will appear here.')}</div></div>
+        </div>
+        <div class="ai-assist-instruction"><b>SYSTEM CORE — EXACT TEXT</b><pre>${safeText(writingCoreRenderedInstruction((writingCoreProfiles().find(x=>x.id===c.coreId)||writingCoreFor('idea')),(writingAssistProfiles().find(x=>x.id===c.instructionId)||writingAssistFor('idea')),'idea'))}</pre></div><div class="ai-assist-instruction"><b>WRITING INSTRUCTION</b><pre>${safeText((writingAssistProfiles().find(x=>x.id===c.instructionId)||writingAssistFor('idea')).instruction)}</pre></div>
+        <div class="concept-enhance-foot">${c.busy?'<span class="builder-note">One NanoGPT text request. Aurora will ask permission before sending it if ASK mode is enabled.</span>':hasResult?'<span class="builder-note">Review it first. Your original idea is still untouched.</span>':'<span class="builder-note">The enhanced result is a concept brief, not finished manuscript prose.</span>'}</div>
+        <div class="actions">
+          <button class="secondary" data-concept-enhance-close ${c.busy?'disabled':''}>Keep my original</button>
+          ${hasResult&&!c.busy?'<button class="secondary" data-concept-enhance-again>↻ Enhance again</button>':''}
+          ${hasResult&&!c.busy?'<button class="primary" data-concept-enhance-apply>Use enhanced idea</button>':''}
+        </div>
+      </section>
+    </div>`;
+  }
+
+  async function aiEnhanceConceptIdea(){
+    const idea=String(document.getElementById('concept-idea')?.value ?? state.conceptDraft.idea ?? '').trim();
+    state.conceptDraft.idea=idea;
+    if(!idea){toast('Write a rough idea first');return;}
+    const profile=writingAssistFor('idea');
+    const core=writingCoreFor('idea');
+    const n=normalizeNanoGPT(loadNanoGPTSettings());
+    const gate=nanoCanRequest(n);
+    if(!gate.ok){toast(gate.reason);return;}
+    if(!n.textModel){toast('Choose a NanoGPT text model first');return;}
+    state.conceptEnhance={open:true,busy:true,source:idea,result:'',error:'',instructionId:profile.id,coreId:core.id};
+    render();
+    try{
+      const system=writingCoreRenderedInstruction(core,profile,'idea');
+      const user='FIELD: Your idea\nWRITING INSTRUCTION:\n'+profile.instruction+'\n\nSOURCE TEXT:\n'+idea+'\n\nThe user is creating a project concept, not finished manuscript prose. Keep the final result within Aurora’s 2000-character Your idea field.';
+      const body={model:n.textModel,messages:[{role:'system',content:system},{role:'user',content:user}],stream:false,temperature:0.35,max_tokens:1800};
+      const data=await nanoChatCompletion(body.messages,{temperature:body.temperature,max_tokens:body.max_tokens,__requestPreview:body});
+      const text=String(data?.choices?.[0]?.message?.content||'').trim();
+      if(!text)throw new Error('NanoGPT returned an empty enhanced idea.');
+      state.conceptEnhance={open:true,busy:false,source:idea,result:conceptIdeaLimit(text),error:'',instructionId:profile.id,coreId:core.id};
+      render();
+      toast('Enhanced idea ready for review');
+    }catch(err){
+      state.conceptEnhance={open:true,busy:false,source:idea,result:'',error:nanoErrorText(err)||'Enhancement failed.',instructionId:profile.id,coreId:core.id};
+      render();
+      toast('Idea enhancement failed');
+    }
   }
 
 
@@ -1030,8 +1282,8 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
   function nanoCanRequest(n){if(n.access==='off')return{ok:false,reason:'API access is disabled.'};if(n.maxRequests>0&&n.requestCount>=n.maxRequests)return{ok:false,reason:'Maximum AI request limit reached.'};if(!n.apiKey.trim())return{ok:false,reason:'Add your NanoGPT API key first.'};return{ok:true}}
   function nanoRecordRequest(n){n.requestCount=(Number(n.requestCount)||0)+1;saveNanoGPTSettings(n)}
   function nanoSetConnection(n,text,kind){n.connectionStatus=text;n.connectionState=kind||'neutral'}
-  function nanoRequestPermission(kind,details){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)return Promise.reject(new Error(gate.reason));if(n.access!=='ask')return Promise.resolve(true);return new Promise(resolve=>{state.nanoConfirm={kind:String(kind||'AI request'),details:String(details||''),resolve};render()})}
-  async function nanoChatCompletion(messages,extra={}){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)throw new Error(gate.reason);if(!n.textModel)throw new Error('Choose a NanoGPT text model first.');const allowed=await nanoRequestPermission('Text generation',n.textModel);if(!allowed)throw new Error('AI request cancelled.');const body=Object.assign({model:n.textModel,messages,stream:false},extra||{});const data=await nanoFetchJson(NANO_API_BASE+'/chat/completions',n,{method:'POST',headers:nanoHeaders(n,'POST','bearer'),body:JSON.stringify(body),timeoutMs:120000});nanoRecordRequest(n);return data}
+  function nanoRequestPermission(kind,details,preview){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)return Promise.reject(new Error(gate.reason));if(n.access!=='ask')return Promise.resolve(true);return new Promise(resolve=>{state.nanoConfirm={kind:String(kind||'AI request'),details:String(details||''),preview:preview||null,resolve};render()})}
+  async function nanoChatCompletion(messages,extra={}){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)throw new Error(gate.reason);if(!n.textModel)throw new Error('Choose a NanoGPT text model first.');const cleanExtra={...(extra||{})};const preview=cleanExtra.__requestPreview||Object.assign({model:n.textModel,messages,stream:false},Object.fromEntries(Object.entries(cleanExtra).filter(([k])=>k!=='__requestPreview')));delete cleanExtra.__requestPreview;const body=Object.assign({model:n.textModel,messages,stream:false},cleanExtra||{});const allowed=await nanoRequestPermission('Text generation',n.textModel,preview);if(!allowed)throw new Error('AI request cancelled.');const data=await nanoFetchJson(NANO_API_BASE+'/chat/completions',n,{method:'POST',headers:nanoHeaders(n,'POST','bearer'),body:JSON.stringify(body),timeoutMs:120000});nanoRecordRequest(n);return data}
   async function nanoTestGeneration(){
     const n=syncNanoDraftFromDom();
     if(!n.apiKey.trim()){toast('Add your NanoGPT API key first');return false}
@@ -1065,7 +1317,7 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
       return false;
     }
   }
-  async function nanoGenerateImage(prompt,extra={}){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)throw new Error(gate.reason);if(!n.imageModel)throw new Error('Choose a NanoGPT image model first.');const allowed=await nanoRequestPermission('Image generation',n.imageModel);if(!allowed)throw new Error('AI request cancelled.');const body=Object.assign({model:n.imageModel,prompt,n:1},extra||{});const data=await nanoFetchJson(NANO_IMAGE_BASE+'/images/generations',n,{method:'POST',headers:nanoHeaders(n,'POST','bearer'),body:JSON.stringify(body),timeoutMs:120000});nanoRecordRequest(n);return data}
+  async function nanoGenerateImage(prompt,extra={}){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)throw new Error(gate.reason);if(!n.imageModel)throw new Error('Choose a NanoGPT image model first.');const body=Object.assign({model:n.imageModel,prompt,n:1},extra||{});const allowed=await nanoRequestPermission('Image generation',n.imageModel,body);if(!allowed)throw new Error('AI request cancelled.');const data=await nanoFetchJson(NANO_IMAGE_BASE+'/images/generations',n,{method:'POST',headers:nanoHeaders(n,'POST','bearer'),body:JSON.stringify(body),timeoutMs:120000});nanoRecordRequest(n);return data}
 
 
   function aiStoryId(){return state.editorOpenId||state.libraryOpenId||null}
@@ -1331,6 +1583,13 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     customStyleSample:'',
     projectTitle:''
   };
+  state.conceptEnhance = {open:false,busy:false,source:'',result:'',error:''};
+  state.writingAssist = {open:false,busy:false,source:'',result:'',error:'',key:'',label:'',instructionId:'professional-enhancer',targetOrdinal:0};
+  state.writingInstructionLibrary = {open:false,editing:null,applyToKey:'',mode:'writing'};
+  state.savedWritingInstructions = loadSavedWritingInstructionsSafe();
+  state.savedWritingCores = loadSavedWritingCoresSafe();
+  state.writingAssistPrefs = loadWritingAssistSafe();
+  state.writingCorePrefs = loadWritingCoreSafe();
   state.conceptStep = 1;
   state.savedStyles = loadSavedStylesSafe();
   state.styleDeleteConfirmId = null;
@@ -1443,7 +1702,7 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
       </header>
       <main>${content}</main>
       <nav class="bottom">
-        ${nav('home','⌂','Home',active)}${nav('library','▤','Library',active)}${nav('create','＋','Create',active)}${nav('more','⋯','More',active)}
+        ${nav('home','⌂','Home',active)}${nav('library','▤','Library',active)}${nav('create','＋','Create',active)}${nav('writing-instructions','✎','Instructions',active)}${nav('more','⋯','More',active)}
       </nav>
     </div>`;
   }
@@ -2261,6 +2520,7 @@ secret = unknown">${v('placeholders')}</textarea></label>
         <div class="builder-card">
           <div class="builder-card-head"><div><span class="builder-kicker">Step 1</span><h2>Your idea</h2></div><span class="builder-count">${d.idea.length}/2000</span></div>
           <textarea id="concept-idea" maxlength="2000" placeholder="Example: An immortal emperor is tired of endless battles and retires to a quiet lower realm.">${safeText(d.idea)}</textarea>
+          <div class="concept-idea-actions"><span>Use <b>✨ Enhance</b> below to turn rough notes into a clearer concept. <b>⚙ Instructions</b> lets you inspect and customize exactly what Aurora sends.</span></div>
           <div class="builder-note">💡 It can be messy. A sentence, paragraph, character, scene, or “surprise me” is enough.</div>
           <div class="actions"><button class="primary" data-concept-next="1">Next: Format →</button></div>
         </div>
@@ -2359,6 +2619,7 @@ secret = unknown">${v('placeholders')}</textarea></label>
           <div class="actions"><button class="secondary" data-concept-prev>← Back</button><button class="primary" data-concept-build>✨ Build &amp; Open in Library</button></div>
         </div>
       `}
+      ${conceptEnhanceModal()}
       ${state.styleDeleteConfirmId?(()=>{
         const p=(state.savedStyles||[]).find(x=>x.id===state.styleDeleteConfirmId);
         if(!p)return '';
@@ -2377,6 +2638,27 @@ secret = unknown">${v('placeholders')}</textarea></label>
       })():''}
     </div>`,'create');
   }
+  function writingInstructionReadModal(){
+    const r=state.writingInstructionRead;
+    if(!r?.open)return '';
+    const profiles=r.mode==='core'?writingCoreProfiles():writingAssistProfiles();
+    const p=profiles.find(x=>x.id===r.id);
+    if(!p)return '';
+    const displayInstruction=r.mode==='core'?writingCoreLibraryDisplayInstruction(p):String(p.instruction||'');
+    const displayNote=(r.mode==='core'&&p.legacy)?'<p class=\"field-hint\" style=\"margin-top:10px\">Library view shows the exact legacy default using Professional enhancer — Default. When used from a writing field, this Core is rendered with that field’s selected Writing instruction.</p>':'';
+    return `<div class=\"modal-backdrop writing-library-backdrop\" data-writing-read-backdrop><section class=\"writing-library-modal\" role=\"dialog\" aria-modal=\"true\" aria-labelledby=\"writing-read-title\"><div class=\"ai-assist-head\"><div><div class=\"builder-kicker\">${r.mode==='core'?'CORE INSTRUCTION':'WRITING INSTRUCTION'}</div><h2 id=\"writing-read-title\">${safeText(p.name)}</h2><small style=\"color:var(--muted)\">${p.builtin?'Built-in':'Personal'}</small></div><button class=\"close\" data-writing-read-close aria-label=\"Close\">×</button></div><div class=\"writing-instruction-read\" style=\"margin-top:14px\">${safeText(displayInstruction)}</div>${displayNote}<div class=\"ai-instruction-actions\"><button class=\"secondary\" data-writing-read-close>Close</button>${!p.builtin?`<button class=\"mini-action\" data-writing-library-edit-from-read=\"${safeText(p.id)}\">Edit</button>`:`<button class=\"mini-action\" data-writing-library-copy-from-read=\"${safeText(p.id)}\">Copy to personal</button>`}</div></section></div>`;
+  }
+
+  function writingInstructionsPage(){
+    const lib=state.writingInstructionLibrary||{mode:'writing',editing:null,applyToKey:''};
+    const mode=lib.mode||'writing',editing=lib.editing||null,profiles=mode==='core'?writingCoreProfiles():writingAssistProfiles();
+    const heading=mode==='core'?'Core instructions':'Writing instructions';
+    const subtitle=mode==='core'?'System instructions sent as the NanoGPT SYSTEM message. Built-in cores are protected; personal cores are editable.':'Writing methodology sent with the field text. Built-in instructions are protected; personal instructions can be created, edited and deleted.';
+    const tips=mode==='core'?`<div class="writing-core-tips"><b>Recommended Core structure</b><p>Define the AI’s role → exact task → output requirements → what must be preserved → what it must never invent → field boundaries → time and knowledge rules when relevant → writing quality → failure behavior. Keep the Core operational and let the Writing instruction carry the detailed prose methodology.</p></div>`:'';
+    const list=profiles.map(x=>`<article class="writing-library-item"><div><b>${safeText(x.name)}</b><small>${x.builtin?'Built-in':'Personal'}</small><p>${safeText(x.description||'')}</p></div><div class="writing-library-actions"><button class="mini-action" data-writing-library-read="${safeText(x.id)}">Read</button>${!x.builtin?'<button class="mini-action" data-writing-library-edit="'+safeText(x.id)+'">Edit</button>':''}<button class="mini-action" data-writing-library-use="${safeText(x.id)}">Use</button>${x.builtin?'<button class="mini-action" data-writing-library-copy="'+safeText(x.id)+'">Copy</button>':'<button class="mini-action danger-mini" data-writing-library-delete="'+safeText(x.id)+'">Delete</button>'}</div></article>`).join('');
+    return layout(`<div class="page writing-library-page"><div class="backrow"><button class="back" data-action="back">‹ Back</button></div><div class="eyebrow">Instruction Library</div><h1>${heading}</h1><p>${subtitle}</p><div class="writing-library-modes"><button class="${mode==='writing'?'active':''}" data-writing-library-mode="writing">Writing instructions</button><button class="${mode==='core'?'active':''}" data-writing-library-mode="core">Core instructions</button></div>${editing?`<section class="writing-library-editor writing-library-editor-screen"><div class="backrow"><button class="back" data-writing-library-back>‹ Back to ${heading}</button></div><label class="modal-label">Name<input class="ai-instruction-name" data-writing-library-name maxlength="80" value="${safeText(editing.name||'')}" placeholder="Name your ${mode==='core'?'core':'instruction'}"></label><label class="modal-label">Instruction<textarea class="ai-instruction-edit" data-writing-library-text placeholder="Write the complete ${mode==='core'?'system Core':'Writing instruction'} Aurora should use.">${safeText(editing.instruction||'')}</textarea></label>${tips}<div class="ai-instruction-actions"><button class="primary" data-writing-library-save>${editing.isNew?'Save '+(mode==='core'?'core':'instruction'):'Update '+(mode==='core'?'core':'instruction')}</button><button class="secondary" data-writing-library-cancel>Cancel</button></div></section>`:`<><div class="writing-library-toolbar"><button class="primary" data-writing-library-new>＋ New ${mode==='core'?'core':'instruction'}</button><span class="field-hint" style="align-self:center">${profiles.length} ${mode==='core'?'cores':'instructions'}</span></div>${tips}<div class="writing-library-list">${list}</div><div class="tip" style="margin-top:18px"><b>Exact request transparency</b><br>Before Aurora sends a remote request, the permission screen shows the exact SYSTEM and USER messages plus the request body. API keys and authentication headers are never displayed.</div></>`}${writingInstructionReadModal()}</div>`,'writing-instructions');
+  }
+
   function more(){
     const draft=state.settingsDraft || {theme:state.theme, accent:state.accent, help:state.help, nano:state.nanoGPT};
     draft.nano=normalizeNanoGPT(draft.nano||state.nanoGPT);
@@ -2431,6 +2713,7 @@ secret = unknown">${v('placeholders')}</textarea></label>
         <label class="modal-label">Provider routing<select class="modal-input" data-nano-field="routing"><option ${n.routing==='Automatic'?'selected':''}>Automatic</option><option ${n.routing==='Fixed provider'?'selected':''}>Fixed provider</option></select></label>
         <label class="active-toggle"><input type="checkbox" data-nano-field="contextMemory" ${n.contextMemory?'checked':''}><span><b>Enable NanoGPT context memory</b><small>Optional. Aurora’s Story Brain remains separate and is not replaced by provider memory.</small></span></label>
       </div></section>
+      <section class="section" style="margin-top:18px"><div class="card"><div class="eyebrow">WRITING ASSIST</div><h2>Writing Instructions</h2><p>Manage Writing instructions and System cores on a dedicated Aurora page.</p><div class="actions"><button class="secondary" data-route="writing-instructions">Open Writing Instructions</button></div></div></section>
       <div class="settings-actions"><div style="text-align:center;color:var(--muted);font-size:12px;margin-bottom:9px">Live preview · Not saved yet</div><button class="primary" style="width:100%" data-action="save-close">Save &amp; Close</button></div>
     </div>`,'more');
   }
@@ -2449,6 +2732,10 @@ secret = unknown">${v('placeholders')}</textarea></label>
 
   function cleanupBrainOverlays(){
     document.querySelectorAll('body > .brain-backdrop').forEach(el=>el.remove());
+    // Writing Assist and Instruction Library are mounted directly on <body>,
+    // outside #app. Remove stale copies before every render so close/back actions
+    // cannot leave an orphaned modal behind after state changes.
+    document.querySelectorAll('body > [data-writing-assist-backdrop], body > [data-writing-library-backdrop]').forEach(el=>el.remove());
     document.body.classList.remove('brain-modal-open');
   }
 
@@ -2866,6 +3153,24 @@ secret = unknown">${v('placeholders')}</textarea></label>
     const key=e.target.closest('[data-reader-setting]')?.dataset.readerSetting;
     if(key&&state.readerOpenId){const m=ensureManuscript(state.readerOpenId);m.reader[key]=e.target.value;saveManuscriptsSafe();render();return}
   });
+  document.addEventListener('change',e=>{
+    const sel=e.target.closest('[data-writing-instruction-select]');
+    if(!sel)return;
+    const wrap=sel.closest('[data-writing-assist-wrap]');
+    if(!wrap)return;
+    writingAssistSetFor(wrap.dataset.writingAssistKey,sel.value);
+    const p=writingAssistProfiles().find(x=>x.id===sel.value)||WRITING_ASSIST_DEFAULTS[0];
+    const textEl=wrap.querySelector('[data-writing-instruction-text]');
+    const editEl=wrap.querySelector('[data-writing-instruction-edit]');
+    const nameEl=wrap.querySelector('[data-writing-instruction-name]');
+    const saveBtn=wrap.querySelector('[data-writing-instruction-save]');
+    const delBtn=wrap.querySelector('[data-writing-instruction-delete]');
+    if(textEl)textEl.textContent=p.instruction;
+    if(editEl)editEl.value=p.instruction;
+    if(nameEl)nameEl.value=p.name;
+    if(saveBtn)saveBtn.textContent=p.builtin?'Save as new':'Save changes';
+    if(delBtn)delBtn.style.display=p.builtin?'none':'';
+  });
   let editorSaveTimer=null;
   document.addEventListener('input',e=>{
     if(e.target.matches('[data-editor-surface]')&&state.editorOpenId){clearTimeout(editorSaveTimer);editorSaveTimer=setTimeout(()=>{editorPersistSurface();renderEditorWordCountOnly()},350)}
@@ -3065,11 +3370,18 @@ document.addEventListener('fullscreenchange',()=>{const shell=document.querySele
   function render(){
     try{
       applyTheme(effectiveSettings());
-      let view=state.route==='home'?home():state.route==='library'?library():state.route==='create'?create():more();
+      let view=state.route==='home'?home():state.route==='library'?library():state.route==='create'?create():state.route==='writing-instructions'?writingInstructionsPage():more();
       cleanupBrainOverlays();
       document.getElementById('app').innerHTML=view;
+      installWritingAssistControls();
+      if(state.writingAssist?.open){const mount=document.createElement('div');mount.innerHTML=writingAssistModal();document.body.appendChild(mount.firstElementChild);}
+      if(state.writingInstructionLibrary?.open && state.route!=='writing-instructions'){const mount=document.createElement('div');mount.innerHTML=writingInstructionLibraryModal();document.body.appendChild(mount.firstElementChild);}
       if(state.nanoConfirm){
-        const c=document.createElement('div'); c.className='nano-confirm-backdrop'; c.innerHTML=`<section class="nano-confirm" role="dialog" aria-modal="true"><div class="eyebrow">Remote AI request</div><h2>Allow ${safeText(state.nanoConfirm.kind)}?</h2><p>This request will be sent to NanoGPT using your saved API key.</p><div class="nano-status">Model: ${safeText(state.nanoConfirm.details)}</div><div class="actions" style="margin-top:14px"><button class="secondary" data-nano-confirm="no">Cancel</button><button class="primary" data-nano-confirm="yes">Allow request</button></div></section>`; document.body.appendChild(c);
+        const preview=state.nanoConfirm.preview;
+        const previewText=preview?JSON.stringify(preview,null,2):'';
+        const messages=Array.isArray(preview?.messages)?preview.messages:[];
+        const messageBlocks=messages.map((m,i)=>`<div class="nano-preview-section"><b>${i+1}. ${(m.role||'message').toUpperCase()}</b><pre>${safeText(String(m.content||''))}</pre></div>`).join('');
+        const c=document.createElement('div'); c.className='nano-confirm-backdrop'; c.innerHTML=`<section class="nano-confirm" role="dialog" aria-modal="true"><div class="eyebrow">Remote AI request</div><h2>Allow ${safeText(state.nanoConfirm.kind)}?</h2><p>This request will be sent to NanoGPT using your saved API key.</p><div class="nano-status">Model: ${safeText(state.nanoConfirm.details)}</div>${preview?`<details class="nano-preview-details"><summary>⌄ View exact request sent to NanoGPT — 100% payload</summary><div class="nano-preview-body"><div class="nano-preview-explain"><b>What you are looking at</b><p><b>SYSTEM</b> is Aurora’s selected Core instruction. <b>USER</b> contains your selected Writing instruction and your source text. Nothing is hidden from this preview except the API key and authentication headers.</p></div>${messageBlocks}<div class="nano-preview-section"><b>EXACT REQUEST BODY</b><pre>${safeText(previewText)}</pre></div><div class="nano-preview-section"><b>NOTE</b><pre>Your API key and authentication headers are never shown here. Everything else in the request body above is the payload Aurora is about to send.</pre></div></div></details>`:''}<div class="actions" style="margin-top:14px"><button class="secondary" data-nano-confirm="no">Cancel</button><button class="primary" data-nano-confirm="yes">Allow request</button></div></section>`; document.body.appendChild(c);
       }
       if(state.brainView==='canon'){
         const seen=new Set();
@@ -3434,6 +3746,55 @@ document.addEventListener('fullscreenchange',()=>{const shell=document.querySele
     if(e.target.closest('[data-style-save]')){
       saveCustomStyleProfile();
       render();
+      return;
+    }
+
+    const waiEnhance=e.target.closest('[data-writing-assist-enhance]');
+    if(waiEnhance){const wrap=waiEnhance.closest('[data-writing-assist-wrap]');const el=wrap?.previousElementSibling?.matches('textarea')?wrap.previousElementSibling:null;openWritingAssist(el);return;}
+    const waiDetails=e.target.closest('[data-writing-instruction-details]');
+    const waiWrap=e.target.closest('[data-writing-assist-wrap]');
+    if(e.target.closest('[data-writing-library-back]')){state.writingInstructionLibrary={...state.writingInstructionLibrary,editing:null};render();return;}
+    if(e.target.closest('[data-writing-instruction-library]')){const wrap=e.target.closest('[data-writing-assist-wrap]');state.writingInstructionLibrary={open:true,editing:null,applyToKey:wrap?.dataset.writingAssistKey||'',mode:'writing'};go('writing-instructions');return;}
+    if(e.target.closest('[data-writing-library-mode]')){state.writingInstructionLibrary={...state.writingInstructionLibrary,mode:e.target.closest('[data-writing-library-mode]').dataset.writingLibraryMode,editing:null};render();return;}
+    if(e.target.closest('[data-writing-library-close]') || (e.target.matches('[data-writing-library-backdrop]') && !e.target.closest('.writing-library-modal'))){state.writingInstructionLibrary={open:false,editing:null,applyToKey:''};render();return;}
+    if(e.target.closest('[data-writing-library-new]')){const mode=state.writingInstructionLibrary?.mode||'writing';state.writingInstructionLibrary={...state.writingInstructionLibrary,open:true,editing:{isNew:true,name:'',instruction:''},mode,applyToKey:state.writingInstructionLibrary?.applyToKey||''};render();return;}
+    const libRead=e.target.closest('[data-writing-library-read]')?.dataset.writingLibraryRead;
+    if(libRead){const mode=state.writingInstructionLibrary?.mode||'writing';state.writingInstructionRead={open:true,id:libRead,mode};render();return;}
+    if(e.target.closest('[data-writing-read-close]') || (e.target.matches('[data-writing-read-backdrop]')&&!e.target.closest('.writing-library-modal'))){state.writingInstructionRead={open:false,id:'',mode:'writing'};render();return;}
+    const libReadEdit=e.target.closest('[data-writing-library-edit-from-read]')?.dataset.writingLibraryEditFromRead;
+    if(libReadEdit){const mode=state.writingInstructionRead?.mode||'writing',p=(mode==='core'?writingCoreProfiles():writingAssistProfiles()).find(x=>x.id===libReadEdit);if(p&&!p.builtin){state.writingInstructionRead={open:false,id:'',mode};state.writingInstructionLibrary={open:true,editing:{id:p.id,name:p.name,instruction:p.instruction,isNew:false},mode,applyToKey:state.writingInstructionLibrary?.applyToKey||''};render();}return;}
+    const libReadCopy=e.target.closest('[data-writing-library-copy-from-read]')?.dataset.writingLibraryCopyFromRead;
+    if(libReadCopy){const mode=state.writingInstructionRead?.mode||'writing',p=(mode==='core'?writingCoreProfiles():writingAssistProfiles()).find(x=>x.id===libReadCopy),item=mode==='core'?duplicateWritingCore(p):duplicateWritingInstruction(p);if(item){state.writingInstructionRead={open:false,id:'',mode};state.writingInstructionLibrary={open:true,editing:{id:item.id,name:item.name,instruction:item.instruction,isNew:false},mode,applyToKey:state.writingInstructionLibrary?.applyToKey||''};toast(`Custom ${mode==='core'?'core':'instruction'} created`);render();}return;}
+    const libEdit=e.target.closest('[data-writing-library-edit]')?.dataset.writingLibraryEdit;
+    if(libEdit){const mode=state.writingInstructionLibrary?.mode||'writing',p=(mode==='core'?writingCoreProfiles():writingAssistProfiles()).find(x=>x.id===libEdit);if(p){state.writingInstructionLibrary={...state.writingInstructionLibrary,open:true,editing:{id:p.id,name:p.name,instruction:p.instruction,isNew:false},mode};render();}return;}
+    const libCopy=e.target.closest('[data-writing-library-copy]')?.dataset.writingLibraryCopy;
+    if(libCopy){const mode=state.writingInstructionLibrary?.mode||'writing',p=(mode==='core'?writingCoreProfiles():writingAssistProfiles()).find(x=>x.id===libCopy),item=mode==='core'?duplicateWritingCore(p):duplicateWritingInstruction(p);if(item){toast(`Custom ${mode==='core'?'core':'instruction'} created`);state.writingInstructionLibrary={...state.writingInstructionLibrary,open:true,editing:{id:item.id,name:item.name,instruction:item.instruction,isNew:false},mode};render();}return;}
+    const libUse=e.target.closest('[data-writing-library-use]')?.dataset.writingLibraryUse;
+    if(libUse){const mode=state.writingInstructionLibrary?.mode||'writing',p=(mode==='core'?writingCoreProfiles():writingAssistProfiles()).find(x=>x.id===libUse),key=state.writingInstructionLibrary?.applyToKey;if(p&&key){(mode==='core'?writingCoreSetFor:writingAssistSetFor)(key,p.id);state.writingInstructionLibrary={open:false,editing:null,applyToKey:'',mode};back();toast(`${mode==='core'?'Core':'Instruction'} selected`);}else if(p){state.writingInstructionLibrary={...state.writingInstructionLibrary,editing:null};render();toast(`${mode==='core'?'Core':'Instruction'} selected`);}return;}
+    const libDelete=e.target.closest('[data-writing-library-delete]')?.dataset.writingLibraryDelete;
+    if(libDelete){const mode=state.writingInstructionLibrary?.mode||'writing',ok=mode==='core'?deleteWritingCore(libDelete):deleteWritingInstruction(libDelete);if(ok){toast(`${mode==='core'?'Core':'Instruction'} removed`);render();}return;}
+    if(e.target.closest('[data-writing-library-save]')){const edit=state.writingInstructionLibrary?.editing,mode=state.writingInstructionLibrary?.mode||'writing';if(edit){const name=String(document.querySelector('[data-writing-library-name]')?.value||'').trim();const instruction=String(document.querySelector('[data-writing-library-text]')?.value||'').trim();if(!name||!instruction){toast(`Give the ${mode==='core'?'core':'instruction'} a name and text`);return;}const item=mode==='core'?saveWritingCore({id:edit.isNew?undefined:edit.id,name,instruction,description:'Personal Aurora core'}):saveWritingInstruction({id:edit.isNew?undefined:edit.id,name,instruction,description:'Personal writing instruction'});if(item){const applyKey=state.writingInstructionLibrary?.applyToKey;if(edit.isNew&&applyKey)(mode==='core'?writingCoreSetFor:writingAssistSetFor)(applyKey,item.id);state.writingInstructionLibrary={open:true,editing:null,applyToKey:applyKey||'',mode};toast(edit.isNew?`${mode==='core'?'Core':'Instruction'} created`:`${mode==='core'?'Core':'Instruction'} updated`);render();}}return;}
+    if(e.target.closest('[data-writing-core-select]')){const wrap=waiWrap;if(wrap){const key=wrap.dataset.writingAssistKey,core=writingCoreProfiles().find(x=>x.id===e.target.value)||writingCoreFor(key);writingCoreSetFor(key,core.id);const el=wrap.querySelector('[data-writing-core-text]');if(el){const p=writingAssistProfiles().find(x=>x.id===wrap.querySelector('[data-writing-instruction-select]')?.value)||writingAssistFor(key);el.textContent=writingCoreRenderedInstruction(core,p,key);}}return;}
+    if(e.target.closest('[data-writing-core-new]')){const wrap=waiWrap;if(wrap){state.writingInstructionLibrary={open:true,editing:{isNew:true,name:'',instruction:''},applyToKey:wrap.dataset.writingAssistKey||'',mode:'core'};render();}return;}
+    if(e.target.closest('[data-writing-core-edit-btn]')){const wrap=waiWrap;if(wrap){const key=wrap.dataset.writingAssistKey,core=writingCoreFor(key);state.writingInstructionLibrary={open:true,editing:{id:core.builtin?undefined:core.id,name:core.builtin?core.name+' — Custom':core.name,instruction:writingCoreRenderedInstruction(core,writingAssistProfiles().find(x=>x.id===wrap.querySelector('[data-writing-instruction-select]')?.value)||writingAssistFor(key),key),isNew:!!core.builtin},applyToKey:key,mode:'core'};render();}return;}
+    if(e.target.closest('[data-writing-instruction-select]')){const wrap=waiWrap;if(wrap){writingAssistSetFor(wrap.dataset.writingAssistKey,e.target.value);const textEl=wrap.querySelector('[data-writing-instruction-text]');const editEl=wrap.querySelector('[data-writing-instruction-edit]');const p=writingAssistProfiles().find(x=>x.id===e.target.value)||WRITING_ASSIST_DEFAULTS[0];if(textEl)textEl.textContent=p.instruction;if(editEl)editEl.value=p.instruction;const saveBtn=wrap.querySelector('[data-writing-instruction-save]');if(saveBtn)saveBtn.textContent=p.builtin?'Save as new':'Save changes';const delBtn=wrap.querySelector('[data-writing-instruction-delete]');if(delBtn)delBtn.style.display=p.builtin?'none':'';}return;}
+    if(e.target.closest('[data-writing-instruction-edit-btn]')){const wrap=waiWrap;if(wrap){const box=wrap.querySelector('[data-writing-instruction-edit-wrap]'),ta=wrap.querySelector('[data-writing-instruction-edit]'),name=wrap.querySelector('[data-writing-instruction-name]'),p=writingAssistProfiles().find(x=>x.id===wrap.querySelector('[data-writing-instruction-select]')?.value)||WRITING_ASSIST_DEFAULTS[0];if(box){box.hidden=!box.hidden;if(!box.hidden){if(name)name.value=p.name;if(ta)ta.value=p.instruction;ta?.focus()}}}return;}
+    if(e.target.closest('[data-writing-instruction-new]')){const wrap=waiWrap;if(wrap){state.writingInstructionLibrary={open:true,editing:{isNew:true,name:'',instruction:''},applyToKey:wrap.dataset.writingAssistKey||''};render();}return;}
+    if(e.target.closest('[data-writing-instruction-save]')){const wrap=waiWrap;if(wrap){const sel=wrap.querySelector('[data-writing-instruction-select]'),ta=wrap.querySelector('[data-writing-instruction-edit]'),name=wrap.querySelector('[data-writing-instruction-name]'),p=writingAssistProfiles().find(x=>x.id===sel?.value)||WRITING_ASSIST_DEFAULTS[0],text=String(ta?.value||p.instruction).trim(),proposed=String(name?.value||'').trim()||p.name+' (custom)';if(p.builtin){const item=saveWritingInstruction({name:proposed,instruction:text,description:'Saved from built-in'});if(item){writingAssistSetFor(wrap.dataset.writingAssistKey,item.id);toast('Instruction saved as new');render();}}else{const item=saveWritingInstruction({...p,name:proposed,instruction:text});if(item){writingAssistSetFor(wrap.dataset.writingAssistKey,item.id);toast('Instruction updated');render();}}}return;}
+    if(e.target.closest('[data-writing-instruction-delete]')){const wrap=waiWrap;if(wrap){const sel=wrap.querySelector('[data-writing-instruction-select]');if(sel&&deleteWritingInstruction(sel.value)){writingAssistSetFor(wrap.dataset.writingAssistKey,'preserve-intent');render();toast('Instruction removed');}}return;}
+    if(e.target.closest('[data-writing-assist-close]') || (e.target.matches('[data-writing-assist-backdrop]')&&!e.target.closest('.ai-assist-modal'))){state.writingAssist={...state.writingAssist,open:false,busy:false};document.querySelector('[data-writing-assist-backdrop]')?.remove();render();return;}
+    if(e.target.closest('[data-writing-assist-again]')){startWritingAssist();return;}
+    if(e.target.closest('[data-writing-assist-apply]')){const w=state.writingAssist,r=String(w?.result||'').trim();if(!r){toast('No enhanced text is ready');return;}const el=findWritingAssistTarget(w);if(!el){toast('The original field is no longer available');return;}el.value=r;el.dispatchEvent(new Event('input',{bubbles:true}));if(el.id==='concept-idea')state.conceptDraft.idea=conceptIdeaLimit(r);state.writingAssist={...w,open:false,busy:false};document.querySelector('[data-writing-assist-backdrop]')?.remove();render();toast('Enhanced text applied');return;}
+    if(e.target.closest('[data-concept-enhance]')){ aiEnhanceConceptIdea(); return; }
+    if(e.target.closest('[data-concept-enhance-close]') || (e.target.matches('[data-concept-enhance-backdrop]') && !state.conceptEnhance?.busy)){ state.conceptEnhance={open:false,busy:false,source:'',result:'',error:''}; render(); return; }
+    if(e.target.closest('[data-concept-enhance-again]')){ aiEnhanceConceptIdea(); return; }
+    if(e.target.closest('[data-concept-enhance-apply]')){
+      const r=String(state.conceptEnhance?.result||'').trim();
+      if(!r){toast('No enhanced idea is ready');return;}
+      state.conceptDraft.idea=conceptIdeaLimit(r);
+      state.conceptEnhance={open:false,busy:false,source:'',result:'',error:''};
+      render();
+      toast('Enhanced idea applied');
       return;
     }
 

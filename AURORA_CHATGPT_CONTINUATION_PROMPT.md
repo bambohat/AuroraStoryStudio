@@ -22,6 +22,8 @@ LAST VERIFIED CHECKPOINT:
 LAST VERIFIED AI TEST:
 WORKING:
 UNRESOLVED:
+CURRENT CANDIDATE: v0.9.33 candidate — Legacy Writing Assist restored as protected default + dedicated instruction page + experimental custom Cores
+
 ACTUAL RUNTIME FILE:
 NEXT ACCEPTANCE TEST:
 FILES NEEDED:
