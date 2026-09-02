@@ -810,3 +810,11 @@ Reader Find cycles existing mark elements for repeated Next; it never rescans al
 - Manual model entry no longer silently treats a human-readable model name as an ID; if a loaded model name matches, Aurora resolves it to the canonical model ID.
 - Model dropdowns remain usable once a catalog is actually loaded; empty catalogs explicitly say no models were returned.
 - No NanoGPT key was added to the build.
+
+## v0.9.17 — NanoGPT GitHub Pages OAuth/Transport Fix
+- Replaced the previous promise-race-only NanoGPT timeout with AbortController-based hard request cancellation.
+- Added NanoGPT OAuth PKCE shortcut sign-in for hosted/browser use, using the current GitHub Pages HTTPS callback URL.
+- Added explicit 401/403/network/timeout/read-error diagnostics.
+- Removed third-party Jina relay usage from NanoGPT catalog loading.
+- Removed duplicate `nanoErrorText()` implementation.
+- Test requirement: verify OAuth return, automatic connection test, text catalog load, image catalog load, and no permanent `Testing…` state on failure.

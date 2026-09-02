@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#8b5cf6">
-<title>Aurora — Phase 5 · v0.9.15</title>
+<title>Aurora — Phase 5 · v0.9.17</title>
 <style>
 :root{
   --bg:#0b0a10; --surface:#12101a; --surface2:#191622; --surface3:#211d2c;
@@ -878,7 +878,14 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     return state.settingsDraft.nano;
   }
   function nanoEndpoint(n,path){return normalizeNanoGPT(n).endpoint.replace(/\/+$/,'')+path}
-  function nanoHeaders(n,accept,method){const m=String(method||'GET').toUpperCase();const h={};if(String(n.apiKey||'').trim())h.Authorization='Bearer '+String(n.apiKey||'').trim();if(accept)h.Accept=accept;if(m!=='GET'&&m!=='HEAD'&&m!=='OPTIONS')h['Content-Type']='application/json';return h}
+  function nanoHeaders(n,accept,method){
+    const m=String(method||'GET').toUpperCase();
+    const h={};
+    if(String(n.apiKey||'').trim()) h.Authorization='Bearer '+String(n.apiKey||'').trim();
+    if(accept) h.Accept=accept;
+    if(m!=='GET'&&m!=='HEAD'&&m!=='OPTIONS') h['Content-Type']='application/json';
+    return h;
+  }
   function nanoCatalogModels(raw){
     const data=Array.isArray(raw?.data)?raw.data:[];
     return data.filter(x=>x&&x.id).map(x=>({id:String(x.id),name:String(x.name||x.id),description:String(x.description||''),context_length:x.context_length||null,pricing:x.pricing||null,capabilities:x.capabilities||null,owned_by:String(x.owned_by||'')}));
@@ -897,66 +904,129 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     const data=Array.isArray(raw?.data)?raw.data:[];
     return data.filter(x=>x&&x.id).map(x=>({id:String(x.id),name:String(x.name||x.id),description:String(x.description||''),pricing:x.pricing||null,architecture:x.architecture||null,supported_parameters:x.supported_parameters||null,owned_by:String(x.owned_by||'')}));
   }
-  function nanoDirectHeaders(n,accept,method){
-    const m=String(method||'GET').toUpperCase();
-    const h={Accept:accept||'application/json'};
-    if(String(n.apiKey||'').trim()) h.Authorization='Bearer '+String(n.apiKey||'').trim();
-    if(m!=='GET'&&m!=='HEAD'&&m!=='OPTIONS') h['Content-Type']='application/json';
-    return h;
-  }
-  function nanoWithHardTimeout(p,ms,label){
-    return Promise.race([p,new Promise((_,reject)=>setTimeout(()=>{const e=new Error((label||'NanoGPT')+' timed out after '+ms/1000+' seconds.');e.code='TIMEOUT';reject(e)},ms))]);
-  }
+
+  // NanoGPT browser transport.
+  // Every request gets a real AbortController deadline. This prevents the UI from ever
+  // remaining on "Testing…" because a browser/CORS connection left fetch pending.
   async function nanoFetchJson(url,n,options={}){
     const method=String(options.method||'GET').toUpperCase();
     const auth=options.auth!==false;
+    const timeoutMs=Math.max(3000,Number(options.timeoutMs)||10000);
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort('NanoGPT request timeout'),timeoutMs);
     const requestOptions=Object.assign({},options);
-    delete requestOptions.auth;
-    const headers=Object.assign(nanoDirectHeaders(auth?n:{apiKey:''},'application/json',method),options.headers||{});
-    delete requestOptions.signal;
-    requestOptions.headers=headers;
-    requestOptions.mode='cors'; requestOptions.credentials='omit'; requestOptions.cache='no-store';
-    const response=await nanoWithHardTimeout(fetch(url,requestOptions),7000,'NanoGPT request');
-    let raw='';
-    raw=await nanoWithHardTimeout(response.text(),7000,'NanoGPT response');
-    let data=null; try{data=raw?JSON.parse(raw):null}catch(e){data={raw:raw}};
-    if(!response.ok){
-      const msg=data?.error?.message||data?.message||(typeof data?.error==='string'?data.error:'')||('HTTP '+response.status);
-      const err=new Error('HTTP '+response.status+' — '+String(msg).slice(0,300)); err.httpStatus=response.status; err.requestId=response.headers?.get?.('x-request-id')||''; throw err;
-    }
-    return data;
-  }
-  function nanoJinaUrl(url){ return 'https://r.jina.ai/'+url; }
-  async function nanoFetchCatalogWithFallback(url,n,kind){
+    delete requestOptions.auth; delete requestOptions.timeoutMs; delete requestOptions.signal;
+    requestOptions.headers=Object.assign(nanoHeaders(auth?n:{apiKey:''},'application/json',method),options.headers||{});
+    requestOptions.mode='cors'; requestOptions.credentials='omit'; requestOptions.cache='no-store'; requestOptions.signal=controller.signal;
     try{
-      return await nanoFetchJson(url,n,{auth:false});
-    }catch(firstErr){
-      if(firstErr?.code!=='NETWORK'&&firstErr?.code!=='TIMEOUT') throw firstErr;
+      let response;
       try{
-        const proxy=await nanoWithHardTimeout(fetch(nanoJinaUrl(url),{method:'GET',headers:{Accept:'application/json'},mode:'cors',credentials:'omit',cache:'no-store'}),7000,'Catalog relay');
-        const raw=await nanoWithHardTimeout(proxy.text(),7000,'Catalog relay response');
-        let data=null; try{data=raw?JSON.parse(raw):null}catch(e){data={raw:raw}};
-        if(!proxy.ok) throw new Error('Relay HTTP '+proxy.status);
-        if(data&&Array.isArray(data.data)) return data;
-        throw new Error('Relay returned an unexpected '+kind+' catalog format.');
-      }catch(relayErr){
-        const e=new Error('Direct browser request failed and catalog relay also failed. '+(firstErr?.message||'')+' '+(relayErr?.message||''));
-        e.code='CATALOG_UNAVAILABLE'; throw e;
+        response=await fetch(url,requestOptions);
+      }catch(e){
+        if(e?.name==='AbortError' || controller.signal.aborted){
+          const err=new Error('NanoGPT request timed out after '+Math.round(timeoutMs/1000)+' seconds.');
+          err.code='TIMEOUT'; throw err;
+        }
+        const err=new Error('Browser could not reach NanoGPT. This is usually a CORS/origin/network restriction.');
+        err.code='NETWORK'; err.cause=e; throw err;
       }
-    }
+      let raw='';
+      try{raw=await response.text()}catch(e){
+        const err=new Error('NanoGPT responded, but the browser could not read the response.');
+        err.code='READ_ERROR'; err.cause=e; throw err;
+      }
+      let data=null; try{data=raw?JSON.parse(raw):null}catch(e){data={raw:raw}};
+      if(!response.ok){
+        const msg=data?.error?.message||data?.error_description||data?.message||(typeof data?.error==='string'?data.error:'')||('HTTP '+response.status);
+        const err=new Error('HTTP '+response.status+' — '+String(msg).slice(0,300));
+        err.httpStatus=response.status;
+        err.requestId=response.headers?.get?.('x-request-id')||'';
+        err.apiError=data?.error||null;
+        throw err;
+      }
+      return data;
+    }finally{clearTimeout(timer)}
   }
   function nanoErrorText(err){
     if(err?.code==='TIMEOUT') return String(err.message||'NanoGPT request timed out.');
-    if(err?.code==='NETWORK') return 'Browser could not reach NanoGPT (CORS/network/origin restriction).';
-    if(err?.code==='CATALOG_UNAVAILABLE') return String(err.message||'Catalog unavailable in this local browser environment.');
-    if(err?.httpStatus===403) return 'NanoGPT rejected the browser origin/key (HTTP 403). Check the API key Allowed browser origins.';
+    if(err?.code==='NETWORK') return 'Browser could not reach NanoGPT. Check NanoGPT Allowed browser origins, network, or CORS.';
+    if(err?.code==='READ_ERROR') return 'Browser reached NanoGPT but could not read its response.';
+    if(err?.httpStatus===403) return 'NanoGPT rejected this browser origin/key (HTTP 403). Use “Sign in with NanoGPT” below or allow this GitHub Pages origin for the API key.';
     if(err?.httpStatus===401) return 'NanoGPT rejected the API key (HTTP 401).';
-    return String(err?.message||err||'Unknown error');
+    return String(err?.message||err||'Unknown NanoGPT error');
   }
-  function nanoErrorText(err){
-    if(err?.code==='TIMEOUT') return 'Timed out after 15s — NanoGPT did not answer.';
-    if(err?.code==='NETWORK') return 'Browser could not reach NanoGPT — possible network/CORS block.';
-    return String(err?.message||err||'Unknown error');
+  async function nanoFetchCatalogWithFallback(url,n,kind){
+    try{
+      return await nanoFetchJson(url,n,{auth:false,timeoutMs:10000});
+    }catch(firstErr){
+      const e=new Error('Live '+kind+' catalog unavailable. '+nanoErrorText(firstErr));
+      e.code='CATALOG_UNAVAILABLE'; e.cause=firstErr; throw e;
+    }
+  }
+
+  // NanoGPT OAuth PKCE shortcut. This is the browser-safe path for Aurora hosted on GitHub Pages.
+  function nanoOAuthCallbackUrl(){ return window.location.origin+window.location.pathname; }
+  function nanoRandomString(bytes=48){
+    const a=new Uint8Array(bytes); crypto.getRandomValues(a);
+    return Array.from(a,b=>('0'+b.toString(16)).slice(-2)).join('');
+  }
+  function nanoBase64Url(bytes){
+    let s=''; for(const b of new Uint8Array(bytes)) s+=String.fromCharCode(b);
+    return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  async function nanoPkceChallenge(verifier){
+    const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(verifier));
+    return nanoBase64Url(digest);
+  }
+  async function nanoStartOAuth(){
+    try{
+      const verifier=nanoRandomString(48);
+      const challenge=await nanoPkceChallenge(verifier);
+      const stateValue=nanoRandomString(24);
+      sessionStorage.setItem('aurora_nanogpt_pkce_v1',JSON.stringify({verifier,state:stateValue,returnUrl:window.location.href,createdAt:Date.now()}));
+      const u=new URL('https://nano-gpt.com/auth');
+      u.searchParams.set('callback_url',nanoOAuthCallbackUrl());
+      u.searchParams.set('code_challenge',challenge);
+      u.searchParams.set('code_challenge_method','S256');
+      u.searchParams.set('scope','api.use models.read');
+      u.searchParams.set('state',stateValue);
+      u.searchParams.set('client_name','Aurora Story Studio');
+      window.location.assign(u.toString());
+    }catch(e){toast('Could not start NanoGPT sign-in: '+(e?.message||e));}
+  }
+  async function nanoHandleOAuthCallback(){
+    const params=new URLSearchParams(window.location.search);
+    const code=params.get('code');
+    const oauthError=params.get('error');
+    if(!code && !oauthError) return false;
+    let saved=null;
+    try{saved=JSON.parse(sessionStorage.getItem('aurora_nanogpt_pkce_v1')||'null')}catch(e){}
+    try{sessionStorage.removeItem('aurora_nanogpt_pkce_v1')}catch(e){}
+    if(oauthError){
+      history.replaceState({},document.title,window.location.pathname+window.location.hash);
+      toast('NanoGPT sign-in was cancelled or failed: '+oauthError);
+      return false;
+    }
+    if(!saved?.verifier || !saved?.state || params.get('state')!==saved.state){
+      history.replaceState({},document.title,window.location.pathname+window.location.hash);
+      toast('NanoGPT sign-in failed: invalid OAuth state. Please try again.');
+      return false;
+    }
+    try{
+      const data=await nanoFetchJson('https://nano-gpt.com/api/v1/auth/keys',{apiKey:''},{method:'POST',auth:false,body:JSON.stringify({grant_type:'authorization_code',code,code_verifier:saved.verifier}),timeoutMs:15000});
+      const key=String(data?.access_token||data?.key||'').trim();
+      if(!key) throw new Error('NanoGPT did not return an API key.');
+      const n=normalizeNanoGPT(loadNanoGPTSettings()); n.apiKey=key; state.settingsDraft=null; n.connectionStatus='Signed in with NanoGPT. Testing API access…'; n.connectionState='loading'; saveNanoGPTSettings(n); state.nanoGPT=n;
+      history.replaceState({},document.title,window.location.pathname+window.location.hash);
+      toast('NanoGPT sign-in successful');
+      render();
+      await nanoTestConnection();
+      return true;
+    }catch(err){
+      history.replaceState({},document.title,window.location.pathname+window.location.hash);
+      toast('NanoGPT sign-in failed: '+nanoErrorText(err));
+      return false;
+    }
   }
   function syncNanoDraftFromDom(){
     const n=nanoDraft();
@@ -1023,21 +1093,26 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
   }
   async function nanoTestConnection(){
     const n=syncNanoDraftFromDom();
-    if(!n.apiKey.trim()){nanoSetConnection(n,'Not connected · enter your API key.','error');render();toast('Add your NanoGPT API key first');return false}
+    if(!n.apiKey.trim()){
+      nanoSetConnection(n,'Not connected · enter your API key or use “Sign in with NanoGPT”.','error');
+      render(); toast('Connect NanoGPT first'); return false;
+    }
     if(n.connectionBusy) return false;
-    n.connectionBusy=true; nanoSetConnection(n,'Checking NanoGPT reachability…','loading'); render();
+    n.connectionBusy=true; nanoSetConnection(n,'Checking NanoGPT API…','loading'); render();
     try{
-      // Authenticated model-list request is the diagnostic: NanoGPT documents Bearer auth on /api/v1/models.
-      const authData=await nanoFetchJson(nanoEndpoint(n,'/models'),n,{auth:true});
+      const authData=await nanoFetchJson(nanoEndpoint(n,'/models'),n,{auth:true,timeoutMs:10000});
       const count=Array.isArray(authData?.data)?authData.data.length:null;
       nanoSetConnection(n,count==null?'Connected · NanoGPT API key accepted.':`Connected · NanoGPT API key accepted (${count} text models visible).`,'ok');
-      n.connectionBusy=false; render(); toast('NanoGPT connection successful');
+      toast('NanoGPT connection successful');
       return true;
     }catch(err){
-      n.connectionBusy=false;
       const msg=nanoErrorText(err);
-      nanoSetConnection(n,'NanoGPT could not be reached · '+msg,'error');
-      render(); toast('NanoGPT connection failed'); return false;
+      nanoSetConnection(n,'NanoGPT connection failed · '+msg,'error');
+      if(err?.httpStatus===403) n.modelStatus='Use “Sign in with NanoGPT” to create an origin-scoped key for this GitHub Pages app.';
+      toast('NanoGPT connection failed'); return false;
+    }finally{
+      n.connectionBusy=false;
+      render();
     }
   }
   function nanoRequestPermission(kind,details){
@@ -2180,7 +2255,8 @@ secret = unknown">${v('placeholders')}</textarea></label>
       <section class="section" style="margin-top:18px"><div class="card nano-card"><div class="eyebrow">CONNECTED AI PROVIDER</div><h2>NanoGPT</h2>
         <label class="modal-label">Endpoint<input class="modal-input" data-nano-field="endpoint" value="${safeText(n.endpoint)}" placeholder="https://nano-gpt.com/api/v1" autocomplete="off"></label>
         <div class="nano-key-row"><label class="modal-label">API key<input id="nano-api-key" class="modal-input" type="password" value="${safeText(n.apiKey)}" placeholder="Paste your NanoGPT API key" data-nano-field="apiKey" autocomplete="off"></label><button class="secondary nano-key-toggle" data-nano-toggle-key>Show</button></div>
-        <div class="nano-model-actions"><button class="primary" data-nano-test ${n.connectionBusy?'disabled':''}>${n.connectionBusy?'Testing…':'Test Connection'}</button></div>
+        <div class="nano-model-actions"><button class="primary" data-nano-test ${n.connectionBusy?'disabled':''}>${n.connectionBusy?'Testing…':'Test Connection'}</button><button class="secondary" data-nano-oauth>Sign in with NanoGPT</button></div>
+        <div class="nano-note">Recommended for Aurora on GitHub Pages: NanoGPT OAuth creates an app-specific key tied to this site’s origin, avoiding the common browser-origin restriction on manually created keys.</div>
         <div class="nano-status ${n.connectionState==='ok'?'ok':n.connectionState==='error'?'error':''}"><b>Connection</b><br>${safeText(n.connectionStatus)}</div>
       </div></section>
 
@@ -2666,6 +2742,7 @@ secret = unknown">${v('placeholders')}</textarea></label>
     if(e.target.closest('[data-nano-reset-counter]')){const n=nanoDraft();n.requestCount=0;toast('AI request counter reset');render();return}
     if(e.target.closest('[data-nano-disable]')){const n=nanoDraft();n.access=n.access==='off'?'ask':'off';toast(n.access==='off'?'API disabled':'API access enabled in ASK mode');render();return}
     if(e.target.closest('[data-nano-test]')){nanoTestConnection();return}
+    if(e.target.closest('[data-nano-oauth]')){nanoStartOAuth();return}
     if(e.target.closest('[data-nano-load-text]')){nanoLoadTextModels();return}
     if(e.target.closest('[data-nano-load-image]')){nanoLoadImageModels();return}
     if(e.target.closest('[data-nano-use-text-manual]')){
@@ -3309,6 +3386,8 @@ document.addEventListener('fullscreenchange',()=>{const shell=document.querySele
 
   restoreNavigation();
   render();
+  // Complete a pending NanoGPT OAuth callback after the first UI is available.
+  nanoHandleOAuthCallback();
 })();
 </script>
 </body>
