@@ -1,21 +1,13 @@
-# Aurora Story Studio v4
+# Aurora Story Studio
 
-Mobile-first, local-first PWA for novels and comics.
+Private, mobile-first AI novel/comic studio.
 
-## MVP capabilities
-- Story archive with search, sort, favorites, folders, move, edit, delete.
-- Concept-first project creation with automatic foundation generation.
-- Codex for characters, locations, factions, items, rules and concepts.
-- Outline with acts, chapters and scenes.
-- Full chapter/scene reader with font, size, width, line height, margins, padding and find controls.
-- Large rich-text scene editor with bold, italic, underline, font family, size, color, highlight and image insertion.
-- Persistent story memory with permanent facts, events, current state and open threads.
-- Branches, versions and swipe candidates; alternatives remain non-canon until accepted.
-- Personal Taste engine with learning, history, snapshots and import/export.
-- Built-in author profiles plus custom author analysis.
-- AI Director and prose cleaner.
-- NanoGPT OpenAI-compatible endpoint.
-- Export/restore backups and appearance customization.
+Current checkpoint: **Phase 6/7 — Reader + Manuscript Editor**.
 
-## Deploy
-Upload the contents of this folder to GitHub Pages. The app is static and stores its project data in browser localStorage. NanoGPT is called directly from the browser in this MVP, so use HTTPS and keep the API key private. A production serverless proxy should eventually protect the key.
+Story Brain remains the continuity/knowledge layer. The manuscript is now stored separately so the next stage can compile Brain context into AI prompts without mixing generated prose with story memory.
+
+Open `index.html` locally in a modern browser. Data is stored locally in browser storage.
+
+
+## v0.9.15
+NanoGPT API foundation added. Configure NanoGPT in Settings, load separate text and image model catalogs, test the connection, and select models. Full Story Brain prompt compilation/generation is the next AI checkpoint.
