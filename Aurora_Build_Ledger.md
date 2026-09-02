@@ -503,3 +503,44 @@ Validation:
 - Static checks confirm Library Read/Copy never expose `LEGACY_OLD_SYSTEM_INSTRUCTION` for the built-in standard Core.
 - ZIP integrity verified.
 - Live Android/NanoGPT execution remains pending.
+
+
+## v0.9.37 candidate — PWA / GitHub Pages packaging + icons
+Date: 2026-09-03
+Status: Candidate; pending manual Android installation/offline verification.
+
+Objective
+Package the current integrated prototype as a proper installable PWA for GitHub Pages without altering story, Brain, Writing Assist, or NanoGPT semantics.
+
+Changes
+- Added `manifest.webmanifest` with relative `start_url`/`scope`, standalone display, app metadata, and required 192px/512px icons.
+- Added `icon-192.png`, `icon-512.png`, `icon-512-maskable.png`, `icon-180.png`, `icon-32.png`, and `favicon.png`.
+- Added `sw.js` for an additive offline application shell. Navigation is network-first so hosted deployments can refresh to new `index.html`; static assets are cached for offline use.
+- Service worker ignores non-GET and cross-origin requests, so NanoGPT/provider traffic keeps its existing fetch/authentication behavior.
+- Added PWA/mobile metadata to `index.html`, including manifest, favicon, Apple touch icon, and standalone mobile-web-app hints.
+- Registered the service worker only on HTTPS/localhost/loopback. Android `content://` / `file://` local attachment testing remains unchanged.
+- Added `AURORA_PWA_GITHUB_PAGES.md` with the exact deployment and Android installation/offline acceptance sequence.
+
+Root-cause constraints
+- Do not hard-code `/manifest.webmanifest`, `/sw.js`, or `/icons/...` because GitHub Pages repository sites may live below the domain root.
+- Do not cache cross-origin NanoGPT responses.
+- Do not require the PWA layer for local attachment testing.
+
+Validation performed
+- Final runtime `index.html` extracted JavaScript syntax: PASS (`node --check`).
+- `sw.js` syntax: PASS (`node --check`).
+- `manifest.webmanifest` JSON validation: PASS.
+- `AURORA_HANDOFF_MANIFEST.json` validation: PASS.
+- Icon dimensions: PASS (192x192, 512x512, 512x512 maskable, 180x180, 32x32).
+- ZIP integrity: PASS after final package assembly.
+
+Manual Android acceptance test
+1. Push package contents to GitHub Pages repository root.
+2. Open the HTTPS Pages URL in Chrome for Android.
+3. Confirm Aurora loads and bottom navigation works.
+4. Use Chrome's install/add-to-home-screen action; confirm Aurora name/icon.
+5. Launch installed Aurora; confirm standalone presentation.
+6. Disable network and relaunch; confirm cached app shell opens.
+7. Restore network and reload; confirm current deployment can update.
+8. Test NanoGPT after network restoration; confirm existing provider behavior is unchanged.
+9. Confirm local stories, Brain data, settings, and Writing Instructions persist through relaunch.

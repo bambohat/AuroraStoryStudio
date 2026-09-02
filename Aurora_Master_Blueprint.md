@@ -181,6 +181,18 @@ Settings include API access policy, API key, text model, image model, optional a
 
 The runtime currently uses `index.html` as the actual executable source; `app.js` and `runtime.js` are retained in the repository/package as reference/helper artifacts from the integrated build. Do not assume that editing those files changes runtime behavior unless the runtime architecture is intentionally migrated.
 
+## 8A. PWA / deployment baseline
+Aurora is intended to be installable as a Progressive Web App when served over HTTPS. The canonical deployment target is GitHub Pages. Use a relative manifest `start_url`/`scope` and a relative service-worker registration so repository/project Pages paths remain valid. The app shell may be cached for offline startup, while cross-origin provider/API traffic must not be intercepted by the service worker.
+
+PWA quality requirements:
+- real web app manifest;
+- 192px and 512px icons plus an Android maskable icon;
+- standalone display;
+- mobile safe-area support;
+- no dependence on browser-only `file://` or `content://` behavior for installation;
+- service worker must be additive and must not change NanoGPT transport semantics;
+- offline shell should open the app UI without pretending remote AI services are available.
+
 ## 9. AI cost control
 
 Token efficiency is a core requirement.

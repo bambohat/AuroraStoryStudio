@@ -15,6 +15,8 @@ Attach these three project documents to the new conversation:
 
 If there is a current Aurora source-code ZIP/repository snapshot, attach that too.
 
+When the project includes hosted/PWA work, also keep `AURORA_PWA_GITHUB_PAGES.md` with the current deployment/test state.
+
 ## Exact continuation prompt
 
 You are continuing the Aurora private novel/comic PWA project.
@@ -83,6 +85,7 @@ Also record:
 - last successful test;
 - next test;
 - decisions made since the previous checkpoint.
+- PWA/deployment status when the project is hosted on GitHub Pages, including manifest/service-worker changes and install/offline test results.
 
 ## Critical rule
 

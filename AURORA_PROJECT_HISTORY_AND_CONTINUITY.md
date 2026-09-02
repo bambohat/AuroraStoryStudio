@@ -219,3 +219,8 @@ FILES TO CHANGE
 ANDROID TEST PLAN
 
 Then wait for the next implementation instruction unless the user explicitly asks to proceed.
+
+
+### v0.9.37 — PWA deployment baseline
+Date: 2026-09-03
+The current v0.9.36 candidate was packaged for GitHub Pages/PWA deployment. The change is additive: manifest, icons, service worker, mobile web metadata, and deployment documentation. The runtime remains `index.html`. Service worker registration is limited to HTTPS/localhost/loopback and cross-origin NanoGPT traffic is intentionally excluded from service-worker interception. Local `content://` / `file://` attachment testing remains supported.

@@ -1,11 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-<!-- Aurora v0.9.35 candidate -->
+<!-- Aurora v0.9.37 candidate -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#8b5cf6">
-<title>Aurora — Phase 5 · v0.9.27</title>
+<meta name="application-name" content="Aurora">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Aurora">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./favicon.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<title>Aurora — Phase 5 · v0.9.37</title>
 <style>
 :root{
   --bg:#0b0a10; --surface:#12101a; --surface2:#191622; --surface3:#211d2c;
@@ -15,10 +23,10 @@
   --radius:20px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overscroll-behavior-y:none}
+html,body{-webkit-text-size-adjust:100%;text-size-adjust:100%;margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overscroll-behavior-y:none}
 body{overflow-x:hidden}
 #app{overscroll-behavior-y:none}
-button{font:inherit;color:inherit}
+button{font:inherit;color:inherit;touch-action:manipulation}
 button,.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
 button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
 .app{min-height:100dvh;padding-bottom:84px}
@@ -3911,6 +3919,14 @@ document.addEventListener('fullscreenchange',()=>{const shell=document.querySele
     const currentY=e.touches[0].clientY;
     if(currentY>touchStartY) e.preventDefault();
   }, {passive:false});
+
+  // PWA registration is intentionally skipped on content:// / file:// preview paths;
+  // GitHub Pages and other HTTPS hosts register normally. The core app remains usable without it.
+  if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1')) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js', {scope:'./'}).catch(() => {});
+    }, {once:true});
+  }
 
   restoreNavigation();
   render();

@@ -1,3 +1,5 @@
+> GitHub Pages packaging: all runtime, manifest, service-worker, documentation, and icon files are placed in this package root; no icon subfolder is required.
+
 # Aurora Story Studio
 
 Aurora is a private-first, mobile-first AI novel/comic studio.
@@ -6,7 +8,7 @@ Aurora is a private-first, mobile-first AI novel/comic studio.
 **v0.9.25 — AI Writing + Brain Automation**
 
 ### Current candidate
-**v0.9.35 candidate — Legacy Writing Assist restored + Instructions bottom navigation + full instruction reader** (pending manual Android verification)
+**v0.9.37 candidate — PWA/GitHub Pages packaging + icons + offline shell** (pending manual Android verification)
 
 Executable runtime:
 `index.html`
@@ -31,6 +33,11 @@ The instruction panel shows the exact instruction sent to NanoGPT. Users can cho
 
 ## v0.9.31 candidate change
 Writing Assist now separates the protected Aurora `System core` from the user-controlled `Writing instruction`. Users can select the Core per field, inspect it before requests, create personal Cores, copy built-ins, edit/update/delete personal Cores, and use the recommended Core-structure tips provided in the Core editor. The ASK preview identifies SYSTEM vs USER and retains the exact request body.
+
+## v0.9.37 candidate
+The current integrated prototype is now packaged for installation as a PWA on HTTPS hosts such as GitHub Pages. Added `manifest.webmanifest`, `sw.js`, and application icons in project root. The manifest and service worker use relative paths so repository/project Pages deployments work without hard-coded domain roots. The service worker caches the small application shell and icons, uses network-first navigation for fresh deployments, and does not intercept cross-origin NanoGPT requests. The runtime skips service-worker registration for `content://` / `file://` attachment previews and registers on HTTPS/localhost/loopback.
+
+The existing Writing Assist, Instructions navigation, full instruction reader, legacy default Core, Brain compiler, manuscript, and NanoGPT transport remain unchanged.
 
 ## Important unresolved AI work
 - Stronger hidden/future knowledge gating.

@@ -177,3 +177,14 @@ Optimize for:
 clarity → reliability → usability → intelligence → sophistication.
 
 That order is deliberate.
+
+
+## PWA / static deployment procedure
+When preparing Aurora for GitHub Pages or another HTTPS static host:
+1. Treat `index.html` as the executable runtime unless source inspection proves a migration.
+2. Keep `manifest.webmanifest`, `sw.js`, and `icons/` at the deployment root used by the app.
+3. Use relative (`./`) paths so project/repository Pages deployments are supported.
+4. Never intercept cross-origin NanoGPT/provider requests with the service worker.
+5. Do not require a service worker when Aurora is opened from Android `content://` or `file://` attachment previews.
+6. Validate manifest JSON, service-worker syntax, icon dimensions, runtime syntax, and ZIP/package integrity before handoff.
+7. Do not claim PWA installation/offline support as verified until it has been tested from the hosted HTTPS URL on Android.

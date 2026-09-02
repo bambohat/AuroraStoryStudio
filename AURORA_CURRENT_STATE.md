@@ -5,7 +5,7 @@ As of 2026-09-02
 
 Current base: Aurora v0.9.25 — AI Writing + Brain Automation
 
-Current candidate: v0.9.36 candidate — Legacy Core fully visible in Instructions Library + copyable legacy Core (pending manual Android verification)
+Current candidate: v0.9.37 candidate — PWA/GitHub Pages packaging + icons + offline shell (pending manual Android verification)
 
 Use this build as the starting point for future work. Do not silently substitute an older 0.9.x build.
 
@@ -209,3 +209,25 @@ Date: 2026-09-03
 Status: Candidate; pending manual Android verification.
 
 The dedicated Instructions Library now renders the complete legacy SYSTEM instruction for `Aurora standard core — Default`; the internal `LEGACY_OLD_SYSTEM_INSTRUCTION` compatibility marker is no longer shown there. Copying the built-in legacy Core produces a complete editable personal Core. Actual field requests retain the exact legacy composition and contextual Writing instruction.
+
+
+### v0.9.37 candidate — PWA / GitHub Pages deployment baseline
+Date: 2026-09-03
+Status: Candidate; pending manual Android installation/offline verification.
+
+Changes:
+- Added `manifest.webmanifest` with relative `start_url` and `scope`, standalone display, theme/background colors, and PWA metadata.
+- Added 192px, 512px, 512px maskable, 180px Apple touch, and 32px/favicon PNG assets under project root.
+- Added `sw.js` for an additive offline shell: network-first document navigation, cache-first static shell assets, automatic old-cache cleanup, and no interception of cross-origin API calls.
+- Added manifest/icon/apple/mobile-web-app metadata to the actual executable `index.html`.
+- Added service-worker registration only for HTTPS/localhost/loopback, preserving `content://` and `file://` attachment testing.
+- Added `AURORA_PWA_GITHUB_PAGES.md` documenting deployment and exact Android acceptance testing.
+
+No Brain, manuscript, Writing Assist, Instructions Library, or NanoGPT provider semantics were intentionally changed.
+
+Validation:
+- Runtime JavaScript syntax check: PASS (`node --check`).
+- Manifest JSON validation: PASS.
+- Service worker syntax check: PASS (`node --check`).
+- Icon dimensions: PASS.
+- PWA install/offline test: requires manual Android verification over HTTPS.

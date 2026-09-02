@@ -846,3 +846,8 @@ The Writing Assist layer now models two distinct prompt layers: a protected/sele
 Core defaults include a general standard core, strict field editor, Brain continuity guardian, and creative-development core. Built-in Cores remain protected but can be copied into personal Cores. Personal Cores are stored locally, selectable per field, editable, updatable, usable, and deletable.
 
 Aurora now has a reusable, review-first writing assistance layer for long-form fields. The user can inspect the exact instruction sent to NanoGPT, switch among built-in instructions, and maintain personal instructions locally. Enhancement must preserve user intent and must not silently invent important canon. This is a UX layer over the existing provider path, not a new AI transport.
+
+
+## v0.9.37 candidate — PWA packaging note
+Date: 2026-09-03
+The app shell is now PWA-installable on HTTPS hosts. This change does not alter the AI request composition, Brain compiler, NanoGPT provider transport, or authentication flow. `sw.js` intentionally excludes cross-origin provider requests. PWA installation/offline behavior still requires Android verification on the hosted GitHub Pages URL.

@@ -1,7 +1,8 @@
 {
   "project": "Aurora Story Studio",
   "base_version": "v0.9.25",
-  "date": "2026-09-02",
+  "candidate_version": "v0.9.37",
+  "date": "2026-09-03",
   "runtime_entry": "index.html",
   "canonical_documents": [
     "Aurora_Master_Blueprint.md",
@@ -12,14 +13,32 @@
     "Aurora_New_Chat_Continuation_Protocol.md",
     "AURORA_CHATGPT_CONTINUATION_PROMPT.md",
     "AURORA_AI_BRAIN_DEPENDENCY_TEST_RESULT.md",
-    "AURORA_AI_STATE.md"
+    "AURORA_AI_STATE.md",
+    "AURORA_PWA_GITHUB_PAGES.md",
+    "README.md",
+    "AURORA_FILE_SHA256.json"
   ],
   "verified": {
     "nanogpt_model_catalogue": true,
     "nanogpt_real_generation": true,
     "brain_context_injection": true,
-    "ask_permission_flow": true
+    "ask_permission_flow": true,
+    "writing_assist_legacy_default": true,
+    "instructions_bottom_navigation": true,
+    "instruction_full_reader": true,
+    "pwa_manifest_present": true,
+    "pwa_service_worker_present": true,
+    "pwa_icons_present": true,
+    "runtime_syntax_checked": true
   },
+  "pending_manual_verification": [
+    "GitHub Pages HTTPS deployment",
+    "Android PWA installation",
+    "standalone launch",
+    "offline shell startup",
+    "online update after a new deployment",
+    "NanoGPT request from the hosted PWA"
+  ],
   "unresolved": [
     "strict hidden/future knowledge gating",
     "character-specific knowledge retrieval",
@@ -30,8 +49,7 @@
     "full Anti-AI prose engine",
     "full branching/checkpoints",
     "full comic generation",
-    "full Phase 14 budget orchestration",
-    "PWA/offline hardening"
+    "full Phase 14 budget orchestration"
   ],
-  "continuation_rule": "Read canonical documents before editing; inspect actual runtime; update ledger after every change."
+  "continuation_rule": "Read canonical documents before editing; inspect actual runtime; update ledger after every change; do not claim GitHub Pages/PWA behavior until Android HTTPS verification is complete."
 }

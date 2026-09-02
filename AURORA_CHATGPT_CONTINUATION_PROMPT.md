@@ -22,7 +22,7 @@ LAST VERIFIED CHECKPOINT:
 LAST VERIFIED AI TEST:
 WORKING:
 UNRESOLVED:
-CURRENT CANDIDATE: v0.9.33 candidate — Legacy Writing Assist restored as protected default + dedicated instruction page + experimental custom Cores
+CURRENT CANDIDATE: v0.9.37 candidate — PWA/GitHub Pages packaging + icons + offline shell
 
 ACTUAL RUNTIME FILE:
 NEXT ACCEPTANCE TEST:
@@ -44,6 +44,8 @@ Important product principles:
 - NanoGPT provider logic must remain isolated from story logic.
 - The actual runtime in the current integrated prototype is `index.html`; do not assume `app.js` is executable unless you verify it.
 - Never claim a fix was tested when it was only edited.
+- Treat the PWA manifest/service worker as an additive shell layer; never route cross-origin NanoGPT calls through it.
+- Use relative GitHub Pages-safe paths (`./`) rather than domain-root paths.
 - For every implementation, update the Build Ledger and provide exact Android test steps.
 - Prefer fixing root causes over layering workarounds.
 - Do not make large changes while a previous acceptance test is failing.
