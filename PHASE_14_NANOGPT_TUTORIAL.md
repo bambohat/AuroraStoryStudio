@@ -21,3 +21,8 @@
 
 ## v0.9.15 API transport fix
 NanoGPT model catalogs are loaded without an API-key header because NanoGPT documents GET /api/v1/models as public/optional-auth and GET /api/v1/image-models without authentication. Authenticated requests remain required for generation and key validation. This separation helps local content:// Android pages avoid unnecessary CORS preflight on catalog loading.
+
+
+## v0.9.18 NanoGPT rebuild
+
+Use the documented NanoGPT API directly. Paste the key, Check API Key, then Refresh Text Models. No OAuth flow is required in Aurora.
