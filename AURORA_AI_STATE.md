@@ -818,3 +818,20 @@ Reader Find cycles existing mark elements for repeated Next; it never rescans al
 - Removed third-party Jina relay usage from NanoGPT catalog loading.
 - Removed duplicate `nanoErrorText()` implementation.
 - Test requirement: verify OAuth return, automatic connection test, text catalog load, image catalog load, and no permanent `Testing…` state on failure.
+
+
+# v0.9.25 — AI writing and Brain automation design
+
+## Implemented in this checkpoint
+
+Aurora now has a real manuscript-side AI writing action backed by the existing NanoGPT provider. The first test action compiles relevant Story Brain context and recent manuscript prose, then sends one chapter-generation request. The generated chapter is held as a candidate and is never inserted automatically.
+
+Brain Assistant analyzes accepted prose and returns structured suggestions for new entities or state updates. Existing entities are preferred over duplicate copies. Safe suggestions may be auto-applied only when the user explicitly selects the per-story automation mode. Destructive operations, protected canon rewrites, and future/hidden promotions are not auto-applied.
+
+## Deliberate limitation
+
+The AI cannot perfectly infer author intent. Automation is therefore designed as controlled bookkeeping, not autonomous authorship. The model can miss facts, misclassify a state, or propose a bad extraction. The safest high-automation mode is "auto-apply safe updates" with review for everything else.
+
+## First real acceptance test
+
+Create a small story with a current character state, a future hidden state, a current arc/phase, one rule, and one open thread. Generate a test chapter. Verify the prose obeys the current state and does not reveal hidden/future information. Accept the chapter. Run Brain Assistant and verify it proposes only facts supported by the accepted prose, does not create a second copy of an existing character, and keeps future/hidden facts protected.

@@ -1,0 +1,37 @@
+{
+  "project": "Aurora Story Studio",
+  "base_version": "v0.9.25",
+  "date": "2026-09-02",
+  "runtime_entry": "index.html",
+  "canonical_documents": [
+    "Aurora_Master_Blueprint.md",
+    "Aurora_Build_Ledger.md",
+    "AURORA_CURRENT_STATE.md",
+    "AURORA_PROJECT_HISTORY_AND_CONTINUITY.md",
+    "Aurora_Development_Operating_Procedure.md",
+    "Aurora_New_Chat_Continuation_Protocol.md",
+    "AURORA_CHATGPT_CONTINUATION_PROMPT.md",
+    "AURORA_AI_BRAIN_DEPENDENCY_TEST_RESULT.md",
+    "AURORA_AI_STATE.md"
+  ],
+  "verified": {
+    "nanogpt_model_catalogue": true,
+    "nanogpt_real_generation": true,
+    "brain_context_injection": true,
+    "ask_permission_flow": true
+  },
+  "unresolved": [
+    "strict hidden/future knowledge gating",
+    "character-specific knowledge retrieval",
+    "provenance for AI-inferred facts",
+    "full long-context retrieval",
+    "full Taste Engine",
+    "full Author Library",
+    "full Anti-AI prose engine",
+    "full branching/checkpoints",
+    "full comic generation",
+    "full Phase 14 budget orchestration",
+    "PWA/offline hardening"
+  ],
+  "continuation_rule": "Read canonical documents before editing; inspect actual runtime; update ledger after every change."
+}

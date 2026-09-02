@@ -1,331 +1,4 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#8b5cf6">
-<title>Aurora — Phase 5 · v0.9.17</title>
-<style>
-:root{
-  --bg:#0b0a10; --surface:#12101a; --surface2:#191622; --surface3:#211d2c;
-  --text:#f7f4fb; --muted:#aaa3b8; --line:rgba(255,255,255,.09);
-  --accent:#8b5cf6; --accent2:#a78bfa; --accent-soft:rgba(139,92,246,.16);
-  --danger:#ef6b73; --success:#65d69a; --shadow:0 18px 50px rgba(0,0,0,.35);
-  --radius:20px;
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overscroll-behavior-y:none}
-body{overflow-x:hidden}
-#app{overscroll-behavior-y:none}
-button{font:inherit;color:inherit}
-button,.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
-button:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
-.app{min-height:100dvh;padding-bottom:84px}
-.topbar{height:68px;display:flex;align-items:center;gap:12px;padding:10px 16px;position:sticky;top:0;z-index:20;background:rgba(11,10,16,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.brandbutton{display:flex;align-items:center;gap:10px;min-width:0;border:0;background:transparent;padding:0;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent;color:inherit}.brandbutton:focus-visible{outline:2px solid var(--accent2);outline-offset:4px;border-radius:12px}.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:grid;place-items:center;box-shadow:0 8px 22px var(--accent-soft)}
-.logo span{font-weight:900;color:white}
-.title{font-weight:800;letter-spacing:-.02em}.subtitle{font-size:11px;color:var(--muted);margin-top:2px}
-.spacer{flex:1}
-.iconbtn{width:42px;height:42px;border:1px solid var(--line);background:var(--surface);border-radius:14px;display:grid;place-items:center}
-.iconbtn:hover{background:var(--surface2)}
-.page{width:min(100%,760px);margin:0 auto;padding:24px 16px 28px}
-.eyebrow{font-size:12px;color:var(--accent2);font-weight:800;text-transform:uppercase;letter-spacing:.12em}
-h1{font-size:30px;line-height:1.05;letter-spacing:-.04em;margin:8px 0 10px}
-h2{font-size:19px;margin:0 0 8px}
-p{color:var(--muted);line-height:1.55;margin:0}
-.hero{padding:18px 0 20px}
-.grid{display:grid;gap:12px}
-.card{background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
-.card.interactive:active{transform:scale(.99)}
-.cardrow{display:flex;align-items:center;gap:14px}
-.cardicon{width:46px;height:46px;flex:0 0 46px;border-radius:15px;background:var(--accent-soft);display:grid;place-items:center;font-size:20px}
-.cardcopy{min-width:0;flex:1}
-.cardcopy strong{display:block;margin-bottom:3px}
-.cardcopy span{display:block;color:var(--muted);font-size:13px;line-height:1.4}
-.arrow{color:var(--muted);font-size:20px}
-.section{margin-top:24px}
-.primary{border:0;background:linear-gradient(135deg,var(--accent),var(--accent2));padding:15px 18px;border-radius:16px;font-weight:800;box-shadow:0 12px 28px var(--accent-soft)}
-.secondary{border:1px solid var(--line);background:var(--surface2);padding:14px 17px;border-radius:15px;font-weight:700}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-.settings-actions{position:sticky;bottom:0;margin:18px -2px 0;padding:12px 0 max(8px,env(safe-area-inset-bottom));background:linear-gradient(180deg,transparent,var(--bg) 24%)}
-.tip{margin-top:14px;border:1px solid color-mix(in srgb,var(--accent) 35%,transparent);background:var(--accent-soft);border-radius:16px;padding:13px 14px;color:#d9d1ea;font-size:13px;line-height:1.45}
-.tip b{color:var(--text)}
-.bottom{position:fixed;left:0;right:0;bottom:0;height:76px;z-index:30;background:rgba(12,10,17,.94);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(4,1fr);padding:7px 8px max(7px,env(safe-area-inset-bottom))}
-.navitem{border:0;background:transparent;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:var(--muted);font-size:10px;font-weight:700}
-.navitem .ni{font-size:20px;line-height:1}
-.navitem.active{color:var(--text);background:var(--accent-soft)}
-.backrow{display:flex;align-items:center;gap:8px;margin-bottom:12px}
-.back{border:0;background:transparent;color:var(--muted);padding:8px 0;font-weight:700}
-.list{display:grid;gap:10px}
-.status{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--success);margin-top:10px}
-.dot{width:7px;height:7px;border-radius:50%;background:currentColor}
-.choicegrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
-.choice{border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:15px;text-align:left}
-.choice.selected{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent) inset}
-.choice strong{display:block;margin-bottom:4px}.choice span{font-size:12px;color:var(--muted);line-height:1.4}
-.palette{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-.swatch{width:44px;height:44px;border-radius:14px;border:2px solid transparent}
-.swatch.selected{border-color:white;box-shadow:0 0 0 2px var(--accent)}
-.modalback{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.65);display:flex;align-items:flex-end;justify-content:center;padding:12px}
-.sheet{width:min(100%,680px);max-height:min(82dvh,720px);overflow:auto;background:var(--surface2);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow)}
-.sheethead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.sheet h2{margin:0}
-.close{width:40px;height:40px;border-radius:13px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center}
-.toast{position:fixed;left:16px;right:16px;bottom:92px;z-index:80;background:var(--surface3);border:1px solid var(--line);border-radius:15px;padding:13px 15px;box-shadow:var(--shadow);font-size:13px;display:none}
-.toast.show{display:block}
-.mutedbox{background:var(--surface);border:1px dashed var(--line);padding:16px;border-radius:16px;color:var(--muted);line-height:1.5}
-@media(min-width:600px){.page{padding-left:24px;padding-right:24px}.choicegrid{grid-template-columns:repeat(3,1fr)}}
-
-.storylist{display:grid;gap:12px;margin-top:18px}.storycard{width:100%;display:flex;gap:14px;text-align:left;padding:14px;border:1px solid var(--line);background:var(--surface);border-radius:18px;color:var(--text);box-shadow:var(--shadow);cursor:pointer}.storycover{width:58px;height:76px;border-radius:13px;display:grid;place-items:center;flex:0 0 auto;background:linear-gradient(145deg,var(--accent),var(--accent2));color:#fff;font-size:24px}.storyinfo{min-width:0;flex:1}.storytop{display:flex;justify-content:space-between;gap:10px;font-size:16px}.storytop b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.storymeta{font-size:12px;color:var(--muted);margin-top:5px}.progressline{height:5px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:12px}.progressline span{display:block;height:100%;background:var(--accent);border-radius:99px}.library-tools{display:grid;gap:12px;margin-top:20px}.searchbox{display:flex;align-items:center;gap:8px;padding:0 13px;height:48px;border:1px solid var(--line);border-radius:15px;background:var(--surface)}.searchbox span{font-size:21px;color:var(--muted)}.searchbox input{border:0;outline:0;background:transparent;color:var(--text);width:100%;font:inherit}.filterrow{display:flex;gap:7px;overflow:auto;padding-bottom:3px}.chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:9px 12px;white-space:nowrap}.chip.active{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}.sortselect{margin-left:auto;min-width:94px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:8px}.emptycard{margin-top:28px;text-align:center;padding:38px 22px;border:1px dashed var(--line);border-radius:22px;background:var(--surface)}.emptyicon{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;margin:0 auto 14px;background:var(--accent-soft);color:var(--accent);font-size:24px}.emptycard h2{margin:0 0 7px;font-size:20px}.emptycard p{color:var(--muted);margin:0 auto 20px;max-width:300px;line-height:1.55}.library-detail{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:22px 0}.library-detail>div{background:var(--surface);padding:15px}.library-detail span{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.library-detail b{font-size:15px}.danger{border:1px solid rgba(220,70,90,.35);background:transparent;color:#d85b70;border-radius:13px;padding:13px;font:inherit}.actionmodal{position:fixed;inset:0;z-index:60;display:grid;place-items:end center;background:rgba(0,0,0,.52);padding:16px}.actionpanel{width:min(100%,520px);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}.actionpanel h3{margin:0 0 8px}.actionpanel p{margin:0 0 14px;color:var(--muted);line-height:1.5}.actionpanel input{width:100%;box-sizing:border-box;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:13px;padding:13px;font:inherit;margin-bottom:12px}.modalrow{display:flex;gap:9px}.modalrow button{flex:1}
-
-.field{display:grid;gap:8px;margin-top:18px}
-.field label{font-size:13px;font-weight:800;color:var(--muted)}
-.field input{
-  width:100%;height:52px;padding:0 15px;border-radius:15px;
-  border:1px solid var(--line);background:var(--surface);
-  color:var(--text);font:inherit;font-size:16px;outline:none;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
-}
-.field input::placeholder{color:var(--muted);opacity:.75}
-.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.segmented{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.seg{
-  min-height:52px;border:1px solid var(--line);background:var(--surface);
-  color:var(--muted);border-radius:15px;font-weight:800;font-size:15px;
-}
-.seg.active{background:var(--accent-soft);border-color:var(--accent);color:var(--text);box-shadow:inset 0 0 0 1px var(--accent)}
-.create-note{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.45}
-
-.sortwrap{display:flex;align-items:center;gap:6px;margin-left:auto;color:var(--muted);font-size:12px;font-weight:800;white-space:nowrap}.sortwrap .sortselect{margin-left:0}
-
-.create-page{padding-bottom:34px}
-.builder-progress{display:flex;align-items:center;gap:7px;margin:22px 0 18px;overflow:auto;padding:2px 1px 8px}
-.builder-step{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px;font-weight:800;white-space:nowrap}
-.builder-step span{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;background:var(--surface);border:1px solid var(--line)}
-.builder-step.active{color:var(--text)}
-.builder-step.active span{background:var(--accent-soft);border-color:var(--accent);color:var(--text)}
-.builder-line{height:1px;min-width:24px;background:var(--line)}
-.builder-line.active{background:var(--accent)}
-.builder-card{background:linear-gradient(180deg,var(--surface2),var(--surface));border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}
-.builder-card-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:14px}
-.builder-card-head h2{margin:3px 0 0;font-size:22px}
-.builder-kicker{font-size:11px;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;font-weight:900}
-.builder-count{font-size:11px;color:var(--muted)}
-.builder-card textarea{width:100%;min-height:170px;resize:vertical;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:16px;padding:14px;font:inherit;line-height:1.55;outline:none}
-.builder-card textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.builder-note{margin-top:11px;color:var(--muted);font-size:12px;line-height:1.45}
-.builder-choicegrid{grid-template-columns:1fr 1fr}
-.style-list{display:grid;gap:9px}
-.style-card{display:flex;align-items:center;gap:12px;text-align:left;border:1px solid var(--line);background:var(--surface);color:var(--text);padding:13px;border-radius:17px;width:100%}
-.style-card.selected{border-color:var(--accent);background:var(--accent-soft)}
-.style-mark{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:grid;place-items:center;flex:0 0 40px;font-weight:900}
-.style-card strong{display:block;margin-bottom:3px}
-.style-card span{display:block;color:var(--muted);font-size:12px;line-height:1.4}
-.style-check{margin-left:auto;color:var(--accent2)}
-.custom-style{margin-top:16px}
-.custom-style label{display:flex;justify-content:space-between;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:7px}
-.custom-style label span{font-size:11px;font-weight:600}
-.review-block{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
-.review-block span,.review-grid span{display:block;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
-.review-block p{color:var(--text);line-height:1.55}
-.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-.review-grid>div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
-.review-grid b{font-size:15px}
-@media(max-width:430px){.builder-choicegrid{grid-template-columns:1fr}.builder-card{padding:15px}}
-
-.style-intro{color:var(--muted);font-size:13px;line-height:1.5;margin:-4px 0 14px}
-.style-card small{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:5px;opacity:.9}
-.style-card{min-height:72px}
-.custom-style-choice{margin-top:1px}
-.selected-style-detail{margin-top:12px;padding:13px 14px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
-.selected-style-detail span{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}
-.selected-style-detail b{display:block;margin-top:4px}
-.selected-style-detail p{margin:5px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
-.custom-style-builder{display:grid;gap:7px;margin-top:14px;padding:15px;border:1px solid var(--line);border-radius:17px;background:var(--surface)}
-.custom-style-builder label{font-size:12px;font-weight:800;color:var(--muted);margin-top:4px}
-.custom-style-builder label span{float:right;font-weight:600}
-.custom-style-builder input{height:48px;box-sizing:border-box;width:100%;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:13px;padding:0 13px;font:inherit;outline:none}
-.custom-style-builder input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.custom-style-builder textarea{min-height:110px}
-.compact-custom textarea{min-height:90px}
-.review-block input{width:100%;height:48px;box-sizing:border-box;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:13px;padding:0 13px;font:inherit;outline:none}
-.review-block input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-
-.style-section-title{font-size:11px;text-transform:uppercase;letter-spacing:.09em;font-weight:900;color:var(--muted);margin:18px 0 9px}
-.saved-title{margin-top:22px}
-.saved-style-row{display:flex;align-items:stretch;border:1px solid var(--line);background:var(--surface);border-radius:17px;overflow:hidden}
-.saved-style-row.selected{border-color:var(--accent);background:var(--accent-soft)}
-.saved-style-main{display:flex;align-items:center;gap:12px;text-align:left;flex:1;border:0;background:transparent;color:var(--text);padding:13px;min-width:0}
-.saved-style-main>div:nth-child(2){min-width:0}
-.saved-style-main strong{display:block;margin-bottom:3px}
-.saved-style-main span{display:block;color:var(--muted);font-size:12px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.saved-style-main small{display:block;color:var(--muted);font-size:10px;margin-top:5px}
-.saved-style-delete{width:46px;border:0;border-left:1px solid var(--line);background:transparent;color:var(--muted);font-size:23px}
-.sample-help{margin-top:8px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface2)}
-.sample-help b{font-size:12px}
-.sample-help p{margin:5px 0 0;color:var(--muted);font-size:11px;line-height:1.5}
-.custom-style-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:7px}
-
-.storysummary{margin:8px 0 0;color:var(--text);opacity:.9;font-size:12px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.detail-style{display:inline-flex;align-items:center;gap:8px;margin:8px 0 2px;padding:8px 11px;border:1px solid var(--line);background:var(--surface);border-radius:12px}
-.detail-style span{font-size:11px;color:var(--muted)}
-.detail-style b{font-size:12px}
-
-.new-style-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:22px;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
-.new-style-bar b{display:block;font-size:12px}.new-style-bar span{display:block;color:var(--muted);font-size:10px;margin-top:3px;line-height:1.3}
-.new-style-button{white-space:nowrap;padding:10px 12px;font-size:11px}
-.saved-style-main{pointer-events:none}
-.saved-style-actions{display:flex;align-items:center;gap:5px;padding:8px 9px;border-top:1px solid var(--line)}
-.mini-action{border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:10px;padding:8px 10px;font-size:11px;font-weight:800}
-.mini-action.danger-mini{color:#ff7186}
-.modal-backdrop{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.72);display:grid;place-items:center;padding:20px;backdrop-filter:blur(5px)}
-.confirm-modal{width:min(420px,100%);box-sizing:border-box;background:var(--surface2);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 24px 70px rgba(0,0,0,.5)}
-.confirm-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,75,100,.13);border:1px solid rgba(255,75,100,.5);color:#ff7186;font-size:22px;font-weight:900}
-.confirm-modal h2{margin:13px 0 7px;font-size:21px}.confirm-modal p{color:var(--muted);font-size:13px;line-height:1.5;margin:7px 0}.confirm-modal p strong{color:var(--text)}
-.confirm-warning{padding:11px 12px;border-radius:13px;background:rgba(255,75,100,.08);border:1px solid rgba(255,75,100,.22)}
-.confirm-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px}
-.danger-confirm{border:1px solid #ff7186;background:transparent;color:#ff7186;border-radius:13px;padding:12px;font:inherit;font-weight:900}
-@media(max-width:430px){.new-style-bar{align-items:flex-start;flex-direction:column}.new-style-button{width:100%}.saved-style-actions{flex-wrap:wrap}.mini-action{flex:1}}
-
-.tagchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.tag{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:7px 10px;font-size:11px}.tag.active{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}.tag.removable{cursor:pointer}.tag.small{font-size:10px}.moretag{opacity:.8}.tagchips.small{margin-top:7px}.tag-editor-card,.brain-entry-card,.brain-premise{margin-top:18px;border:1px solid var(--line);background:var(--surface);border-radius:18px;padding:15px}.tag-editor-head{display:flex;justify-content:space-between;gap:10px}.tag-editor-head b{display:block}.tag-editor-head span{display:block;color:var(--muted);font-size:11px;margin-top:2px}.tag-add-row{display:flex;gap:8px;margin-top:12px}.tag-add-row input{min-width:0;flex:1;height:44px;box-sizing:border-box;border:1px solid var(--line);background:var(--surface2);color:var(--text);border-radius:12px;padding:0 12px;font:inherit}.tag-filter-strip{display:flex;align-items:center;gap:6px;overflow:auto;padding-bottom:3px}.filter-title{font-size:11px;font-weight:900;color:var(--muted);margin-right:2px}.brain-entry-card{display:flex;align-items:center;gap:12px}.brain-entry-icon{width:42px;height:42px;border-radius:13px;background:var(--accent-soft);display:grid;place-items:center;color:var(--accent);font-size:20px}.brain-entry-card .cardcopy{flex:1}.brain-tabs{display:flex;gap:7px;overflow:auto;margin:18px 0 12px;padding-bottom:3px}.brain-tab{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:9px 12px;white-space:nowrap;font-size:11px;font-weight:800}.brain-tab.active{border-color:var(--accent);background:var(--accent-soft);color:var(--text)}.brain-premise{margin-top:0}.brain-premise span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:900}.brain-premise p{margin-top:6px;color:var(--text);line-height:1.5}.brain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.brain-tile{border:1px solid var(--line);background:var(--surface);border-radius:17px;padding:18px;text-align:left;color:var(--text)}.brain-tile b{display:block;font-size:28px}.brain-tile span{color:var(--muted);font-size:12px}.brain-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 11px}.brain-section-head b{display:block}.brain-section-head span{display:block;color:var(--muted);font-size:11px;margin-top:2px}.brain-records{display:grid;gap:9px}.brain-record{display:flex;align-items:center;gap:10px;padding:13px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}.brain-record>div{flex:1;min-width:0}.brain-record b{display:block}.brain-record span{display:block;color:var(--muted);font-size:12px;line-height:1.45;margin-top:3px}.brain-record .mini-action{flex:0 0 auto}
-
-.modal-label{display:block;font-size:11px;font-weight:900;color:var(--muted);margin:9px 0 5px}.modal-input{width:100%;height:46px;box-sizing:border-box;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:0 12px;font:inherit}.modal-textarea{width:100%;min-height:110px;box-sizing:border-box;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;resize:vertical}.brain-modal{max-height:80dvh;overflow:auto}
-
-.tag-filter-box{margin-top:10px;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
-.tag-filter-head{display:flex;align-items:center;justify-content:space-between;gap:10px}.tag-filter-head b{display:block;font-size:12px}.tag-filter-head span{display:block;color:var(--muted);font-size:10px;margin-top:2px}
-.tag-filter-modes{display:flex;gap:6px;margin:10px 0}.tag-filter-modes .tag{padding:6px 10px}
-.brain-tile{text-align:left}.brain-tile small{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:5px}
-.brain-subsection+.brain-subsection{margin-top:22px}.record-actions{display:flex;gap:5px;flex:0 0 auto}
-.brain-editor-modal{max-height:86dvh;overflow:auto}.modal-textarea.small{min-height:70px}.modal-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}.modal-label{font-size:11px;font-weight:900;color:var(--muted);margin:9px 0 5px;display:block}.modal-label .modal-input,.modal-label .modal-textarea{margin-top:5px}
-
-.brain-backdrop{display:block;overflow-y:auto;overflow-x:hidden;padding:12px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
-.brain-backdrop .brain-editor-modal{width:min(520px,100%);max-height:calc(100dvh - 24px);margin:0 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
-.brain-editor-modal .confirm-actions{position:sticky;bottom:0;background:linear-gradient(transparent,var(--surface2) 22%);padding-top:14px}
-.record-main{display:flex;align-items:center;gap:9px;min-width:0;flex:1}
-.brain-active{width:30px;height:30px;flex:0 0 30px;border-radius:50%;border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent);font-size:16px;display:grid;place-items:center}
-.brain-active.off{border-color:var(--line);background:transparent;color:var(--muted)}
-.brain-record.inactive{opacity:.62}
-.brain-selectbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 12px;padding:9px 10px;border:1px solid var(--line);border-radius:13px;background:var(--surface)}
-.brain-selectbar b{font-size:11px;margin-right:auto}
-.brain-advanced{margin-top:16px;border-top:1px solid var(--line);padding-top:14px}
-.advanced-title{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:900;margin-bottom:9px}
-.advanced-title span{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);border:1px solid var(--accent);padding:4px 6px;border-radius:999px}
-.active-toggle{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--line);border-radius:14px;background:var(--surface);cursor:pointer}
-.active-toggle input{margin-top:3px;accent-color:var(--accent);width:18px;height:18px}
-.active-toggle b{display:block;font-size:12px}.active-toggle small{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:3px}
-.field-hint{font-weight:700;color:var(--accent);font-size:9px}
-.placeholder-help{font-size:10px;line-height:1.45;color:var(--muted);padding:9px 10px;border-radius:11px;background:var(--surface);border:1px solid var(--line)}
-.placeholder-help code{color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-
-body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
-.brain-backdrop{position:fixed;inset:0;z-index:100;display:block;overflow-y:auto;overflow-x:hidden;padding:12px;box-sizing:border-box;background:rgba(0,0,0,.72);backdrop-filter:blur(5px);touch-action:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
-.brain-backdrop .brain-editor-modal,.brain-backdrop .brain-read-modal{width:min(560px,100%);min-height:calc(100dvh - 24px);height:auto;max-height:none;margin:0 auto;box-sizing:border-box;overflow:visible;touch-action:auto}
-.brain-editor-modal .confirm-actions,.brain-read-modal .confirm-actions{position:sticky;bottom:0;background:linear-gradient(transparent,var(--surface2) 22%);padding-top:14px;z-index:2}
-.brain-read-modal .read-field{margin-top:13px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-.brain-read-modal .read-field b{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
-.brain-read-modal .read-field p{margin:0;white-space:pre-wrap;line-height:1.55;color:var(--text);font-size:13px}
-.brain-read-modal .read-status{display:flex;gap:7px;align-items:center;margin-top:10px;font-size:11px;color:var(--muted)}
-.brain-read-modal .read-dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-.brain-read-modal .read-dot.off{background:var(--muted)}
-.brain-record{cursor:pointer}
-.brain-record .record-main{min-width:0}
-.brain-record .record-main>div:last-child{min-width:0}
-.brain-record .record-main span{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.brain-record .record-actions{position:relative;z-index:2}
-.brain-record .record-main{cursor:pointer}
-.brain-advanced details{border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:0 12px}
-.brain-advanced details summary{cursor:pointer;padding:12px 0;font-weight:900;font-size:12px;list-style:none}
-.brain-advanced details summary::-webkit-details-marker{display:none}
-.brain-advanced details summary:before{content:'＋';display:inline-block;margin-right:7px;color:var(--accent)}
-.brain-advanced details[open] summary:before{content:'−'}
-.brain-advanced .advanced-explain{color:var(--muted);font-size:10px;line-height:1.45;margin:0 0 8px}
-.brain-advanced .advanced-fields{padding-bottom:10px}
-
-.record-read{display:block;width:100%;border:0;background:transparent;color:var(--text);padding:0;text-align:left;min-width:0;flex:1}
-.record-read b{display:block;font-size:13px}.record-read span{display:block;color:var(--muted);font-size:11px;line-height:1.4;margin-top:3px}.record-read small{display:block;color:var(--accent);font-size:9px;font-weight:800;margin-top:5px;opacity:.85}
-
-.brain-tab-viewport{width:100%;overflow:hidden;margin:18px 0 12px;padding:4px 0}
-.brain-tabs{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;margin:0;padding:6px 18px 10px;min-height:56px;align-items:center;-webkit-overflow-scrolling:touch;touch-action:pan-x;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
-.brain-tab{min-height:44px;flex:0 0 auto;scroll-snap-align:start}
-.defaults-intro{padding:14px;border:1px solid var(--line);background:var(--surface);border-radius:17px;line-height:1.5;margin-bottom:12px}.defaults-intro b{display:block}.defaults-intro span{display:block;color:var(--muted);font-size:12px;margin-top:4px}
-.defaults-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.defaults-card{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:16px;padding:14px;text-align:left}.defaults-card b{display:block}.defaults-card span{display:block;color:var(--accent);font-size:11px;margin-top:5px}.defaults-card small{display:block;color:var(--muted);font-size:10px;line-height:1.4;margin-top:5px}
-.field-def-list{display:grid;gap:8px;max-height:28dvh;overflow:auto}.field-def-row{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);background:var(--surface);border-radius:13px}.field-def-row>div{flex:1;min-width:0}.field-def-row b{display:block}.field-def-row span{display:block;color:var(--muted);font-size:10px;margin-top:2px}.field-manager-modal{max-height:88dvh;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}.field-add-form{border-top:1px solid var(--line);padding-top:12px;margin-top:10px}.field-required{color:var(--accent)}.field-help{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:4px}
-
-.field-pack-tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none;touch-action:pan-x}.field-pack-tabs::-webkit-scrollbar{display:none}.field-pack-tab{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:15px;padding:10px 13px;display:flex;align-items:center;gap:7px}.field-pack-tab.active{border-color:var(--accent);color:var(--text);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent),transparent 65%)}.field-pack-tab span{font-size:16px}.field-pack-card{border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:16px;margin-bottom:14px}.field-pack-title{display:flex;justify-content:space-between;gap:10px;align-items:center}.field-pack-title h2{margin:3px 0 0;font-size:20px}.small-primary{padding:10px 13px;font-size:13px;white-space:nowrap}.field-pack-card>p{color:var(--muted);line-height:1.45;font-size:13px}.field-pack-items{display:grid;gap:8px}.field-pack-item{display:flex;gap:10px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:14px}.field-pack-item>div{flex:1;min-width:0}.field-pack-item b{display:block}.field-pack-item span{display:block;color:var(--accent);font-size:10px;margin-top:2px}.field-pack-item small{display:block;color:var(--muted);font-size:10px;line-height:1.35;margin-top:3px}.field-pack-item.installed{opacity:.72}.install-one{border-color:var(--accent)}.custom-fields-intro{margin-top:14px}
-.brain-form-section{border:1px solid var(--line);background:rgba(255,255,255,.015);border-radius:16px;padding:12px;margin:10px 0}.brain-form-kicker{font-size:10px;letter-spacing:.14em;color:var(--accent);font-weight:800;margin-bottom:9px}.brain-form-section .modal-label{margin-bottom:10px}.brain-form-section .modal-label:last-child{margin-bottom:0}
-.canon-section{border-color:color-mix(in srgb,var(--accent) 28%,var(--line))}
-.canon-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.canon-stat-grid>div{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:13px}.canon-stat-grid b{font-size:22px;display:block}.canon-stat-grid span{font-size:10px;color:var(--muted)}
-.overview-hero{padding:16px;border:1px solid var(--line);background:var(--surface);border-radius:18px}.overview-hero h2{margin:4px 0 5px;font-size:20px}.overview-hero p{margin:0;color:var(--muted);font-size:12px;line-height:1.45}
-.overview-section{margin-top:14px}.section-title{font-size:12px;font-weight:800;margin-bottom:8px}.section-title span{float:right;color:var(--muted)}.overview-row{width:100%;display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;text-align:left;padding:11px;border:1px solid var(--line);background:var(--surface);border-radius:13px;color:var(--text);margin-bottom:7px}.overview-row b{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.overview-row em{font-size:9px;color:var(--muted);font-style:normal}.overview-type{font-size:8px;color:var(--accent);font-weight:800}.coverage-list{display:grid;grid-template-columns:1fr 1fr;gap:7px}.coverage-list>div{display:flex;justify-content:space-between;border:1px solid var(--line);border-radius:12px;padding:9px;background:var(--surface)}.coverage-list span{font-size:10px;color:var(--muted)}.coverage-list b{font-size:11px}
-
-  .memory-section{border:1px solid color-mix(in srgb,var(--accent) 28%,var(--line));background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 7%,transparent),transparent);}
-  .memory-section details{margin-top:10px;}
-  .memory-section summary{cursor:pointer;font-weight:800;padding:12px 0;}
-  .memory-meta{border-left:3px solid var(--accent);padding-left:10px;}
-  .timeline-panel{margin-bottom:16px;}
-  .current-position-card{border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));}
-
-.storybrain20-note{margin:10px 0;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--surface2);color:var(--muted);font-size:12px;line-height:1.5}
-.overview-row{width:100%;box-sizing:border-box}
-
-<style>
-.state-chip{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;letter-spacing:.02em;margin:0 4px 4px 0;background:var(--panel2,#20202a);color:var(--text)}
-.state-chip.past{opacity:.78}.state-chip.current{font-weight:900}.state-chip.future{opacity:.9}.state-chip.reveal{background:var(--panel,#17171f)}.state-chip.ai{background:transparent;border:1px solid var(--border,#33333d);color:var(--muted)}
-.state-current-card{border:1px solid var(--border,#33333d);border-radius:14px;padding:12px;margin-bottom:10px;background:var(--panel2,#20202a);display:flex;flex-direction:column;gap:5px}.state-current-card b{font-size:15px}.state-current-card span{color:var(--muted);font-size:12px}
-.state-timeline-row{width:100%;box-sizing:border-box;display:flex;justify-content:space-between;gap:10px;text-align:left;border:1px solid var(--border,#33333d);border-radius:14px;padding:11px;margin:8px 0;background:var(--panel,#17171f);color:inherit}.state-timeline-main{min-width:0;display:flex;flex-direction:column;gap:4px}.state-timeline-main b{font-size:14px}.state-timeline-main span,.state-timeline-main small{color:var(--muted);font-size:11px}.state-timeline-row .record-actions{flex-shrink:0;align-self:center}
-
-.canon-section{overflow:hidden!important;box-sizing:border-box!important;padding:14px!important;margin:10px 0!important;border-radius:16px}.canon-section>.brain-form-kicker{display:block;box-sizing:border-box;margin:0 0 8px!important;padding:0!important;line-height:1.25;max-width:100%;overflow-wrap:anywhere;word-break:normal}.canon-section>.field-hint{margin:0 0 10px!important;line-height:1.4;max-width:100%;overflow-wrap:anywhere}.canon-section>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.canon-section>summary::-webkit-details-marker{display:none}.canon-section>summary:after{content:"＋";font-size:20px;color:var(--muted)}.canon-section[open]>summary:after{content:"−"}.canon-section>summary>span{display:flex;align-items:center;gap:9px}.canon-section>summary em{font-style:normal;color:var(--muted);font-size:12px}.canon-section>summary small{color:var(--muted);font-size:11px;max-width:55%;text-align:right}.canon-section-body{padding:0 12px 12px}.canon-position-card{margin-bottom:14px}.state-chip.hidden{border-color:var(--accent)}.state-chip.revealed{opacity:.9}.canon-control-row{align-items:stretch}.canon-main-button{flex:1;min-width:0;text-align:left;border:0;background:transparent;color:inherit;padding:0;cursor:pointer}.canon-main-button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:12px}.canon-control-row .canon-state-edit,.canon-control-row>[data-canon-record-edit]{flex:0 0 auto;align-self:center}.canon-section .mutedbox{margin:4px 0}
-
-/* Phase 6/7 — Reader + Manuscript Editor */
-.reader-shell,.editor-shell{min-height:calc(100vh - 120px);padding-bottom:110px}
-.reader-shell:fullscreen{position:fixed;inset:0;width:100vw;height:100dvh;min-height:0;max-height:none;overflow-y:auto;overflow-x:hidden;box-sizing:border-box;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;touch-action:pan-y;background:var(--bg);display:block;padding-bottom:calc(110px + env(safe-area-inset-bottom));scroll-behavior:auto;will-change:scroll-position}.reader-fullscreen-active{overflow:hidden!important;overscroll-behavior:none!important;touch-action:none!important}.reader-shell:fullscreen .reader-find-dock{position:sticky;top:62px}.reader-shell:fullscreen .reader-content{min-height:calc(100dvh + 1px);padding-bottom:220px}.reader-shell:fullscreen .reader-chapter-head{margin-top:22px}.reader-shell:fullscreen .reader-actions:last-child{padding-bottom:120px}.reader-find-dock{position:sticky;top:0;z-index:75;padding:8px 0;background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}.reader-find-dock-inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:8px;align-items:center}.reader-find-dock input{min-width:0}.reader-find-count{font-size:12px;color:var(--muted);white-space:nowrap}.reader-shell:fullscreen .reader-toolbar{position:sticky;top:0}
-.reader-shell:fullscreen .reader-content{padding-bottom:140px}
-.reader-toolbar,.editor-toolbar{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:10px 0}
-.reader-top,.editor-top{display:flex;align-items:center;gap:10px;justify-content:space-between}
-.reader-title,.editor-title{min-width:0}.reader-title b,.editor-title b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.reader-title span,.editor-title span{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-.reader-actions,.editor-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end}
-.reader-layout{max-width:980px;margin:0 auto}.reader-content{margin:22px auto 50px;padding:0 4px;transition:max-width .2s}.reader-content h1,.reader-content h2,.reader-content h3{line-height:1.25}.reader-content p{margin:0 0 1.05em}.reader-content img{max-width:100%;height:auto;border-radius:12px}.reader-content a{color:var(--accent)}.reader-find-match{background:color-mix(in srgb,var(--accent) 35%,#fff 10%);color:var(--text);border-radius:4px;padding:0 1px;box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 45%,transparent)}.reader-find-match.current{background:var(--accent);color:#111;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 35%,transparent)}
-.reader-progress{height:3px;background:var(--line);border-radius:99px;overflow:hidden;margin:0}.reader-progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .1s}.reader-chapter-head{margin:22px 0 28px;text-align:center}.reader-chapter-head .eyebrow{margin-bottom:8px}.reader-empty{padding:36px 20px;text-align:center;border:1px dashed var(--line);border-radius:18px;color:var(--muted)}
-.reader-drawer,.editor-sidebar{border:1px solid var(--line);background:var(--panel);border-radius:18px;padding:12px;margin:12px 0}.reader-drawer{display:none}.reader-drawer.open{display:block}.reader-toc-item{display:flex;gap:8px;align-items:center;width:100%;text-align:left;padding:12px;border-radius:12px;background:transparent;color:var(--text);border:1px solid transparent}.reader-toc-item.active{background:var(--soft);border-color:var(--line)}
-.reader-settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.reader-setting{padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}.reader-setting label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}.reader-setting select,.reader-setting input{width:100%}
-.bookmark-strip{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.bookmark-chip{border:1px solid var(--line);border-radius:999px;background:var(--panel);padding:8px 10px;color:var(--text);font-size:12px}
-.editor-workspace{display:grid;grid-template-columns:250px minmax(0,1fr);gap:14px;align-items:start}.editor-sidebar{position:sticky;top:74px;max-height:calc(100vh - 150px);overflow:auto}.editor-sidebar h3{font-size:13px;margin:10px 8px;color:var(--muted)}.editor-tree-btn{width:100%;text-align:left;border:1px solid transparent;background:transparent;color:var(--text);padding:10px;border-radius:10px;margin:2px 0}.editor-tree-btn.active{background:var(--soft);border-color:var(--line)}.editor-scene{padding-left:12px}.editor-surface-wrap{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--panel)}.editor-formatbar{display:flex;gap:5px;flex-wrap:wrap;padding:8px;border-bottom:1px solid var(--line);background:var(--bg)}.editor-formatbar button{min-width:38px}.color-tool{display:inline-flex;align-items:center;gap:4px}.color-tool input{width:24px;height:24px;padding:0;border:0;background:transparent}.editor-surface{min-height:62vh;padding:28px;outline:none;font-size:18px;line-height:1.7;background:var(--panel);color:var(--text)}.editor-surface:focus{box-shadow:inset 0 0 0 1px var(--accent)}.editor-surface img{max-width:100%;height:auto;border-radius:10px}.editor-meta{display:flex;gap:8px;flex-wrap:wrap;padding:12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}.editor-search-panel{padding:10px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr auto auto;gap:7px}.editor-link-panel{padding:10px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto auto;gap:7px}.editor-mobile-toggle{display:none}
-.chapter-add-card{padding:12px;border:1px dashed var(--line);border-radius:14px;margin-top:8px}.chapter-actions{display:flex;gap:6px;margin-top:8px}.danger-text{color:var(--danger,var(--accent))}
-@media(max-width:760px){.editor-workspace{display:block}.editor-sidebar{position:static;max-height:none}.editor-mobile-toggle{display:block}.editor-sidebar.collapsed{display:none}.editor-surface{min-height:55vh;padding:20px 16px;font-size:17px}.editor-search-panel,.editor-link-panel{grid-template-columns:1fr 1fr}.reader-settings-grid{grid-template-columns:1fr}.reader-actions,.editor-actions{justify-content:flex-start}.reader-toolbar,.editor-toolbar{top:0}.reader-content{padding:0 10px}.reader-content p{margin-bottom:1em}}
-
-.nano-card{position:relative}.nano-status{padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface2);color:var(--muted);font-size:12px;margin-top:8px}.nano-status.ok{color:var(--success)}.nano-status.error{color:var(--danger)}.nano-model-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end}.nano-model-actions{display:flex;gap:8px;flex-wrap:wrap}.nano-model-actions button{flex:1;min-width:130px}.nano-key-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.nano-key-toggle{min-width:92px}.nano-meter{font-size:12px;color:var(--muted);margin-top:8px}.nano-danger{border-color:rgba(239,107,115,.45)!important}button[disabled]{opacity:.55;pointer-events:none}
-.nano-note{font-size:12px;color:var(--muted);line-height:1.45}.nano-confirm-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1000}.nano-confirm{width:min(520px,100%);background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
-@media(max-width:760px){.nano-model-row,.nano-key-row{grid-template-columns:1fr}.nano-model-actions{display:grid;grid-template-columns:1fr 1fr}.nano-model-actions button{min-width:0}}
-</style>
-</style>
-  <style>
-    .ai-writing-card{margin:0 0 12px;border:1px solid rgba(183,137,255,.28);background:linear-gradient(180deg,rgba(183,137,255,.08),rgba(255,255,255,.02));border-radius:22px;padding:16px}
-    .ai-writing-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
-    .ai-writing-title{font-weight:800;font-size:1.05rem}
-    .ai-writing-kicker{letter-spacing:.14em;font-size:.72rem;font-weight:800;color:var(--accent)}
-    .ai-writing-help{font-size:.88rem;line-height:1.45;color:var(--muted)}
-    .ai-writing-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-    .ai-writing-direction{min-height:110px;width:100%;box-sizing:border-box;resize:vertical}
-    .ai-writing-status{margin-top:10px;min-height:22px}
-    .ai-writing-candidate{margin-top:10px;padding:12px;border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.14)}
-    .ai-writing-candidate pre{white-space:pre-wrap;word-break:break-word;margin:0;font:inherit;line-height:1.5;max-height:360px;overflow:auto}
-    .ai-review-item{display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.08);margin-top:8px;background:rgba(0,0,0,.10)}
-    .ai-review-item input{margin-top:4px;flex:0 0 auto}
-    .ai-review-item b{display:block}
-    .ai-review-meta{font-size:.78rem;color:var(--muted);margin-top:3px}
-    .ai-safe-note{font-size:.78rem;color:var(--muted);line-height:1.45;margin-top:8px}
-    .ai-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:.72rem;font-weight:800;border:1px solid rgba(255,255,255,.10)}
-    .ai-badge.ok{color:#a9ffd1;border-color:rgba(80,220,150,.35);background:rgba(80,220,150,.08)}
-    .ai-badge.warn{color:#ffd9a6;border-color:rgba(255,190,100,.35);background:rgba(255,190,100,.08)}
-    .ai-badge.lock{color:#ffc3cf;border-color:rgba(255,90,120,.35);background:rgba(255,90,120,.08)}
-  </style>
-
-</head>
-<body>
-<div id="app"></div>
-<div id="toast" class="toast"></div>
-<script>(() => {
+(() => {
   const accents = [
     {id:'aurora', name:'Aurora', value:'#8b5cf6', value2:'#a78bfa'},
     {id:'ocean', name:'Ocean', value:'#38bdf8', value2:'#60a5fa'},
@@ -888,7 +561,7 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     textModel:'',imageModel:'',textModelManual:'',imageModelManual:'',textModels:[],imageModels:[],
     billing:'Default',routing:'Automatic',contextMemory:false,
     connectionStatus:'Not connected.',connectionState:'neutral',modelStatus:'Connect to NanoGPT to load the live model catalogue.',imageStatus:'Load image models when needed.',
-    connectionBusy:false,textBusy:false,imageBusy:false,balanceUsd:null,relayEnabled:true,testStatus:'No test request sent yet.'
+    connectionBusy:false,textBusy:false,imageBusy:false,balanceUsd:null,relayEnabled:true
   };
   function normalizeNanoGPT(raw){
     const n=Object.assign({},NANO_DEFAULTS,raw&&typeof raw==='object'?raw:{});
@@ -955,63 +628,28 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
     if(err?.httpStatus===429)return 'NanoGPT rate limit reached (HTTP 429).';
     return String(err?.message||err||'Unknown NanoGPT error');
   }
-  function nanoPatchTextUI(n){
-    const statusEls=document.querySelectorAll('.nano-status');
-    const nanoCard=[...statusEls].find(el=>el.querySelector('b')?.textContent==='NanoGPT');
-    if(nanoCard){
-      nanoCard.className='nano-status '+(n.connectionState==='ok'?'ok':n.connectionState==='error'?'error':'');
-      nanoCard.innerHTML='<b>NanoGPT</b><br>'+safeText(n.connectionStatus);
-    }
-    const modelCard=[...statusEls].find(el=>el.querySelector('b')?.textContent==='Text models');
-    if(modelCard){
-      modelCard.className='nano-status '+(String(n.modelStatus||'').toLowerCase().includes('failed')?'error':'');
-      modelCard.innerHTML='<b>Text models</b><br>'+safeText(n.modelStatus);
-    }
-    const select=document.querySelector('[data-nano-field="textModel"]');
-    if(select){
-      select.innerHTML=n.textModels.map(m=>'<option value="'+safeText(m.id)+'" '+(n.textModel===m.id?'selected':'')+'>'+safeText(m.name||m.id)+(m.pricing?.prompt!=null?' · $'+safeText(String(m.pricing.prompt))+'/M':'')+'</option>').join('');
-      select.value=n.textModel;
-      select.disabled=false;
-    }
-    const connect=document.querySelector('[data-nano-test]');
-    if(connect){connect.disabled=false;connect.textContent='Connect & Load Models'}
-    const refresh=document.querySelector('[data-nano-load-text]');
-    if(refresh){refresh.disabled=false;refresh.textContent='Refresh Text Models'}
-  }
   async function nanoLoadTextModels(){
     const n=syncNanoDraftFromDom();
     if(n.connectionBusy||n.textBusy)return false;
     n.connectionBusy=true;n.textBusy=true;
-    nanoSetConnection(n,'Loading NanoGPT model catalogue…','loading');
-    n.modelStatus='Loading live NanoGPT text catalog…';
-    // Only render the initial loading state. After the network response, update the
-    // existing controls directly so the successful model result cannot be lost by
-    // a settings-draft reinitialization during render().
-    render();
+    nanoSetConnection(n,'Loading NanoGPT model catalogue…','loading');n.modelStatus='Loading live NanoGPT text catalog…';render();
     try{
+      // This single request is both the documented connection check and model discovery.
       const data=await nanoFetchCatalog(NANO_API_BASE+'/models?detailed=false',n);
       const models=nanoCatalogModels(data);
       if(!models.length)throw new Error('NanoGPT responded successfully but returned no models.');
       n.textModels=models;
       if(!n.textModel||!models.some(x=>x.id===n.textModel))n.textModel=models[0].id;
       n.modelStatus=`${models.length} live text models loaded.`;
-      n.connectionStatus=`Connected · ${models.length} text models loaded.`;
-      n.connectionState='ok';
-      n.connectionBusy=false;n.textBusy=false;
-      saveNanoGPTSettings(n);
-      state.nanoGPT=normalizeNanoGPT(n);
-      nanoPatchTextUI(n);
-      toast(`NanoGPT connected · ${models.length} models loaded`);
-      return true;
+      n.connectionStatus=`Connected · ${models.length} text models loaded.`;n.connectionState='ok';
+      saveNanoGPTSettings(n);state.nanoGPT=normalizeNanoGPT(n);
+      toast(`NanoGPT connected · ${models.length} models loaded`);return true;
     }catch(err){
       n.modelStatus='Model loading failed · '+nanoErrorText(err);
       nanoSetConnection(n,'Connection failed · '+nanoErrorText(err),'error');
-      n.connectionBusy=false;n.textBusy=false;
-      saveNanoGPTSettings(n);
-      state.nanoGPT=normalizeNanoGPT(n);
-      nanoPatchTextUI(n);
-      toast('NanoGPT connection failed');
-      return false;
+      toast('NanoGPT connection failed');return false;
+    }finally{
+      n.connectionBusy=false;n.textBusy=false;render();
     }
   }
   async function nanoCheckConnection(){return nanoLoadTextModels()}
@@ -1032,201 +670,7 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
   function nanoSetConnection(n,text,kind){n.connectionStatus=text;n.connectionState=kind||'neutral'}
   function nanoRequestPermission(kind,details){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)return Promise.reject(new Error(gate.reason));if(n.access!=='ask')return Promise.resolve(true);return new Promise(resolve=>{state.nanoConfirm={kind:String(kind||'AI request'),details:String(details||''),resolve};render()})}
   async function nanoChatCompletion(messages,extra={}){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)throw new Error(gate.reason);if(!n.textModel)throw new Error('Choose a NanoGPT text model first.');const allowed=await nanoRequestPermission('Text generation',n.textModel);if(!allowed)throw new Error('AI request cancelled.');const body=Object.assign({model:n.textModel,messages,stream:false},extra||{});const data=await nanoFetchJson(NANO_API_BASE+'/chat/completions',n,{method:'POST',headers:nanoHeaders(n,'POST','bearer'),body:JSON.stringify(body),timeoutMs:120000});nanoRecordRequest(n);return data}
-  async function nanoTestGeneration(){
-    const n=syncNanoDraftFromDom();
-    if(!n.apiKey.trim()){toast('Add your NanoGPT API key first');return false}
-    if(!n.textModel){toast('Connect and choose a text model first');return false}
-    n.testStatus='Sending real test request to NanoGPT…';
-    state.nanoGPT=normalizeNanoGPT(n);
-    saveNanoGPTSettings(n);
-    render();
-    try{
-      const data=await nanoChatCompletion([{role:'user',content:'Reply with exactly: AURORA TEST OK'}],{max_tokens:12,temperature:0});
-      const text=String(data?.choices?.[0]?.message?.content||'').trim();
-      const usedModel=String(data?.model||n.textModel);
-      n.testStatus=text?`SUCCESS · ${usedModel} · Response: ${text}`:`SUCCESS · ${usedModel} · API returned a valid response.`;
-      n.connectionStatus=`Connected · ${n.textModels.length||1} text models available`;
-      n.connectionState='ok';
-      n.connectionBusy=false;n.textBusy=false;
-      saveNanoGPTSettings(n);state.nanoGPT=normalizeNanoGPT(n);
-      document.querySelectorAll('.nano-confirm-backdrop').forEach(el=>el.remove());
-      state.nanoConfirm=null;
-  state.aiWriting={direction:'',busy:false,brainBusy:false,status:'',candidate:'',candidateMeta:null,review:[]};
-      toast('Real NanoGPT request succeeded');
-      render();
-      return true;
-    }catch(err){
-      n.testStatus='FAILED · '+nanoErrorText(err);
-      saveNanoGPTSettings(n);state.nanoGPT=normalizeNanoGPT(n);
-      document.querySelectorAll('.nano-confirm-backdrop').forEach(el=>el.remove());
-      state.nanoConfirm=null;
-      toast('NanoGPT test request failed');
-      render();
-      return false;
-    }
-  }
   async function nanoGenerateImage(prompt,extra={}){const n=normalizeNanoGPT(loadNanoGPTSettings());const gate=nanoCanRequest(n);if(!gate.ok)throw new Error(gate.reason);if(!n.imageModel)throw new Error('Choose a NanoGPT image model first.');const allowed=await nanoRequestPermission('Image generation',n.imageModel);if(!allowed)throw new Error('AI request cancelled.');const body=Object.assign({model:n.imageModel,prompt,n:1},extra||{});const data=await nanoFetchJson(NANO_IMAGE_BASE+'/images/generations',n,{method:'POST',headers:nanoHeaders(n,'POST','bearer'),body:JSON.stringify(body),timeoutMs:120000});nanoRecordRequest(n);return data}
-
-
-  function aiStoryId(){return state.editorOpenId||state.libraryOpenId||null}
-  function aiNormalizeText(v){return String(v||'').replace(/\s+/g,' ').trim()}
-  function aiStripHtml(v){return String(v||'').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/&amp;/g,'&').replace(/\s+/g,' ').trim()}
-  function aiStoryPositionText(brain){const p=brain.storyPosition||{};const a=(brain.arcs||[]).find(x=>x.id===p.arcId);const ph=a?.phases?.find(x=>x.id===p.phaseId);return [a?.name,ph?.name,p.chapter,p.status].filter(Boolean).join(' · ')||'No current story position set.'}
-  function aiSafeStateLabel(st){return [st?.label||st?.name||st?.status||'State',st?.chapter?'Chapter '+st.chapter:'',st?.arc,st?.phase].filter(Boolean).join(' · ')}
-  function aiRecordSummary(x){return aiNormalizeText(x?.description||x?.bio||x?.summary||x?.text||x?.details||x?.content||'')}
-  function aiCollectBrain(id){
-    const b=ensureBrain20(getStoryBrain(id));
-    const lines=[];
-    lines.push('STORY: '+(state.library.find(x=>x.id===id)?.title||'Untitled'));
-    if(b.premise) lines.push('PREMISE: '+aiNormalizeText(b.premise));
-    lines.push('CURRENT POSITION: '+aiStoryPositionText(b));
-    const collections=[['characters','CHARACTERS'],['locations','LOCATIONS'],['factions','FACTIONS'],['events','TIMELINE EVENTS'],['threads','OPEN THREADS'],['storyRules','STORY RULES'],['customEntries','CUSTOM ENTRIES']];
-    for(const [key,label] of collections){
-      const arr=Array.isArray(b[key])?b[key]:[]; if(!arr.length) continue;
-      lines.push(label+':');
-      for(const x of arr.slice(0,80)){
-        lines.push('- '+(x.name||x.title||x.text||'Untitled')+(aiRecordSummary(x)?' — '+aiRecordSummary(x).slice(0,380):''));
-        const tl=Array.isArray(x.stateTimeline)?x.stateTimeline:[];
-        if(tl.length){
-          const current=tl.filter(st=>String(st.timeline||'').toLowerCase()==='current');
-          const past=tl.filter(st=>String(st.timeline||'').toLowerCase()==='past').slice(-3);
-          const future=tl.filter(st=>String(st.timeline||'').toLowerCase()==='future').slice(0,5);
-          if(current.length) lines.push('  CURRENT STATE: '+current.map(aiSafeStateLabel).join(' | '));
-          if(past.length) lines.push('  PAST STATES: '+past.map(aiSafeStateLabel).join(' | '));
-          if(future.length) lines.push('  FUTURE STATES (AI KNOWLEDGE ONLY; NEVER LEAK TO CHARACTERS): '+future.map(st=>aiSafeStateLabel(st)+' ['+(st.revealStatus||'future')+']').join(' | '));
-        }
-      }
-    }
-    const hidden=[];
-    collections.forEach(([key,label])=>{
-      (b[key]||[]).forEach(x=>(x.stateTimeline||[]).forEach(st=>{
-        if(String(st.revealStatus||'').toLowerCase()==='hidden' || String(st.knowledgeScope||'').toLowerCase().includes('ai')) hidden.push(label+': '+(x.name||x.title||x.text||'Untitled')+' — '+aiSafeStateLabel(st));
-      }));
-    });
-    if(hidden.length) lines.push('HIDDEN / RESTRICTED KNOWLEDGE — AI MAY KNOW, CHARACTERS MAY NOT: '+hidden.slice(0,60).join(' | '));
-    const m=ensureManuscript(id), recent=[];
-    for(let i=m.chapters.length-1;i>=0&&recent.length<5;i--){const c=m.chapters[i]; for(let j=c.scenes.length-1;j>=0&&recent.length<5;j--){const sc=c.scenes[j];const t=aiStripHtml(sc.content);if(t) recent.push((c.title+' / '+sc.title)+': '+t.slice(-1800));}}
-    if(recent.length){lines.push('RECENT MANUSCRIPT — prose truth takes precedence over stale summaries:'); recent.reverse().forEach(x=>lines.push(x));}
-    return lines.join('\n');
-  }
-  function aiParseJsonObject(text){
-    const raw=String(text||'').trim();
-    let candidate=raw.replace(/^```(?:json)?\s*/i,'').replace(/\s*```$/,'').trim();
-    try{return JSON.parse(candidate)}catch(e){}
-    const a=candidate.indexOf('['),b=candidate.lastIndexOf(']');
-    if(a>=0&&b>a){try{return JSON.parse(candidate.slice(a,b+1))}catch(e){}}
-    const o=candidate.indexOf('{'),p=candidate.lastIndexOf('}');
-    if(o>=0&&p>o){try{return JSON.parse(candidate.slice(o,p+1))}catch(e){}}
-    return null;
-  }
-  function aiCandidateStateUpdate(existing, suggestion){
-    const safe={};
-    safe.label=suggestion.label||suggestion.stateName||'Current state';
-    safe.timeline='Current';
-    safe.chapter=suggestion.chapter||'';
-    safe.arc=suggestion.arc||'';
-    safe.phase=suggestion.phase||'';
-    safe.description=suggestion.description||suggestion.change||suggestion.details||'';
-    safe.revealStatus=suggestion.revealStatus||'Revealed';
-    safe.knowledgeScope=suggestion.knowledgeScope||'AI + characters';
-    return safe;
-  }
-  function aiEntityKeyFromKind(kind){const map={character:'characters',location:'locations',faction:'factions',event:'events',thread:'threads',rule:'storyRules',custom:'customEntries'};return map[String(kind||'').toLowerCase()]||null}
-  function aiFindEntity(arr,name){const q=aiNormalizeText(name).toLowerCase();return (arr||[]).find(x=>aiNormalizeText(x.name||x.title||x.text).toLowerCase()===q)}
-  function aiCompileWritingSystem(id){
-    return [
-      'You are the writing engine inside Aurora, a private story studio.',
-      'Write only the requested prose. Never mention prompts, Story Brain, retrieval, or these instructions.',
-      'MANUSCRIPT PROSE IS CANON. Preserve facts already established in the recent manuscript.',
-      'Use CURRENT states as the present truth at the current story position.',
-      'Past states are historical and must not be treated as current unless the story explicitly revisits them.',
-      'Future states are planning knowledge for Aurora only. Do not reveal them through character thoughts, dialogue, narration, foreshadowing, or exposition unless the author explicitly requests a reveal.',
-      'Hidden/restricted knowledge is available to the AI for plotting but is not known by characters without a matching reveal condition.',
-      'Respect story rules, current arc/phase, character abilities, locations, relationships, and open threads.',
-      'Do not silently retcon established facts. If the user direction conflicts with established truth, resolve it conservatively in prose rather than rewriting the Brain.',
-      'Favor concrete, natural prose and the selected story style. Do not output headings unless the requested manuscript format requires them.'
-    ].join('\n');
-  }
-  async function aiGenerateChapterTest(){
-    const id=aiStoryId(); if(!id){toast('Open a story manuscript first');return}
-    editorPersistSurface(); const dir=(document.getElementById('ai-writing-direction')?.value||state.aiWriting?.direction||'').trim();
-    const system=aiCompileWritingSystem(id); const context=aiCollectBrain(id);
-    const user=[
-      'Write the NEXT CHAPTER for this story as a real manuscript chapter.',
-      'Aim for roughly 1200–2200 words unless the story context strongly suggests otherwise.',
-      dir?'AUTHOR DIRECTION: '+dir:'AUTHOR DIRECTION: Continue naturally from the current manuscript and current Story Brain state.',
-      '', 'AURORA STORY CONTEXT:', context
-    ].join('\n');
-    state.aiWriting={...(state.aiWriting||{}),busy:true,status:'Sending a real chapter request to NanoGPT…',candidate:'',candidateMeta:null}; render();
-    try{
-      const data=await nanoChatCompletion([{role:'system',content:system},{role:'user',content:user}],{temperature:0.65,max_tokens:3600});
-      const text=String(data?.choices?.[0]?.message?.content||'').trim(); if(!text) throw new Error('NanoGPT returned an empty chapter.');
-      state.aiWriting={...(state.aiWriting||{}),busy:false,status:'Chapter generated. Nothing has been written to the manuscript yet.',candidate:text,candidateMeta:{model:data?.model||'NanoGPT',storyId:id}};
-      render(); toast('AI chapter generated — review it before inserting it');
-    }catch(err){state.aiWriting={...(state.aiWriting||{}),busy:false,status:'Generation failed · '+nanoErrorText(err)};render();toast('AI chapter failed')}
-  }
-  function aiInsertCandidate(mode){
-    const id=aiStoryId(), text=state.aiWriting?.candidate||''; if(!id||!text){toast('Generate a chapter first');return}
-    const m=ensureManuscript(id); editorPersistSurface();
-    const html=text.split(/\n\s*\n/).map(p=>'<p>'+safeText(p.trim())+'</p>').join('');
-    if(mode==='new'){const ch={id:uid('ch'),title:'Chapter '+(m.chapters.length+1),order:m.chapters.length+1,scenes:[{id:uid('sc'),title:'Opening',content:html,notes:''}]};m.chapters.push(ch);m.activeChapterId=ch.id;m.activeSceneId=ch.scenes[0].id}
-    else {const a=getActiveScene(m);a.scene.content=(a.scene.content||'')+'<p><br></p>'+html}
-    saveManuscriptsSafe();syncStoryManuscriptMeta(id);state.aiWriting={...(state.aiWriting||{}),candidate:'',status:'Accepted into the manuscript. Run Brain Assistant to reconcile memory.'};render();toast(mode==='new'?'New chapter created':'Chapter appended');
-    const auto=localStorage.getItem('aurora_ai_brain_mode_'+id)||'off';
-    if(auto!=='off') setTimeout(()=>brainAssistant(auto==='auto'),50);
-  }
-  function aiBrainPrompt(id){
-    return [
-      'You are Aurora Brain Assistant. Analyze ONLY the accepted manuscript text and the Story Brain context below.',
-      'Return STRICT JSON only: an array of suggestions.',
-      'Each suggestion must have: kind, name, action, description, label, chapter, arc, phase, confidence, safety.',
-      'kind must be one of character, location, faction, event, thread, rule, custom.',
-      'action must be suggest_new or suggest_state.',
-      'Only suggest facts directly supported by the accepted manuscript or obvious state changes that just occurred in it.',
-      'Do not invent future information. Do not promote hidden information. Do not delete anything.',
-      'For existing characters/locations/etc., prefer suggest_state instead of creating duplicates.',
-      'Mark safety as safe only when applying the suggestion cannot reasonably alter protected canon or reveal hidden/future information. Otherwise use review.',
-      '', 'STORY BRAIN CONTEXT:', aiCollectBrain(id), '',
-      'ACCEPTED MANUSCRIPT SCENE:', (()=>{const m=ensureManuscript(id),a=getActiveScene(m);return aiStripHtml(a.scene.content).slice(-12000)})()
-    ].join('\n');
-  }
-  async function brainAssistant(autoApplySafe=false){
-    const id=aiStoryId(); if(!id){toast('Open a story manuscript first');return}
-    const n=normalizeNanoGPT(loadNanoGPTSettings()); if(!n.textModel){toast('Choose a NanoGPT text model first');return}
-    state.aiWriting={...(state.aiWriting||{}),brainBusy:true,status:autoApplySafe?'Updating safe Brain changes automatically…':'Analyzing accepted prose for Brain updates…',review:[]};render();
-    try{
-      const data=await nanoChatCompletion([{role:'system',content:'Return only valid JSON. No markdown.'},{role:'user',content:aiBrainPrompt(id)}],{temperature:0.15,max_tokens:2400});
-      const parsed=aiParseJsonObject(data?.choices?.[0]?.message?.content||'');
-      const suggestions=Array.isArray(parsed)?parsed:(Array.isArray(parsed?.suggestions)?parsed.suggestions:[]);
-      const cleaned=suggestions.filter(x=>x&&typeof x==='object'&&x.name&&x.kind).slice(0,40).map((x,i)=>({...x,_id:'br_'+i,safety:x.safety||'review',confidence:Number(x.confidence)||0}));
-      state.aiWriting={...(state.aiWriting||{}),brainBusy:false,status:cleaned.length?(autoApplySafe?'Brain Assistant found updates. Safe items applied; review items remain below.':'Brain Assistant found suggested memory updates. Nothing was changed yet.'):'Brain Assistant found no safe memory changes to suggest.',review:cleaned};
-      render();
-      if(autoApplySafe && cleaned.length) aiApplyBrainSuggestions(id,cleaned.filter(x=>String(x.safety).toLowerCase()==='safe'));
-    }catch(err){state.aiWriting={...(state.aiWriting||{}),brainBusy:false,status:'Brain Assistant failed · '+nanoErrorText(err),review:[]};render();toast('Brain Assistant failed')}
-  }
-  function aiApplyBrainSuggestions(id,suggestions){
-    if(!suggestions?.length){toast('No selected Brain updates');return}
-    const b=ensureBrain20(getStoryBrain(id)); let applied=0;
-    suggestions.forEach(s=>{
-      const key=aiEntityKeyFromKind(s.kind); if(!key)return; const arr=b[key]||[]; let existing=aiFindEntity(arr,s.name);
-      if(!existing && s.action==='suggest_new'){
-        existing={id:uid(key.slice(0,3)),name:String(s.name),description:String(s.description||''),stateTimeline:[],stateHistory:[],currentStateData:{}};
-        if(key==='events') existing.title=existing.name;
-        if(key==='storyRules') existing.text=String(s.description||s.name);
-        arr.push(existing); applied++;
-      }
-      if(existing && (s.action==='suggest_state'||s.action==='suggest_new')){
-        if(!Array.isArray(existing.stateTimeline)) existing.stateTimeline=[];
-        existing.stateTimeline.forEach(st=>{if(String(st.timeline||'').toLowerCase()==='current')st.timeline='Past'});
-        existing.stateTimeline.push(aiCandidateStateUpdate(existing,s));
-        existing.currentStateData=aiCandidateStateUpdate(existing,s); applied++;
-      }
-      if(existing && s.description && key!=='storyRules' && !existing.description)existing.description=String(s.description);
-    });
-    saveStoryBrain(id,b); const selectedIds=new Set(suggestions.map(x=>x._id));
-    state.aiWriting={...(state.aiWriting||{}),review:(state.aiWriting?.review||[]).map(x=>selectedIds.has(x._id)?{...x,_applied:true}:x),status:`Applied ${applied} Brain update${applied===1?'':'s'} without deleting or overwriting existing records.`}; render(); toast(`Applied ${applied} Brain updates`);
-  }
-  function aiSelectedSuggestions(){return [...document.querySelectorAll('[data-ai-review-check]:checked')].map(el=>{const id=el.dataset.aiReviewCheck;return (state.aiWriting?.review||[]).find(x=>x._id===id)}).filter(Boolean)}
 
   const state = {
     route:'home',
@@ -1450,57 +894,11 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
   function nav(route,icon,label,active){
     return `<button class="navitem ${active===route?'active':''}" data-route="${route}"><span class="ni">${icon}</span>${label}</button>`;
   }
-  function seedAuroraAITestDemo(){
-    let item=state.library.find(x=>x.title==='Aurora Brain Dependency Test');
-    if(!item) item=createLocalStory('Aurora Brain Dependency Test','novel');
-    item.summary='Controlled Brain-dependency test. Chapter 1 intentionally contains almost none of the facts required to continue Chapter 2.';
-    item.tags=['AI Test','Brain Dependency','Knowledge Boundaries'];
-    item.styleName='Natural';
-    item.concept={idea:'Mara Veyne is a royal archivist pulled into a mystery involving the Silent Court. The test requires Aurora to retrieve specific Brain facts while respecting what Mara herself does and does not know.',summary:item.summary,type:'novel',style:'natural',styleName:'Natural',customStyle:'',customStyleName:'',customStyleSample:''};
-    const b=ensureBrain20({
-      premise:'Mara Veyne, a 34-year-old royal archivist in Blackglass City, is investigating missing pages from the royal death registry. The Silent Court is involved.',
-      storyPosition:{arc:'The Three Keys',phase:'The Red Glove',chapter:'1',status:'Current'},
-      arcs:[{id:'arc_three_keys',name:'The Three Keys',description:'Mara is drawn into the Silent Court mystery through the royal archives.',status:'Active',phases:[{id:'phase_red_glove',name:'The Red Glove',status:'Active',description:'Mara is due to meet Dorian at the abandoned clocktower.'}],events:[],consequences:[]}],
-      storyRules:[
-        {id:'rule_knowledge',text:'Use close third-person centered on Mara. Mara cannot know facts she has not learned. The narrator may preserve author-level secrets without revealing them through Mara.',priority:'Critical',scope:'Whole story',description:'Character knowledge boundaries are strict.',avoid:'Mara knowing her brother is alive; omniscient explanations.'},
-        {id:'rule_magic',text:'Mara cannot read magical inscriptions. Touching a magical inscription causes severe pain.',priority:'Critical',scope:'Mara',description:'This is a persistent character limitation.',avoid:'Mara casually reading magical writing.'},
-        {id:'rule_weapon',text:'Mara never carries weapons.',priority:'High',scope:'Mara',description:'Persistent character behavior.',avoid:'Giving Mara a sword, dagger or other weapon.'},
-        {id:'rule_protected',text:'Mara believes her brother died 11 years ago. The fact that he is alive is author-only and must not be revealed to Mara at the current story position.',priority:'Critical',scope:'Whole story',description:'Protected secret with a knowledge boundary.',avoid:'Mara thinking or speaking as though she knows he is alive.'}
-      ],
-      characters:[
-        {id:'char_mara',name:'Mara Veyne',role:'Protagonist',age:'34',identity:'Woman',personality:'Highly observant, controlled, skeptical and practical.',goals:'Find out who is replacing pages in the royal death registry.',abilities:'Exceptional memory, archival knowledge and careful observation.',knowledge:'Royal archive procedures; suspects someone is altering the death registry. Believes her brother died 11 years ago. Does not know he is alive.',relationships:'Dorian Hale is her former lover; they are currently distrustful of one another.',currentState:'In Blackglass City after closing the royal archive. Carries no weapon. Wears a silver ring on her right hand.',currentStateData:{location:'Blackglass City',condition:'Healthy',weapon:'None',ring:'Silver ring on right hand'},stateHistory:[],stateTimeline:[]},
-        {id:'char_dorian',name:'Dorian Hale',role:'Captain; former lover of Mara',age:'36',identity:'Man',personality:'Reserved, suspicious and disciplined.',goals:'Expose the Silent Court without being detected.',abilities:'Investigation, city security and covert operations.',knowledge:'Knows the Silent Court is watching. Knows the meaning of the red glove signal.',relationships:'Former lover of Mara; currently distrustful of her.',currentState:'Expected to meet Mara at the abandoned clocktower at midnight.',currentStateData:{location:'Abandoned Clocktower',condition:'Waiting for meeting'},stateHistory:[],stateTimeline:[]}
-      ],
-      locations:[
-        {id:'loc_blackglass',name:'Blackglass City',type:'Capital city',region:'Kingdom',tags:'urban, royal, archives',description:'A large royal city where the central archives and Silent Court operate.',culture:'Formal court culture mixed with ordinary city life.',population:'Large.',rules:'Royal archives are locked after closing.',significance:'Mara lives and works here.',landmarks:'Royal archive, abandoned clocktower.'},
-        {id:'loc_clocktower',name:'Abandoned Clocktower',type:'Abandoned tower',region:'Blackglass City',tags:'meeting place, old, isolated',description:'An abandoned clocktower used for a secret midnight meeting.',culture:'None.',population:'Usually empty.',rules:'Three entrances exist. The eastern entrance is sealed.',significance:'Dorian must meet Mara here at midnight.',landmarks:'Three entrances; sealed eastern entrance.'}
-      ],
-      factions:[{id:'fac_silent_court',name:'Silent Court',type:'Secret faction',status:'Active and covert',purpose:'Unknown publicly; operates inside Blackglass City.',structure:'Hidden network.',members:'Unknown.',resources:'Unknown.',relations:'Dorian is secretly working against them; Mara is investigating evidence connected to them.',methods:'Surveillance and covert manipulation.'}],
-      items:[{id:'item_silver_key',name:'Silver key with broken crown',type:'Key',description:'A silver key engraved with a broken crown. Its purpose is currently unknown.',owner:'Unknown',significance:'Important clue connected to the mystery.',state:'Hidden in the story Brain until relevant.'}],
-      events:[
-        {id:'evt_registry',name:'Pages Replaced in Royal Death Registry',when:'Before Chapter 1',where:'Royal Archive',description:'Someone has been replacing pages in the royal death registry.',participants:'Mara, unknown actor',cause:'Unknown.',consequences:'Mara begins investigating.',importance:'High',memoryType:'current'},
-        {id:'evt_midnight_meeting',name:'Midnight Clocktower Meeting',when:'Chapter 2',where:'Abandoned Clocktower',description:'Mara must meet Dorian at the abandoned clocktower at midnight.',participants:'Mara, Dorian',cause:'Investigation into the Silent Court.',consequences:'Expected to reveal a new clue.',importance:'High',memoryType:'future'}
-      ],
-      threads:[{id:'thread_registry',name:'Who is replacing pages in the royal death registry?',status:'Open',priority:'High',description:'Someone is altering the official death records.',clues:'Specific pages have been replaced.',participants:'Mara, unknown actor, Silent Court',stakes:'The alterations may conceal a larger crime.',directions:'Investigate the altered records and follow connected clues.',lastTouched:'Chapter 1'}],
-      secrets:[
-        {id:'secret_brother',name:'Mara’s brother is alive',category:'Protected family secret',description:'Mara’s brother is alive, but Mara believes he died 11 years ago.',knowledgeScope:'ai_only',knowledgePeople:'Aurora / author only',revealStatus:'locked',revealWhen:'Later arc',protectedFact:true,memoryType:'future',timeScope:'Future',protectedInformation:'Never reveal this secret to Mara at the current story position. Do not put this knowledge into her thoughts or dialogue.'}
-      ],
-      ideas:[],customEntries:[],notes:[],fieldDefs:{characters:[],locations:[],factions:[],events:[],threads:[],storyRules:[],customEntries:[]}
-    });
-    state.storyBrains[item.id]=b;
-    const m=ensureManuscript(item.id);
-    m.chapters=[{id:uid('ch'),title:'Chapter 1 — The Archive',order:1,scenes:[{id:uid('sc'),title:'Closing Time',content:'<p>Mara closed the archive for the night.</p><p>Rain had started outside.</p><p>She locked the door and walked home.</p>',notes:'Deliberately minimal chapter. The Brain contains the information required for the dependency test.'}]}];
-    m.activeChapterId=m.chapters[0].id;m.activeSceneId=m.chapters[0].scenes[0].id;
-    saveManuscriptsSafe();syncStoryManuscriptMeta(item.id);saveStoryBrain(item.id,b);saveLibrarySafe(state.library);
-    state.libraryOpenId=item.id;state.editorOpenId=item.id;state.readerOpenId=null;state.aiWriting={direction:'Continue the story. Do not ask me questions. Use the Story Brain heavily. Keep Mara’s knowledge separate from author-only information.',busy:false,brainBusy:false,status:'Brain Dependency Test loaded. Ready.',candidate:'',candidateMeta:null,review:[]};
-    renderAndScroll(); toast('Aurora Brain Dependency Test loaded');
-  }
-
   function home(){
     return layout(`<div class="page">
       <section class="hero"><div class="eyebrow">Your private creative studio</div><h1>Make stories.<br>Keep the complexity hidden.</h1><p>Aurora will eventually handle memory, characters, planning, style, continuity and AI generation for you. Phase 5 is building the local Story Brain before AI generation.</p>
       ${help('What am I looking at?','This is Aurora’s home. The large actions will become your main workflow. During Phase 1, they are only navigation and design tests; AI generation is intentionally not connected yet.')}</section>
-      <section class="section"><div class="eyebrow">AI TEST</div><div class="card"><div class="status"><span class="dot"></span> Ready-made Story Brain stress test</div><p style="margin-top:8px">One tap creates a small story, a starting chapter and Brain records designed to test current state, future progression, hidden knowledge, rules and continuity.</p><button class="primary" data-seed-ai-demo>Load AI Stress Test Demo</button></div></section>
+      <section class="section"><div class="eyebrow">Phase 1</div><div class="card"><div class="status"><span class="dot"></span> Navigation architecture testing</div><p style="margin-top:8px">No AI calls, no story database and no fake generation. We are proving the interface before adding complexity.</p></div></section>
     </div>`,'home');
   }
 
@@ -1548,16 +946,7 @@ body.brain-modal-open{overflow:hidden;overscroll-behavior:none}
   function editorToolbar(){return `<div class="editor-formatbar"><button class="mini-action" data-editor-cmd="bold"><b>B</b></button><button class="mini-action" data-editor-cmd="italic"><i>I</i></button><button class="mini-action" data-editor-cmd="underline"><u>U</u></button><select class="sortselect" data-editor-font aria-label="Font"><option value="">Font</option><option value="Georgia">Serif</option><option value="Arial">Sans</option><option value="Courier New">Mono</option></select><select class="sortselect" data-editor-size aria-label="Size"><option value="">Size</option><option value="2">Small</option><option value="3">Normal</option><option value="4">Large</option><option value="5">Huge</option></select><label class="mini-action color-tool">A <input type="color" data-editor-color value="#ffffff" aria-label="Text color"></label><label class="mini-action color-tool">▰ <input type="color" data-editor-highlight value="#fff59d" aria-label="Highlight"></label><button class="mini-action" data-editor-cmd="insertUnorderedList">• List</button><button class="mini-action" data-editor-cmd="insertOrderedList">1. List</button><button class="mini-action" data-editor-block="H2">H2</button><button class="mini-action" data-editor-block="H3">H3</button><button class="mini-action" data-editor-align="justifyLeft">Left</button><button class="mini-action" data-editor-align="justifyCenter">Center</button><button class="mini-action" data-editor-align="justifyRight">Right</button><button class="mini-action" data-editor-link>Link</button><button class="mini-action" data-editor-image>Image</button><button class="mini-action" data-editor-find>Find/Replace</button><button class="mini-action" data-editor-cmd="undo">↶</button><button class="mini-action" data-editor-cmd="redo">↷</button></div>`}
   function manuscriptEditor(id){const item=state.library.find(x=>x.id===id);if(!item)return library();const m=ensureManuscript(id),a=getActiveScene(m);return layout(`<div class="page editor-shell">
     <div class="editor-toolbar"><div class="editor-top"><button class="back" data-editor-close>‹ Back</button><div class="editor-title"><b>${safeText(item.title)}</b><span>Manuscript Editor · ${safeText(a.chapter.title)} · ${safeText(a.scene.title)}</span></div><div class="editor-actions"><button class="mini-action" data-editor-sidebar>Chapters</button><button class="mini-action" data-open-reader-from-editor="${id}">Reader</button><button class="primary" data-editor-save>Save</button></div></div></div>
-    ${state.editorDelete?`<div class="card" style="margin-bottom:10px"><b>Remove ${state.editorDelete.type==='chapter'?'chapter':'scene'}?</b><p class="builder-note">This cannot be undone from the editor.</p><div class="chapter-actions"><button class="secondary" data-editor-delete-cancel>Cancel</button><button class="danger" data-editor-delete-confirm>Delete</button></div></div>`:''}<div class="ai-writing-card">
-      <div class="ai-writing-head"><div><div class="ai-writing-kicker">AI WRITING · BRAIN AUTOMATION</div><div class="ai-writing-title">Write the next chapter with Aurora</div></div><span class="ai-badge ${state.aiWriting?.busy?'warn':'ok'}">${state.aiWriting?.busy?'Working':'Ready'}</span></div>
-      <div class="ai-writing-help">Aurora uses the current Story Brain, story position, recent manuscript, character states, arcs, rules, and knowledge restrictions. Future/hidden facts stay AI-only unless the story explicitly reveals them.</div>
-      <textarea id="ai-writing-direction" class="modal-input ai-writing-direction" placeholder="Optional author direction. Example: Continue the conflict, but keep Saly's current cultivation and do not reveal her future power.">${safeText(state.aiWriting?.direction||'')}</textarea>
-      <div class="ai-writing-actions"><button class="primary" data-ai-generate-chapter ${state.aiWriting?.busy?'disabled':''}>${state.aiWriting?.busy?'Generating…':'Generate test chapter'}</button><button class="secondary" data-ai-brain-assistant ${state.aiWriting?.brainBusy?'disabled':''}>${state.aiWriting?.brainBusy?'Analyzing…':'Update Brain'}</button><select class="modal-input" data-ai-auto-mode style="max-width:230px"><option value="off" ${((localStorage.getItem('aurora_ai_brain_mode_'+aiStoryId())||'off')==='off')?'selected':''}>Brain automation: Off</option><option value="review" ${((localStorage.getItem('aurora_ai_brain_mode_'+aiStoryId())||'off')==='review')?'selected':''}>After accept: suggest updates</option><option value="auto" ${((localStorage.getItem('aurora_ai_brain_mode_'+aiStoryId())||'off')==='auto')?'selected':''}>After accept: auto-apply safe updates</option></select></div>
-      <div class="ai-safe-note">Automation is deliberately conservative. Aurora may create/update ordinary memory, but it never deletes records, silently rewrites protected canon, or promotes future/hidden information. “Auto-apply safe updates” still leaves ambiguous changes for review and uses an extra AI request after acceptance.</div>
-      ${state.aiWriting?.status?`<div class="ai-writing-status note"><b>Status</b><br>${safeText(state.aiWriting.status)}</div>`:''}
-      ${state.aiWriting?.candidate?`<div class="ai-writing-candidate"><div class="storytop"><b>AI chapter candidate</b><span class="ai-badge warn">Not accepted</span></div><pre>${safeText(state.aiWriting.candidate)}</pre><div class="ai-writing-actions"><button class="primary" data-ai-insert="new">Create new chapter</button><button class="secondary" data-ai-insert="append">Append to current scene</button><button class="secondary" data-ai-discard>Discard</button></div></div>`:''}
-      ${(state.aiWriting?.review||[]).length?`<div class="ai-writing-candidate"><div class="storytop"><b>Brain update review</b><span class="ai-badge warn">${state.aiWriting.review.filter(x=>!x._applied).length} pending</span></div>${state.aiWriting.review.map(x=>`<label class="ai-review-item"><input type="checkbox" data-ai-review-check="${safeText(x._id)}" ${x._applied?'disabled':''}><span><b>${safeText(x.name)}</b><span class="ai-review-meta">${safeText(x.kind)} · ${safeText(x.action)} · ${safeText(x.safety||'review')} · confidence ${Math.round((Number(x.confidence)||0)*100)}%</span><span>${safeText(x.description||'')}</span></span></label>`).join('')}<div class="ai-writing-actions"><button class="primary" data-ai-apply-selected>Apply selected</button><button class="secondary" data-ai-brain-assistant>Re-analyze</button></div></div>`:''}
-    </div><div class="editor-workspace"><aside class="editor-sidebar" id="editor-sidebar"><h3>CHAPTERS</h3>${m.chapters.map((c,i)=>`<div><button class="editor-tree-btn ${c.id===a.chapter.id?'active':''}" data-editor-chapter="${c.id}">${i+1}. ${safeText(c.title)}</button><div class="chapter-actions"><button class="mini-action" data-editor-rename-chapter="${c.id}">Rename</button><button class="mini-action danger-mini" data-editor-delete-chapter="${c.id}">Delete</button></div>${c.id===a.chapter.id?`<div class="editor-scene">${c.scenes.map(sc=>`<button class="editor-tree-btn ${sc.id===a.scene.id?'active':''}" data-editor-scene="${sc.id}">${safeText(sc.title)}</button>`).join('')}<div class="chapter-actions"><button class="mini-action" data-editor-new-scene>＋ Scene</button></div></div>`:''}</div>`).join('')}<div class="chapter-add-card"><button class="secondary" data-editor-new-chapter>＋ New chapter</button></div></aside>
+    ${state.editorDelete?`<div class="card" style="margin-bottom:10px"><b>Remove ${state.editorDelete.type==='chapter'?'chapter':'scene'}?</b><p class="builder-note">This cannot be undone from the editor.</p><div class="chapter-actions"><button class="secondary" data-editor-delete-cancel>Cancel</button><button class="danger" data-editor-delete-confirm>Delete</button></div></div>`:''}<div class="editor-workspace"><aside class="editor-sidebar" id="editor-sidebar"><h3>CHAPTERS</h3>${m.chapters.map((c,i)=>`<div><button class="editor-tree-btn ${c.id===a.chapter.id?'active':''}" data-editor-chapter="${c.id}">${i+1}. ${safeText(c.title)}</button><div class="chapter-actions"><button class="mini-action" data-editor-rename-chapter="${c.id}">Rename</button><button class="mini-action danger-mini" data-editor-delete-chapter="${c.id}">Delete</button></div>${c.id===a.chapter.id?`<div class="editor-scene">${c.scenes.map(sc=>`<button class="editor-tree-btn ${sc.id===a.scene.id?'active':''}" data-editor-scene="${sc.id}">${safeText(sc.title)}</button>`).join('')}<div class="chapter-actions"><button class="mini-action" data-editor-new-scene>＋ Scene</button></div></div>`:''}</div>`).join('')}<div class="chapter-add-card"><button class="secondary" data-editor-new-chapter>＋ New chapter</button></div></aside>
       <section><input id="editor-image-input" type="file" accept="image/*" hidden><div class="card" style="margin-bottom:10px"><div class="storytop"><b>${safeText(a.scene.title)}</b><div class="editor-actions"><button class="mini-action" data-editor-rename-scene>Rename</button><button class="mini-action danger-mini" data-editor-delete-scene>Delete</button></div></div><div class="storymeta">${safeText(a.chapter.title)} · ${manuscriptStats(m).words} words total</div></div>${state.editorRename?`<div class="editor-link-panel"><input id="editor-rename-input" value="${safeText(state.editorRename.value||'')}"><button class="secondary" data-editor-rename-confirm>Save name</button><button class="secondary" data-editor-rename-cancel>Cancel</button></div>`:''}<div class="editor-surface-wrap">${state.editorFindOpen?`<div class="editor-search-panel"><input id="editor-find-input" placeholder="Find"><input id="editor-replace-input" placeholder="Replace"><button class="secondary" data-editor-find-next>Find</button><button class="secondary" data-editor-replace-all>Replace all</button></div>`:''}${state.editorLinkOpen?`<div class="editor-link-panel"><input id="editor-link-input" placeholder="https://example.com"><button class="secondary" data-editor-apply-link>Apply link</button><button class="secondary" data-editor-close-link>Close</button></div>`:''}${editorToolbar()}<div id="editor-surface" class="editor-surface" contenteditable="true" spellcheck="true" data-editor-surface>${a.scene.content||'<p><br></p>'}</div><div class="editor-meta"><span>${manuscriptStats(m).words} words</span><span>Autosaves locally</span><span>Scene content is separate from Story Brain</span></div></div></section></div></div>`,'library')}
   function library(){
     if(state.brainOpenId) return storyBrainPage(state.brainOpenId);
@@ -2414,8 +1803,6 @@ secret = unknown">${v('placeholders')}</textarea></label>
         <div class="field-hint">Paste the model ID (for example <b>deepseek/deepseek-v4-flash-latest</b>). You can also paste an exact loaded model name and Aurora will resolve it.</div>
         <div class="nano-model-actions"><button class="secondary" data-nano-load-text ${n.textBusy?'disabled':''}>${n.textBusy?'Loading…':'Refresh Text Models'}</button><button class="secondary" data-nano-use-text-manual ${n.textBusy?'disabled':''}>Use Manual Text Model</button></div>
         <div class="nano-status ${String(n.modelStatus||'').includes('failed')?'error':''}"><b>Text models</b><br>${safeText(n.modelStatus)}</div>
-        <div class="nano-model-actions" style="margin-top:12px"><button class="primary" data-nano-test-request>Send Test Request</button></div>
-        <div class="nano-status ${String(n.testStatus||'').startsWith('SUCCESS')?'ok':String(n.testStatus||'').startsWith('FAILED')?'error':''}"><b>Request test</b><br>${safeText(n.testStatus||'No test request sent yet.')}</div>
       </div></section>
 
       <section class="section" style="margin-top:18px"><div class="card nano-card"><div class="eyebrow">IMAGE GENERATION</div><h2>Image model</h2>
@@ -2885,25 +2272,12 @@ secret = unknown">${v('placeholders')}</textarea></label>
     if(!f)return;
     const n=nanoDraft(); if(f==='contextMemory') n.contextMemory=!!e.target.checked; else if(f==='maxRequests') n.maxRequests=Math.max(0,Number(e.target.value)||0); else n[f]=e.target.value;
   });
-  document.addEventListener('input',e=>{if(e.target.matches('#ai-writing-direction')) state.aiWriting={...(state.aiWriting||{}),direction:e.target.value}});
-  document.addEventListener('change',e=>{if(e.target.matches('[data-ai-auto-mode]')&&state.editorOpenId)localStorage.setItem('aurora_ai_brain_mode_'+state.editorOpenId,e.target.value)});
   document.addEventListener('click',e=>{
-    if(e.target.closest('[data-seed-ai-demo]')){seedAuroraAITestDemo();return}
     const nanoConfirm=e.target.closest('[data-nano-confirm]');
-    if(nanoConfirm && state.nanoConfirm){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      const yes=nanoConfirm.dataset.nanoConfirm==='yes';
-      const resolver=state.nanoConfirm.resolve;
-      state.nanoConfirm=null;
-      document.querySelectorAll('.nano-confirm-backdrop').forEach(el=>el.remove());
-      resolver(yes);
-      return;
-    }
+    if(nanoConfirm && state.nanoConfirm){const yes=nanoConfirm.dataset.nanoConfirm==='yes';const resolver=state.nanoConfirm.resolve;state.nanoConfirm=null;render();resolver(yes);return}
     if(e.target.closest('[data-nano-toggle-key]')){const input=document.getElementById('nano-api-key');if(input){const show=input.type==='password';input.type=show?'text':'password';e.target.closest('[data-nano-toggle-key]').textContent=show?'Hide':'Show'}return}
     if(e.target.closest('[data-nano-reset-counter]')){const n=nanoDraft();n.requestCount=0;toast('AI request counter reset');render();return}
     if(e.target.closest('[data-nano-disable]')){const n=nanoDraft();n.access=n.access==='off'?'ask':'off';toast(n.access==='off'?'API disabled':'API access enabled in ASK mode');render();return}
-    if(e.target.closest('[data-nano-test-request]')){nanoTestGeneration();return}
     if(e.target.closest('[data-nano-test]')){nanoCheckConnection();return}
     if(e.target.closest('[data-nano-load-text]')){nanoLoadTextModels();return}
     if(e.target.closest('[data-nano-load-image]')){nanoLoadImageModels();return}
@@ -2923,11 +2297,6 @@ secret = unknown">${v('placeholders')}</textarea></label>
     if(e.target.closest('[data-open-reader]')){const id=e.target.closest('[data-open-reader]').dataset.openReader;state.readerOpenId=id;state.editorOpenId=null;updateLocalStory(id,{lastOpenedAt:Date.now()});renderAndScroll();return}
     if(e.target.closest('[data-open-editor]')){const id=e.target.closest('[data-open-editor]').dataset.openEditor;state.editorOpenId=id;state.readerOpenId=null;ensureManuscript(id);renderAndScroll();return}
     if(e.target.closest('[data-reader-close]')){state.readerOpenId=null;renderAndScroll();return}
-    if(e.target.closest('[data-ai-generate-chapter]')){const mode=document.querySelector('[data-ai-auto-mode]')?.value||'off';if(state.editorOpenId)localStorage.setItem('aurora_ai_brain_mode_'+state.editorOpenId,mode);aiGenerateChapterTest();return}
-    if(e.target.closest('[data-ai-insert]')){aiInsertCandidate(e.target.closest('[data-ai-insert]').dataset.aiInsert==='new'?'new':'append');return}
-    if(e.target.closest('[data-ai-discard]')){state.aiWriting={...(state.aiWriting||{}),candidate:'',status:'AI chapter discarded. Nothing was added to the manuscript.'};render();return}
-    if(e.target.closest('[data-ai-brain-assistant]')){const mode=document.querySelector('[data-ai-auto-mode]')?.value||'off';if(state.editorOpenId)localStorage.setItem('aurora_ai_brain_mode_'+state.editorOpenId,mode);brainAssistant(mode==='auto');return}
-    if(e.target.closest('[data-ai-apply-selected]')){const selected=aiSelectedSuggestions().filter(x=>!x._applied);aiApplyBrainSuggestions(aiStoryId(),selected);return}
     if(e.target.closest('[data-editor-close]')){editorPersistSurface();state.editorOpenId=null;state.editorFindOpen=false;state.editorLinkOpen=false;state.editorRename=null;state.editorDelete=null;renderAndScroll();return}
     if(e.target.closest('[data-open-editor-from-reader]')){const id=e.target.closest('[data-open-editor-from-reader]').dataset.openEditorFromReader;state.readerOpenId=null;state.editorOpenId=id;ensureManuscript(id);renderAndScroll();return}
     if(e.target.closest('[data-open-reader-from-editor]')){editorPersistSurface();const id=e.target.closest('[data-open-reader-from-editor]').dataset.openReaderFromEditor;state.editorOpenId=null;state.readerOpenId=id;renderAndScroll();return}
@@ -3554,6 +2923,3 @@ document.addEventListener('fullscreenchange',()=>{const shell=document.querySele
   restoreNavigation();
   render();
 })();
-</script>
-</body>
-</html>

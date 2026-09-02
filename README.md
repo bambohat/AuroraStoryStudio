@@ -1,13 +1,48 @@
 # Aurora Story Studio
 
-Private, mobile-first AI novel/comic studio.
+Aurora is a private-first, mobile-first AI novel/comic studio.
 
-Current checkpoint: **Phase 6/7 — Reader + Manuscript Editor**.
+## Current canonical base
+**v0.9.25 — AI Writing + Brain Automation**
 
-Story Brain remains the continuity/knowledge layer. The manuscript is now stored separately so the next stage can compile Brain context into AI prompts without mixing generated prose with story memory.
+Executable runtime:
+`index.html`
 
-Open `index.html` locally in a modern browser. Data is stored locally in browser storage.
+Repository/reference artifacts:
+`app.js`
+`runtime.js`
 
+## What v0.9.25 has proven
+- NanoGPT model catalogue connection works.
+- Real NanoGPT generation request works.
+- ASK permission flow works.
+- Story Brain context is compiled into AI writing requests.
+- Brain-dependent generation has been manually tested.
+- Brain Assistant and conservative automation are implemented.
 
-## v0.9.15
-NanoGPT API foundation added. Configure NanoGPT in Settings, load separate text and image model catalogs, test the connection, and select models. Full Story Brain prompt compilation/generation is the next AI checkpoint.
+## Important unresolved AI work
+- Stronger hidden/future knowledge gating.
+- Character-specific knowledge filtering.
+- Full long-context retrieval.
+- Provenance and approval for AI-derived facts.
+- Full Taste/Author/Anti-AI systems.
+- Full Phase 14 budget/orchestration.
+- Comic generation.
+- Final hardening/PWA/offline/import/export.
+
+## How to continue
+Read these first:
+1. `Aurora_Master_Blueprint.md`
+2. `Aurora_Build_Ledger.md`
+3. `AURORA_CURRENT_STATE.md`
+4. `AURORA_PROJECT_HISTORY_AND_CONTINUITY.md`
+5. `Aurora_Development_Operating_Procedure.md`
+6. `Aurora_New_Chat_Continuation_Protocol.md`
+7. `AURORA_CHATGPT_CONTINUATION_PROMPT.md`
+
+The package also contains the earlier tutorials and provider-fix records.
+
+## User workflow philosophy
+The user should express intent. Aurora should manage the machinery.
+
+Do not make the user maintain prompts, context, lorebook activation, or Brain bookkeeping unless necessary.
